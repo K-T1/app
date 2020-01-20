@@ -3,7 +3,6 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Dimensions,
 } from "react-native";
 import { Surface } from "gl-react-expo";
 
@@ -22,7 +21,8 @@ const fields = [
   { id: "hue", name: "HueRotate", min: 0, max: 2 * Math.PI, step: 0.1, prettyPrint: radiantPrint },
   { id: "negative", name: "Negative", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
   { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
-  { id: "flyeye", name: "FlyEye", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint }
+  { id: "flyeye", name: "FlyEye", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
+  { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100, prettyPrint: percentagePrint }
 ];
 
 const initialEffectsState = {
@@ -33,7 +33,8 @@ const initialEffectsState = {
   negative: 0,
   hue: 0,
   sepia: 0,
-  flyeye: 0
+  flyeye: 0,
+  temp: 7000
 };
 
 const styles = StyleSheet.create({
