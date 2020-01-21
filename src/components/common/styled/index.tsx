@@ -9,7 +9,7 @@ export const Button = styled.TouchableOpacity`
   background-color: ${PRIMARY_COLOR};
   align-items: center;
   padding: ${spaces.large2} 0;
-  margin-bottom: ${props => props.margin ? props.margin : 0};
+  margin: ${props => props.margin ? props.margin : 0};
 `
 
 export const Text = styled.Text`
@@ -27,4 +27,8 @@ export const CenterContainer = styled(SafeAreaView)`
   flex: 1;
   justify-content: center;
   align-items: center;
+`
+
+export const LimitView = styled.View`
+  min-width: 300px;
 `
