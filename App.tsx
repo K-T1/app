@@ -1,23 +1,33 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-
-import EditPhoto from './src/screen/EditPhoto'
+import React, { useEffect, useState } from 'react'
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
+import { Provider } from 'mobx-react'
+import { rootStore } from './src/stores/RootStore'
+import AppNavigator from './src/navigators/AppNavigator'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const App = () => {
-  return (
-    // <View style={styles.container}>
-    <EditPhoto />
-    // </View>
-  );
-}
+  const [isReady, setIsReady] = useState(false)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const loadFont = async () => {
+    await Font.loadAsync({
+      'public-sans': require('./src/assets/fonts/PublicSans.ttf'),
+      'public-sans-italic': require('./src/assets/fonts/PublicSans-Italic.ttf'),
+    })
+    setIsReady(true)
+  }
+
+  useEffect(() => {
+    loadFont()
+  }, [])
+
+  return isReady ? (
+    <Provider rootStore={rootStore}>
+      <SafeAreaProvider>
+        <AppNavigator />
+      </SafeAreaProvider>
+    </Provider>
+  ) : <AppLoading />;
+}
 
 export default App

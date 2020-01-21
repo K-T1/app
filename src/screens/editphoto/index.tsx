@@ -6,8 +6,8 @@ import {
 } from "react-native";
 import { Surface } from "gl-react-expo";
 
-import Effects from "../components/editPhoto/gl-react-effects";
-import Field from "../components/editPhoto/Field";
+import Effects from "../../components/editPhoto/gl-react-effects";
+import Field from "../../components/editPhoto/Field";
 
 const percentagePrint = v => (v * 100).toFixed(0) + "%";
 const radiantPrint = r => ((180 * r) / Math.PI).toFixed(0) + "°";
