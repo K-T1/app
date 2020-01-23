@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { Text } from '../styled'
-import { SECONDARY_COLOR } from '../constant/color'
+import { SECONDARY_COLOR } from '../../../constant/color'
 import { View } from 'react-native'
 
 interface Props {

@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { CenterContainer, Button, Text, LimitView } from '../../components/common/styled'
-import { textSizes, spaces } from '../../components/common/constant/size'
+import { textSizes, spaces } from '../../constant/size'
 import { NavigationStackProp } from 'react-navigation-stack'
 import SkipButton from '../../components/common/skipButton'
+import StyledButton from '../../components/common/styledButton'
 
 interface Props {
   navigation: NavigationStackProp
@@ -21,9 +22,9 @@ const ColdStart = ({ navigation }: Props) =>
         exclusive feature and connect to the world of
         Kum Tone for free.
       </Text>
-      <Button margin={`${spaces.large5} 0`} onPress={() => navigation.navigate('Register')}>
-        <Text color="white" bold>register for free</Text>
-      </Button>
+      <StyledButton margin={`${spaces.large5} 0`} onPress={() => navigation.navigate('Register')}>
+        register for free
+      </StyledButton>
       <SkipButton onPress={() => navigation.navigate('EditPhoto')} />
     </LimitView>
   </CenterContainer>

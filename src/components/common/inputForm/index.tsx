@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Text } from '../styled'
-import { textSizes } from '../constant/size'
+import { textSizes } from '../../../constant/size'
 import { StyledView, InputView, StyledTextInput } from './styled'
 
 interface Props {

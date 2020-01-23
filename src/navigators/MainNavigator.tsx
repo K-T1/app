@@ -1,23 +1,19 @@
-import React from 'react'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createStackNavigator } from 'react-navigation-stack'
 
 import ColdStart from '../screens/coldstart'
 import EditPhoto from '../screens/editPhoto'
 import Register from '../screens/register'
+import Home from '../screens/home'
+import UserProfilePicker from '../screens/register/UserProfilePicker'
 
 export default createStackNavigator({
-  ColdStart: {
-    screen: ColdStart,
-    navigationOptions: {
-      headerShown: false
-    }
-  },
-  Register: {
-    screen: Register,
-    navigationOptions: {
-      headerShown: false
-    }
-  },
-  EditPhoto
+  // ColdStart,
+  Register,
+  // EditPhoto,
+  UserProfilePicker,
+  // Home
+}, {
+  defaultNavigationOptions: {
+    headerShown: false
+  }
 })

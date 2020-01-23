@@ -1,16 +1,7 @@
 import styled, { css } from 'styled-components'
-import { PRIMARY_COLOR } from '../constant/color'
-import { spaces, textSizes } from '../constant/size'
+import { PRIMARY_COLOR } from '../../../constant/color'
+import { spaces, textSizes } from '../../../constant/size'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
-export const Button = styled.TouchableOpacity`
-  color: white;
-  font-weight: bold;
-  background-color: ${PRIMARY_COLOR};
-  align-items: center;
-  padding: ${spaces.large2} 0;
-  margin: ${props => props.margin ? props.margin : 0};
-`
 
 export const Text = styled.Text`
   ${({ size, color, bold, underline, margin }) => css`
@@ -23,6 +14,15 @@ export const Text = styled.Text`
   `}
 `
 
+export const Button = styled.TouchableOpacity`
+  color: white;
+  font-weight: bold;
+  background-color: ${PRIMARY_COLOR};
+  align-items: center;
+  padding: ${spaces.large2} 0;
+  margin: ${props => props.margin ? props.margin : 0};
+`
+
 export const CenterContainer = styled(SafeAreaView)`
   flex: 1;
   justify-content: center;
@@ -30,5 +30,5 @@ export const CenterContainer = styled(SafeAreaView)`
 `
 
 export const LimitView = styled.View`
-  min-width: 300px;
+  width: 300px;
 `
