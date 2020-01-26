@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { INPUT_COLOR } from '../../../constant/color'
-import { spaces } from '../../../constant/size'
+
+import { INPUT_COLOR } from '@styles/colors'
+import { spaces } from '@styles/sizes'
 
 export const StyledView = styled.View`
   background-color: ${INPUT_COLOR};

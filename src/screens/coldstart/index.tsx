@@ -1,17 +1,17 @@
 import React from 'react'
-
-import { CenterContainer, Button, Text, LimitView } from '../../components/common/styled'
-import { textSizes, spaces } from '../../constant/size'
 import { NavigationStackProp } from 'react-navigation-stack'
-import SkipButton from '../../components/common/skipButton'
-import StyledButton from '../../components/common/styledButton'
+
+import { CenterSAV, Text, LimitView } from '@components/common/styled'
+import SkipButton from '@components/common/skipButton'
+import Button from '@components/common/button'
+import { textSizes, spaces } from '@styles/sizes'
 
 interface Props {
   navigation: NavigationStackProp
 }
 
 const ColdStart = ({ navigation }: Props) =>
-  <CenterContainer>
+  <CenterSAV>
     <LimitView>
       <Text size={textSizes.large7} margin={spaces.large2} bold>Hi,</Text>
       <Text margin={spaces.large8} bold>
@@ -22,11 +22,11 @@ const ColdStart = ({ navigation }: Props) =>
         exclusive feature and connect to the world of
         Kum Tone for free.
       </Text>
-      <StyledButton margin={`${spaces.large5} 0`} onPress={() => navigation.navigate('Register')}>
+      <Button margin={`${spaces.large5} 0`} onPress={() => navigation.navigate('Register')}>
         register for free
-      </StyledButton>
+      </Button>
       <SkipButton onPress={() => navigation.navigate('EditPhoto')} />
     </LimitView>
-  </CenterContainer>
+  </CenterSAV>
 
 export default ColdStart

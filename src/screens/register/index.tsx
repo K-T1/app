@@ -1,23 +1,16 @@
-import React, { useState, useReducer } from 'react'
-import { View, TextInput, KeyboardAvoidingView } from 'react-native';
-
-import { CenterContainer, LimitView, Text, Button } from '../../components/common/styled'
-import { textSizes, spaces } from '../../constant/size'
-import { INPUT_COLOR } from '../../constant/color';
-import InputForm from '../../components/common/inputForm';
+import React, { useReducer } from 'react'
+import { KeyboardAvoidingView } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
-import StyledButton from '../../components/common/styledButton';
+
+import { CenterSAV, LimitView, Text } from '@components/common/styled'
+import InputForm from '@components/common/inputForm';
+import Button from '@components/common/button';
+import { textSizes, spaces } from '@styles/sizes'
 
 const registerInput = [
-  {
-    name: 'displayname',
-  },
-  {
-    name: 'email',
-  },
-  {
-    name: 'password',
-  },
+  { name: 'displayname', },
+  { name: 'email' },
+  { name: 'password' },
 ]
 
 const initInput = {
@@ -39,11 +32,12 @@ const Register = ({ navigation }: Props) => {
 
   const register = () => {
     console.log(input);
-    navigation.navigate('UserProfilePicker')
+    // TODO: Validate register input
+    navigation.navigate('ProfilePicker', { registerDetail: input })
   }
 
   return (
-    <CenterContainer>
+    <CenterSAV>
       <LimitView>
         <KeyboardAvoidingView>
           <Text size={textSizes.large1} margin={spaces.large3} bold>Register</Text>
@@ -57,12 +51,12 @@ const Register = ({ navigation }: Props) => {
               />
             ))
           }
-          <StyledButton margin={`${spaces.large3} 0`} onPress={register}>
+          <Button margin={`${spaces.large3} 0`} onPress={register}>
             register
-          </StyledButton>
+          </Button>
         </KeyboardAvoidingView>
       </LimitView>
-    </CenterContainer>
+    </CenterSAV>
   )
 }
 

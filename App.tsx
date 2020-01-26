@@ -5,8 +5,8 @@ import { Provider } from 'mobx-react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 
-import { rootStore } from './src/stores/RootStore'
-import AppNavigator from './src/navigators/AppNavigator'
+import { rootStore } from '@stores/RootStore'
+import AppNavigator from '@navigators/index'
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)

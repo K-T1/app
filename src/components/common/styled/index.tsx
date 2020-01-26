@@ -1,7 +1,14 @@
 import styled, { css } from 'styled-components'
-import { PRIMARY_COLOR } from '../../../constant/color'
-import { spaces, textSizes } from '../../../constant/size'
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { PRIMARY_COLOR } from '@styles/colors'
+import { spaces, textSizes } from '@styles/sizes'
+
+const center = css`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
 
 export const Text = styled.Text`
   ${({ size, color, bold, underline, margin }) => css`
@@ -23,8 +30,15 @@ export const Button = styled.TouchableOpacity`
   margin: ${props => props.margin ? props.margin : 0};
 `
 
-export const CenterContainer = styled(SafeAreaView)`
-  flex: 1;
+export const CenterSAV = styled(SafeAreaView)`
+  ${center}
+`
+
+export const CenterContainer = styled.View`
+  ${center}
+`
+
+export const CenterView = styled.View`
   justify-content: center;
   align-items: center;
 `

@@ -10,6 +10,33 @@
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@configs/*": [
+        "src/configs/*"
+      ],
+      "@navigators/*": [
+        "src/navigators/*"
+      ],
+      "@screens/*": [
+        "src/screens/*"
+      ],
+      "@stores/*": [
+        "src/stores/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@utils": [
+        "src/utils"
+      ]
+    }
   }
 }

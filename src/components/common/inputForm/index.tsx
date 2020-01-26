@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { Text } from '../styled'
-import { textSizes } from '../../../constant/size'
+import { Text } from '@components/common/styled'
+import { textSizes } from '@styles/sizes'
+
 import { StyledView, InputView, StyledTextInput } from './styled'
 
 interface Props {

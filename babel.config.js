@@ -9,6 +9,23 @@ module.exports = function (api) {
           legacy: true,
         },
       ],
+      [
+        'module-resolver',
+        {
+          root: ['./src'],
+          extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
+          alias: {
+            "@assets": "./src/assets",
+            "@components": "./src/components",
+            "@configs": "./src/components/configs",
+            "@navigators": "./src/navigators",
+            "@screens": "./src/screens",
+            "@stores": "./src/stores",
+            "@styles": "./src/styles",
+            "@utils": "./src/utils"
+          }
+        }
+      ]
     ],
   }
 }
