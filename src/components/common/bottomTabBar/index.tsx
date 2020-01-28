@@ -4,6 +4,7 @@ import { View, TouchableWithoutFeedback, Image } from 'react-native'
 import { Text } from '@components/common/styled'
 
 import { StyledCenterContainer } from './styled'
+import { SECONDARY_COLOR } from '@styles/colors'
 
 interface Props {
   routeName: string
@@ -17,7 +18,7 @@ const BottomTabBar = ({ routeName, active, onPress }: Props) => {
       <StyledCenterContainer active={active}>
         {
           routeName
-            ? <Text bold>{routeName}</Text>
+            ? <Text color={`${active ? 'black' : SECONDARY_COLOR}`} bold>{routeName}</Text>
             : <Image source={require('@assets/logo.png')} style={{ width: 36, height: 15 }} />
         }
       </StyledCenterContainer>

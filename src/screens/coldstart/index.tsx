@@ -25,7 +25,7 @@ const ColdStart = ({ navigation }: Props) =>
       <Button margin={`${spaces.large5} 0`} onPress={() => navigation.navigate('Register')}>
         register for free
       </Button>
-      <SkipButton onPress={() => navigation.navigate('EditPhoto')} />
+      <SkipButton onPress={() => navigation.navigate('Home')} />
     </LimitView>
   </CenterSAV>
 

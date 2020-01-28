@@ -1,11 +1,9 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { View, Image, Text } from 'react-native'
 
 import Feed from '@screens/feed'
 import SelectImage from '@screens/selectImage'
 import UserProfile from '@screens/userProfile'
-
 import BottomTabBar from '@components/common/bottomTabBar'
 
 const tabTitle = {
