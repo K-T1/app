@@ -17,7 +17,7 @@ module.exports = function (api) {
           alias: {
             "@assets": "./src/assets",
             "@components": "./src/components",
-            "@configs": "./src/components/configs",
+            "@configs": "./src/configs",
             "@navigators": "./src/navigators",
             "@screens": "./src/screens",
             "@stores": "./src/stores",
