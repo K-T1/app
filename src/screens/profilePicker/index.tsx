@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavigationStackProp } from 'react-navigation-stack'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import * as FileSystem from 'expo-file-system';
+import FileSystem from 'expo-file-system';
 
 import firebase from '../../configs/firebase';
 import { CenterSAV, LimitView, Text, CenterView } from '@components/common/styled'
@@ -20,16 +20,15 @@ const ProfilePicker = ({ navigation }: Props) => {
 
   const register = async () => {
     // Add firebase auth and save user to db
-    // console.log(FileSystem.EncodingType.Base64);
-    // const transcode = FileSystem.readAsStringAsync(imageUri, 'base64')
-    
-    // console.log(transcode);
     // { displayname, email, password }
     const registerDetail = navigation.getParam('registerDetail')
-    console.log(registerDetail);
+    // Auth firebase
     firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).catch(function(error) {
       console.log(error);
     });
+    // Save display image to firebase storage
+    registerDetail.displayImage = await uploadImage(imageUri);  
+    // POST to database
     fetch('http://10.2.20.37:3000/users/register', {
       method: 'POST',
       headers: {
@@ -37,8 +36,22 @@ const ProfilePicker = ({ navigation }: Props) => {
       },
       body: JSON.stringify(registerDetail),
     })
-    navigation.navigate('Feed')
+
+    // navigation.navigate('Feed')
   }
+
+  const uploadImage = async(imageUri) => {
+    let response = await fetch(imageUri);
+    let blob = await response.blob();
+    var ref = firebase.storage().ref().child('image')
+    try {
+      return ref.put(blob).then((snapshot) => {  
+        return snapshot.ref.getDownloadURL().then(url => url)
+      })
+    } catch (error) {
+      return null
+    }
+}
 
   const openImagePicker = () => {
     navigation.navigate('ImagePicker', { setImageUri })
