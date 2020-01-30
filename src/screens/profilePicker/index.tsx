@@ -16,34 +16,36 @@ interface Props {
 }
 
 const ProfilePicker = ({ navigation }: Props) => {
-  const [imageUri, setImageUri] = useState('')
+  const [asset, setAsset] = useState(null)
 
   const register = async () => {
     // Add firebase auth and save user to db
     // { displayname, email, password }
     const registerDetail = navigation.getParam('registerDetail')
     // Auth firebase
-    firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).catch((error) => {
       console.log(error);
-    });
-    // Save display image to firebase storage
-    registerDetail.displayImage = await uploadImage(imageUri);  
+    })
+    // Save display image to firebase storage    
+    registerDetail.displayImage = await uploadImage(asset.uri, asset.id)
+    
     // POST to database
-    fetch('http://10.2.20.37:3000/users/register', {
+    await fetch('http://10.2.20.37:3000/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(registerDetail),
     })
-
-    // navigation.navigate('Feed')
+    //TODO: It's quite long process need to add spinner before navigate
+    navigation.navigate('Feed')
   }
 
-  const uploadImage = async(imageUri) => {
-    let response = await fetch(imageUri);
-    let blob = await response.blob();
-    var ref = firebase.storage().ref().child('image')
+  const uploadImage = async(imageUri, imageId) => {
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    const id = imageId.replace(/\//g, '-')
+    const ref = firebase.storage().ref().child(`UserProfile/${id}`)
     try {
       return ref.put(blob).then((snapshot) => {  
         return snapshot.ref.getDownloadURL().then(url => url)
@@ -54,7 +56,7 @@ const ProfilePicker = ({ navigation }: Props) => {
 }
 
   const openImagePicker = () => {
-    navigation.navigate('ImagePicker', { setImageUri })
+    navigation.navigate('ImagePicker', { setAsset })
   }
 
   return (
@@ -65,7 +67,7 @@ const ProfilePicker = ({ navigation }: Props) => {
           <TouchableWithoutFeedback onPress={openImagePicker}>
             <UserProfileView>
               {
-                imageUri ? <UserProfileImage source={{ uri: imageUri }} /> : <Text>tap to select image</Text>
+                asset ? <UserProfileImage source={{ uri: asset.uri }} /> : <Text>tap to select image</Text>
               }
             </UserProfileView>
           </TouchableWithoutFeedback>

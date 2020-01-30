@@ -57,9 +57,13 @@ const ImagePicker = ({ navigation }: Props) => {
   }
 
   const selectImage = (asset) => {
+    const setAsset = navigation.getParam('setAsset')
     const setImageUri = navigation.getParam('setImageUri')
-    setImageUri(asset.uri)
-
+    if (setAsset) {
+      setAsset(asset)
+    } else {
+      setImageUri(asset.uri)
+    }
     navigation.goBack()
   }
 

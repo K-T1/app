@@ -30,10 +30,24 @@ const Register = ({ navigation }: Props) => {
     setInput({ [inputName]: value })
   }
 
+  const validateEmail = (email) => {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   const register = () => {
-    console.log(input);
-    // TODO: Validate register input
-    navigation.navigate('ProfilePicker', { registerDetail: input })
+    if (!input.displayName && !input.email && !input.password) {
+      //TODO: Show some error
+      return;
+    } else if(input.password.length < 6){
+      // TODO: Show some error
+      return;
+    } else if(!validateEmail(input.email)) {
+      // TODO: Show some error
+      return;
+    } else {
+      navigation.navigate('ProfilePicker', { registerDetail: input })
+    }
   }
 
   return (
