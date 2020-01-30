@@ -22,6 +22,9 @@
       "@configs/*": [
         "src/configs/*"
       ],
+      "@models/*": [
+        "src/models/*"
+      ],
       "@navigators/*": [
         "src/navigators/*"
       ],

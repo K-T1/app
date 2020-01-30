@@ -10,6 +10,6 @@ export default createAppContainer(
     Auth: AuthNavigator,
     Home: HomeNavigator
   }, {
-    initialRouteName: 'ColdStart'
+    initialRouteName: 'Home'
   }),
 )
