@@ -8,7 +8,7 @@ import { CountView, SquareImage, PhotoView } from '@components/UserProfile/style
 import { FULL_WIDTH } from '@utils'
 import { spaces } from '@styles/sizes'
 
-import { photos } from '../../mocks'
+import { photos } from '../../../mocks'
 
 interface Props {
   displayName?: string
@@ -22,7 +22,7 @@ const initUser = {
   photos: []
 }
 
-const UserProfile = ({ displayName }: Props) => {
+const OtherUserProfile = ({ displayName }: Props) => {
   const navigation = useNavigation()
   const [user, setUser] = useState(initUser)
 
@@ -39,7 +39,7 @@ const UserProfile = ({ displayName }: Props) => {
   }, [displayName])
 
   const openPhotoDetail = (photo) => {
-    navigation.navigate('PhotoDetailFromUser', { photo })
+    navigation.navigate('PhotoDetail', { photo })
   }
 
   return (
@@ -67,4 +67,4 @@ const UserProfile = ({ displayName }: Props) => {
   )
 }
 
-export default UserProfile
+export default OtherUserProfile

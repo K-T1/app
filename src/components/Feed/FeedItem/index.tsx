@@ -35,13 +35,13 @@ const FeedItem = ({ photo, favorite = Math.round(Math.random()) % 2 === 0 }: Pro
     navigation.navigate('UserFromFeed', { displayName: owner.displayName })
   }
 
-  const openPhotoPreview = () => {
-    navigation.navigate('PhotoPreview', { photo })
+  const openPhotoDetail = () => {
+    navigation.navigate('PhotoDetailFromFeed', { photo })
   }
 
   return (
     <FeedItemView>
-      <TouchableWithoutFeedback onPress={openPhotoPreview}>
+      <TouchableWithoutFeedback onPress={openPhotoDetail}>
         <ResizeImage source={{ uri }} originalRatio={height / width} />
       </TouchableWithoutFeedback>
       <ItemBarView>

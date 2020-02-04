@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
-import { ScrollView } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { NavigationStackProp } from 'react-navigation-stack'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React, { useEffect } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { NavigationStackProp } from 'react-navigation-stack';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Picker from 'react-native-picker-select'
-import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import { inject, observer } from 'mobx-react';
 
-import { MediaLibraryStore } from '@stores/MediaLibraryStore'
-import { pickerSelectStyles } from '@components/common/styled'
-
-import { StyledView, SquareImage } from './styled'
+import { StyledView, SquareImage } from '@screens/ImagePicker/styled';
+import { Text, CenterView, pickerSelectStyles } from '@components/common/styled';
+import { textSizes } from '@styles/sizes';
+import { MediaLibraryStore } from '@stores/MediaLibraryStore';
 
 interface Props {
   navigation: NavigationStackProp
   mediaLibraryStore: MediaLibraryStore
 }
 
-const ImagePicker = ({ navigation, mediaLibraryStore }: Props) => {
+const SelectTargetStep = ({ navigation, mediaLibraryStore }: Props) => {
   useEffect(() => {
     mediaLibraryStore.getPermission()
     mediaLibraryStore.getAllAlbum()
@@ -25,19 +25,15 @@ const ImagePicker = ({ navigation, mediaLibraryStore }: Props) => {
   }, [mediaLibraryStore.isPermissionGranted])
 
   const selectImage = (asset) => {
-    const setAsset = navigation.getParam('setAsset')
-    const setImageUri = navigation.getParam('setImageUri')
-    if (setAsset) {
-      setAsset(asset)
-    } else {
-      setImageUri(asset.uri)
-    }
-    navigation.goBack()
+    navigation.navigate('PhotoPreview', { koomtone: { step: 1, uri1: asset.uri } })
   }
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: 'white' }} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
       <SafeAreaView>
+        <CenterView>
+          <Text size={textSizes.large2} bold>STEP 1</Text>
+        </CenterView>
         <Picker
           onValueChange={album => mediaLibraryStore.getAssets(album)}
           items={mediaLibraryStore.albums.map(album => ({ label: album.title, value: album }))}
@@ -65,4 +61,4 @@ export default compose(
     mediaLibraryStore: rootStore.mediaLibraryStore,
   })),
   observer
-)(ImagePicker)
+)(SelectTargetStep)

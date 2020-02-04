@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "K-T1",
+    "slug": "koomtone",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [

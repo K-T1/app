@@ -1,20 +1,21 @@
 import styled, { css } from 'styled-components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '@styles/colors'
-import { spaces, textSizes } from '@styles/sizes'
+import { SECONDARY_COLOR } from '@styles/colors'
+import { textSizes } from '@styles/sizes'
 import { FULL_WIDTH } from '@utils'
-
-const circle = css`
-  width: ${150};
-  height: ${150};
-  border-radius: ${150 / 2};
-`
+import { StyleSheet } from 'react-native'
 
 const center = css`
   flex: 1;
   justify-content: center;
   align-items: center;
+`
+
+const circle = css`
+  width: ${({ size = 150 }) => size};
+  height: ${({ size = 150 }) => size};
+  border-radius: ${({ size = 150 }) => size / 2};
 `
 
 export const Text = styled.Text`
@@ -26,15 +27,6 @@ export const Text = styled.Text`
     text-decoration: ${underline ? 'underline' : 'none'};
     margin-bottom: ${margin};
   `}
-`
-
-export const StyledButton = styled.TouchableOpacity`
-  color: white;
-  font-weight: bold;
-  background-color: ${PRIMARY_COLOR};
-  align-items: center;
-  padding: ${spaces.large2} 0;
-  margin: ${({ margin = 0 }) => margin};
 `
 
 export const ResizeImage = styled.Image`
@@ -74,10 +66,33 @@ export const HR = styled.View`
 
 export const CircleView = styled(CenterView)`
   ${circle}
-  margin: ${spaces.large4};
   border: 1px solid black;
+  margin: ${({ m = 0 }) => m};
 `
 
 export const CircleImage = styled.Image`
   ${circle}
 `
+
+export const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+});

@@ -8,7 +8,7 @@ export default createAppContainer(
   createSwitchNavigator({
     ColdStart: ColdStartNavigator,
     Auth: AuthNavigator,
-    Home: HomeNavigator
+    Home: HomeNavigator,
   }, {
     initialRouteName: 'Home'
   }),

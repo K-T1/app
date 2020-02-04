@@ -1,6 +1,7 @@
 import React, { ReactChild } from 'react'
 
-import { StyledButton, Text } from '@components/common/styled'
+import { Text } from '@components/common/styled'
+import { StyledButton } from './styled'
 
 interface Props {
   children: ReactChild
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const Button = ({ children, margin, onPress }: Props) => (
-  <StyledButton margin={margin} onPress={onPress}>
+  <StyledButton margin={margin} onPress={onPress} style={{ width: '100%' }}>
     <Text color="white" bold>{children}</Text>
   </StyledButton>
 )

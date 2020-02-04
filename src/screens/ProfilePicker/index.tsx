@@ -63,7 +63,7 @@ const ProfilePicker = ({ navigation }: Props) => {
         <Text size={textSizes.large1} bold>Show the world, who you really are</Text>
         <CenterView>
           <TouchableWithoutFeedback onPress={openImagePicker}>
-            <CircleView>
+            <CircleView m={`${spaces.large4} 0`}>
               {
                 asset ? <CircleImage source={{ uri: asset.uri }} /> : <Text>tap to select image</Text>
               }
