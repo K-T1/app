@@ -1,6 +1,7 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
+import firebase from '../../configs/firebase';
 
 import { CenterSAV, LimitView, Text } from '@components/common/styled'
 import InputForm from '@components/common/InputForm';
@@ -24,12 +25,24 @@ interface Props {
 const SignIn = ({ navigation }: Props) => {
   const [input, setInput] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
 
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate('Home', { signInDetail: input })
+      }
+    })
+  }, [])
+
   const handleInput = (inputName, value) => {
     setInput({ [inputName]: value })
   }
 
   const signIn = () => {
-    navigation.navigate('Home', { signInDetail: input })
+    firebase.auth().signInWithEmailAndPassword(input.email, input.password).then(() => {
+      navigation.navigate('Home', { signInDetail: input })
+    }).catch((error) => {
+      //TODO: Show error
+    })
   }
 
   return (
