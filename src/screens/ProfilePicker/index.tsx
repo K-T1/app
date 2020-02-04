@@ -21,14 +21,14 @@ const ProfilePicker = ({ navigation }: Props) => {
     // { displayname, email, password }
     const registerDetail = navigation.getParam('registerDetail')
     // Auth firebase
-    firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).catch((error) => {
-      console.log(error);
+    firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).then(() => {
+      registerDetail.uid = firebase.auth().currentUser.uid
     })
     // Save display image to firebase storage    
     registerDetail.displayImage = await uploadImage(asset.uri, asset.id)
 
     // POST to database
-    await fetch('http://10.2.20.37:3000/users/register', {
+    await fetch('http://localhost:3000/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
