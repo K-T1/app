@@ -9,10 +9,23 @@ export class UserStore {
   }
 
   @observable
-  test: number = 0
+  firebaseUser: firebase.User
+
+  @observable
+  user = {}
 
   @action
-  testFunc = () => {
-    this.test += 1
+  setFirebaseUser = user => {
+    this.firebaseUser = user
+  }
+
+  @action
+  setUser = user => {
+    this.user = user
+  }
+
+  @action
+  removeFirebaseUser = () => {
+    this.firebaseUser = null
   }
 }

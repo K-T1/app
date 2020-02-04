@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useReducer, useState, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -8,20 +8,22 @@ import { Surface } from "gl-react-expo";
 
 import Effects from "@components/EditPhoto/gl-react-effects";
 import Field from '@components/EditPhoto/Field'
+import { useNavigation } from "react-navigation-hooks";
+import { StyledSurface } from "./styled";
 
 const percentagePrint = v => (v * 100).toFixed(0) + "%";
 const radiantPrint = r => ((180 * r) / Math.PI).toFixed(0) + "°";
 
 // prettier-ignore
 const fields = [
-  { id: "blur", name: "Blur", min: 0, max: 6, step: 0.1, prettyPrint: blur => blur.toFixed(1) },
+  // { id: "blur", name: "Blur", min: 0, max: 6, step: 0.1, prettyPrint: blur => blur.toFixed(1) },
   { id: "contrast", name: "Contrast", min: 0, max: 4, step: 0.1, prettyPrint: percentagePrint },
   { id: "brightness", name: "Brightness", min: 0, max: 4, step: 0.1, prettyPrint: percentagePrint },
   { id: "saturation", name: "Saturation", min: 0, max: 10, step: 0.1, prettyPrint: percentagePrint },
-  { id: "hue", name: "HueRotate", min: 0, max: 2 * Math.PI, step: 0.1, prettyPrint: radiantPrint },
-  { id: "negative", name: "Negative", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
+  // { id: "hue", name: "HueRotate", min: 0, max: 2 * Math.PI, step: 0.1, prettyPrint: radiantPrint },
+  // { id: "negative", name: "Negative", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
   { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
-  { id: "flyeye", name: "FlyEye", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
+  // { id: "flyeye", name: "FlyEye", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
   { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100, prettyPrint: percentagePrint }
 ];
 
@@ -56,48 +58,47 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class EditPhoto extends Component<any, any> {
-  state = {
-    position: "front",
-    effects: initialEffectsState,
-    permission: null,
-    uri: 'http://i.imgur.com/wxqlQkh.jpg'
+const EditPhoto = () => {
+  const [effects, setEffects] = useReducer((state, newState) => ({ ...state, ...newState }), initialEffectsState)
+  const [asset, setAsset] = useState({ uri: '' })
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    setAsset(navigation.getParam('asset'))
+  }, [])
+
+  const onEffectChange = (value, id) => {
+    setEffects({ ...effects, [id]: value })
   };
 
-  onEffectChange = (value: any, id: any) => {
-    this.setState(({ effects }) => ({
-      effects: { ...effects, [id]: value }
-    }));
+  const onEffectReset = (id) => {
+    setEffects({ ...effects, [id]: initialEffectsState[id] })
   };
 
-  onEffectReset = (id: any) => {
-    this.setState(({ effects }) => ({
-      effects: { ...effects, [id]: initialEffectsState[id] }
-    }));
-  };
-
-  render() {
-    const { effects } = this.state;
-    return (
-      <ScrollView bounces={false} style={styles.root}>
-        <Surface style={styles.surface}>
+  return (
+    <ScrollView bounces={false} style={styles.root}>
+      {
+        asset.uri != '' &&
+        <StyledSurface>
           <Effects {...effects}>
-            {{ uri: this.state.uri }}
+            {{ uri: asset.uri }}
           </Effects>
-        </Surface>
-        <View style={styles.fields}>
-          {fields.map(({ id, ...props }) => (
-            <Field
-              {...props}
-              key={id}
-              id={id}
-              value={effects[id]}
-              onChange={this.onEffectChange}
-              onReset={this.onEffectReset}
-            />
-          ))}
-        </View>
-      </ScrollView>
-    );
-  }
+        </StyledSurface>
+      }
+      <View style={styles.fields}>
+        {fields.map(({ id, ...props }) => (
+          <Field
+            {...props}
+            key={id}
+            id={id}
+            value={effects[id]}
+            onChange={onEffectChange}
+            onReset={onEffectReset}
+          />
+        ))}
+      </View>
+    </ScrollView>
+  )
 }
+
+export default EditPhoto

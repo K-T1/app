@@ -3,6 +3,6 @@ export interface User {
   email: string
   displayName: string
   displayImage: string | null
-  favorite: [string]
+  favoritePhotos: [string]
   createAt: Date
 }

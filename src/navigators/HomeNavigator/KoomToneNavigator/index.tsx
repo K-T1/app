@@ -4,8 +4,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Camera from '@screens/Camera'
 import SelectTargetStep from '@screens/SelectTargetStep'
+import SelectSourceStep from '@screens/SelectSourceStep'
 import BottomTabBar from "@components/common/BottomTabBar"
 import PhotoPreview from '@screens/PhotoPreview'
+import EditPhoto from '@screens/EditPhoto'
 
 const tabTitle = {
   Camera: 'CAMERA',
@@ -25,6 +27,7 @@ const TargetStep = createBottomTabNavigator({
 
 export default createStackNavigator({
   TargetStep,
-  // SourceStep,
-  PhotoPreview
+  SelectSourceStep,
+  PhotoPreview,
+  EditPhoto
 })

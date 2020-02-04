@@ -1,36 +1,41 @@
 import React, { useState } from 'react'
 import { NavigationStackProp } from 'react-navigation-stack'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import FileSystem from 'expo-file-system';
+import { compose } from 'recompose'
+import { inject, observer } from 'mobx-react';
 
-import firebase from '../../configs/firebase';
+import firebase from '@configs/firebase';
 import { CenterSAV, LimitView, Text, CenterView, CircleView, CircleImage } from '@components/common/styled'
 import Button from '@components/common/Button'
 import SkipButton from '@components/common/SkipButton'
 import { textSizes, spaces } from '@styles/sizes'
+import { SpinnerStore } from '@stores/SpinnerStore'
 
 interface Props {
   navigation: NavigationStackProp
+  spinnerStore: SpinnerStore
 }
 
-const ProfilePicker = ({ navigation }: Props) => {
-  const [asset, setAsset] = useState(null)
+const ProfilePicker = ({ navigation, spinnerStore }: Props) => {
+  const [asset, setAsset] = useState({ id: '', uri: '' })
 
   const register = async () => {
+    spinnerStore.show()
     const registerDetail = navigation.getParam('registerDetail')
     firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).then(() => {
       registerDetail.uid = firebase.auth().currentUser.uid
     })
     registerDetail.displayImage = await uploadImage(asset.uri, asset.id)
 
-    await fetch('http://localhost:3000/users/register', {
+    await fetch('http://192.168.1.33:3000/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(registerDetail),
     })
-    //TODO: It's quite long process need to add spinner before navigate
+
+    spinnerStore.hide()
     navigation.navigate('Feed')
   }
 
@@ -55,17 +60,17 @@ const ProfilePicker = ({ navigation }: Props) => {
   return (
     <CenterSAV>
       <LimitView>
-        <Text size={textSizes.large1} bold>Show the world, who you really are</Text>
         <CenterView>
+          <Text size={textSizes.large1} bold>Show the world, who you really are</Text>
           <TouchableWithoutFeedback onPress={openImagePicker}>
-            <CircleView m={`${spaces.large4} 0`}>
+            <CircleView m={`${spaces.large5} 0`}>
               {
-                asset ? <CircleImage source={{ uri: asset.uri }} /> : <Text>tap to select image</Text>
+                asset.uri ? <CircleImage source={{ uri: asset.uri }} /> : <Text>tap to select image</Text>
               }
             </CircleView>
           </TouchableWithoutFeedback>
         </CenterView>
-        <Button margin={`${spaces.large5} 0`} onPress={register}>
+        <Button margin={`${spaces.large4} 0`} onPress={register}>
           DONE
         </Button>
         <SkipButton onPress={register} />
@@ -74,4 +79,9 @@ const ProfilePicker = ({ navigation }: Props) => {
   )
 }
 
-export default ProfilePicker
+export default compose(
+  inject(({ rootStore }) => ({
+    spinnerStore: rootStore.spinnerStore
+  })),
+  observer
+)(ProfilePicker)

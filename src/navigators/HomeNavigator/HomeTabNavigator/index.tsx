@@ -17,6 +17,7 @@ const HomeTabNavigator = createBottomTabNavigator({
   MainNavigator,
   UserNavigator
 }, {
+  initialRouteName: 'FeedNavigator',
   defaultNavigationOptions: ({ navigation }) => ({
     tabBarButtonComponent: props =>
       <BottomTabBar routeName={tabTitle[navigation.state.routeName]} active={navigation.isFocused()}  {...props} />

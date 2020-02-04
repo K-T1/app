@@ -1,8 +1,7 @@
 import { observable, action } from 'mobx'
 import { RootStore } from './RootStore'
-import { Photo } from '@models/Photo'
 
-export class PhotoStore {
+export class SpinnerStore {
   rootStore: RootStore
 
   constructor(rootStore) {
@@ -10,10 +9,15 @@ export class PhotoStore {
   }
 
   @observable
-  photos: Photo[] = []
+  display: boolean = false
 
   @action
-  testFunc = () => {
+  show = () => {
+    this.display = true
+  }
 
+  @action
+  hide = () => {
+    this.display = false
   }
 }

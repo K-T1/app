@@ -17,7 +17,7 @@ interface Props {
   mediaLibraryStore: MediaLibraryStore
 }
 
-const SelectTargetStep = ({ navigation, mediaLibraryStore }: Props) => {
+const SelectSourceStep = ({ navigation, mediaLibraryStore }: Props) => {
   useEffect(() => {
     mediaLibraryStore.getPermission()
     mediaLibraryStore.getAllAlbum()
@@ -25,14 +25,14 @@ const SelectTargetStep = ({ navigation, mediaLibraryStore }: Props) => {
   }, [mediaLibraryStore.isPermissionGranted])
 
   const selectImage = (asset) => {
-    navigation.navigate('EditPhoto', { asset })
+    navigation.navigate('PhotoPreview', { koomtone: { step: 1, uri1: asset.uri } })
   }
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: 'white' }} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
       <SafeAreaView>
         <CenterView>
-          {/* <Text size={textSizes.large2} bold>STEP 1</Text> */}
+          <Text size={textSizes.large2} bold>STEP 2</Text>
         </CenterView>
         <Picker
           onValueChange={album => mediaLibraryStore.getAssets(album)}
@@ -61,4 +61,4 @@ export default compose(
     mediaLibraryStore: rootStore.mediaLibraryStore,
   })),
   observer
-)(SelectTargetStep)
+)(SelectSourceStep)

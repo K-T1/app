@@ -54,7 +54,7 @@ export default class Field extends Component {
           value={value}
           onValueChange={this.onChange}
         />
-        <Text style={styles.value}>{prettyPrint(value)}</Text>
+        {/* <Text style={styles.value}>{prettyPrint(value)}</Text> */}
       </View>
     );
   }

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from 'react-navigation-hooks'
 
-import { CircleView, CircleImage, CenterView, HR } from '@components/common/styled'
+import firebase from '@configs/firebase'
+import { CircleView, CircleImage, CenterView, HR, Text } from '@components/common/styled'
 import Count from '@components/common/Count'
 import { CountView, SquareImage, PhotoView } from '@components/UserProfile/styled'
 import { FULL_WIDTH } from '@utils'
 import { spaces } from '@styles/sizes'
 
 import { photos } from '../../mocks'
+import { FAVORITE_COLOR } from '@styles/colors'
 
 interface Props {
   displayName?: string
@@ -18,7 +20,7 @@ const initUser = {
   favoriteCount: 0,
   usageCount: 0,
   displayImage: null,
-  displayName: '',
+  displayName: 'zepalz',
   photos: []
 }
 
@@ -42,8 +44,16 @@ const UserProfile = ({ displayName }: Props) => {
     navigation.navigate('PhotoDetailFromUser', { photo })
   }
 
+  const signOut = () => {
+    firebase.auth().signOut()
+  }
+
   return (
     <ScrollView>
+      <TouchableWithoutFeedback style={{ backgroundColor: 'white', alignItems: 'flex-end', marginRight: 10 }} onPress={signOut}>
+        <Text color={FAVORITE_COLOR} bold>sign out</Text>
+      </TouchableWithoutFeedback>
+
       <CenterView>
         <CircleView m={`${spaces.large4} 0`}>
           <CircleImage source={user.displayImage ? { uri: user.displayImage } : require('@assets/default-profile.png')} />

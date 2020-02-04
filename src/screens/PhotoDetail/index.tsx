@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigationParam } from 'react-navigation-hooks'
+import { useNavigationParam, useNavigation } from 'react-navigation-hooks'
 
 import { ResizeImage, LimitView, CenterSAV, HR, Text } from '@components/common/styled'
 import { FULL_HEIGHT } from '@utils'
@@ -9,11 +9,13 @@ import Button from '@components/common/Button'
 import { spaces } from '@styles/sizes'
 
 const PhotoDetail = () => {
+  const navigation = useNavigation()
   const photo = useNavigationParam('photo')
   const { uri, width, height, usageCount, favoriteCount } = photo
 
   const useTone = () => {
-    // TODO: Start step 1
+    // TODO: REMOVE THIS.
+    navigation.navigate('EditPhoto', { asset: photo })
   }
 
   return (

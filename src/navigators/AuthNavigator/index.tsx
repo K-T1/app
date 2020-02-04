@@ -6,7 +6,6 @@ import ImagePicker from '@screens/ImagePicker'
 import SignIn from '@screens/SignIn'
 
 export default createStackNavigator({
-  SignIn,
   Register,
   ProfilePicker,
   ImagePicker

@@ -9,7 +9,5 @@ export default createAppContainer(
     ColdStart: ColdStartNavigator,
     Auth: AuthNavigator,
     Home: HomeNavigator,
-  }, {
-    initialRouteName: 'Auth'
-  }),
+  })
 )
