@@ -1,6 +1,10 @@
 import { observable, action } from 'mobx'
-import { RootStore } from './RootStore'
+
+import photoApi from '@api/photo'
 import { Photo } from '@models/Photo'
+import { PagedData } from '@models/PagedData'
+
+import { RootStore } from './RootStore'
 
 export class PhotoStore {
   rootStore: RootStore
@@ -10,10 +14,22 @@ export class PhotoStore {
   }
 
   @observable
-  photos: Photo[] = []
+  pagedPhotos: PagedData<Photo>
 
   @action
-  testFunc = () => {
+  fetchPagedPhotos = async () => {
+    this.pagedPhotos = await photoApi.fetchPagedPhotos()
+  }
 
+  @action
+  favPhoto = async (photoId) => {
+    await photoApi.favPhoto(photoId)
+    this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = true
+  }
+
+  @action
+  unfavPhoto = async (photoId) => {
+    await photoApi.unfavPhoto(photoId)
+    this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = false
   }
 }

@@ -2,12 +2,13 @@ import { User } from "./User";
 
 export interface Photo {
   id: number
-  uri: string
+  url: string
   width: number
   height: number
-  favoriteCount: number
+  favorite: number
   usageCount: number
   owner: User
   createAt: Date
   deleteAt: Date | null
+  viewerLiked: boolean
 }

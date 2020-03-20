@@ -3,36 +3,34 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useNavigation } from 'react-navigation-hooks'
 
 import { ResizeImage, Text } from '@components/common/styled'
-
-import { FeedItemView, ItemBarView } from './styled'
 import { SECONDARY_COLOR, FAVORITE_COLOR } from '@styles/colors'
 import { Photo } from '@models/Photo'
 
+import { FeedItemView, ItemBarView } from './styled'
+import { toJS } from 'mobx'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
+import { PhotoStore } from '@stores/PhotoStore'
+
 interface Props {
   photo: Photo
+  photoStore: PhotoStore
 }
 
-const FeedItem = ({ photo, favorite = Math.round(Math.random()) % 2 === 0 }: Props) => {
+const FeedItem = ({ photo, photoStore }: Props) => {
   const navigation = useNavigation()
-  const { uri, width, height, owner } = photo
-  // const [width, setWidth] = useState(1)
-  // const [height, setHeight] = useState(1)
-
-  // useEffect(() => {
-  //   Image.getSize(uri, (width, height) => {
-  //     setWidth(width)
-  //     setHeight(height)
-  //   }, (error) => { })
-  // }, [uri])
+  const { id, url: uri, width, height, owner, viewerLiked } = photo
 
   const toggleFavorite = () => {
-    // TODO: Send fav photos
+    if (viewerLiked) {
+      photoStore.unfavPhoto(id)
+    } else {
+      photoStore.favPhoto(id)
+    }
   }
 
   const openUserProfile = () => {
-    console.log(owner.displayName);
-
-    navigation.navigate('UserFromFeed', { displayName: owner.displayName })
+    navigation.navigate('UserFromFeed', { owner })
   }
 
   const openPhotoDetail = () => {
@@ -49,11 +47,16 @@ const FeedItem = ({ photo, favorite = Math.round(Math.random()) % 2 === 0 }: Pro
           <Text style={{ marginRight: 10 }} >{owner.displayName}</Text>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={toggleFavorite}>
-          <Text color={favorite ? FAVORITE_COLOR : SECONDARY_COLOR} bold>favorite</Text>
+          <Text color={viewerLiked ? FAVORITE_COLOR : SECONDARY_COLOR} bold>favorite</Text>
         </TouchableWithoutFeedback>
       </ItemBarView>
     </FeedItemView>
   )
 }
 
-export default FeedItem
+export default compose(
+  inject(({ rootStore }) => ({
+    photoStore: rootStore.photoStore,
+  })),
+  observer
+)(FeedItem)

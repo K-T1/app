@@ -1,4 +1,8 @@
 import { observable, action } from 'mobx'
+
+import userApi from '@api/user'
+import { User } from '@models/User'
+
 import { RootStore } from './RootStore'
 
 export class UserStore {
@@ -12,20 +16,26 @@ export class UserStore {
   firebaseUser: firebase.User
 
   @observable
-  user = {}
+  user: User
 
   @action
-  setFirebaseUser = user => {
+  setFirebaseUser = async (user: firebase.User) => {
     this.firebaseUser = user
   }
 
   @action
-  setUser = user => {
-    this.user = user
+  register = async registerDetail => {
+    this.user = await userApi.register(registerDetail)
   }
 
   @action
-  removeFirebaseUser = () => {
+  login = async user => {
+    this.user = await userApi.login(user.uid)
+  }
+
+  @action
+  signout = () => {
     this.firebaseUser = null
+    this.user = null
   }
 }

@@ -10,13 +10,15 @@ import Button from '@components/common/Button'
 import SkipButton from '@components/common/SkipButton'
 import { textSizes, spaces } from '@styles/sizes'
 import { SpinnerStore } from '@stores/SpinnerStore'
+import { UserStore } from '@stores/UserStore';
 
 interface Props {
   navigation: NavigationStackProp
   spinnerStore: SpinnerStore
+  userStore: UserStore
 }
 
-const ProfilePicker = ({ navigation, spinnerStore }: Props) => {
+const ProfilePicker = ({ navigation, spinnerStore, userStore }: Props) => {
   const [asset, setAsset] = useState({ id: '', uri: '' })
 
   const register = async () => {
@@ -27,13 +29,7 @@ const ProfilePicker = ({ navigation, spinnerStore }: Props) => {
     })
     registerDetail.displayImage = await uploadImage(asset.uri, asset.id)
 
-    await fetch('http://192.168.1.33:3000/users/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(registerDetail),
-    })
+    await userStore.register(registerDetail)
 
     spinnerStore.hide()
     navigation.navigate('Feed')
@@ -81,7 +77,8 @@ const ProfilePicker = ({ navigation, spinnerStore }: Props) => {
 
 export default compose(
   inject(({ rootStore }) => ({
-    spinnerStore: rootStore.spinnerStore
+    spinnerStore: rootStore.spinnerStore,
+    userStore: rootStore.userStore
   })),
   observer
 )(ProfilePicker)

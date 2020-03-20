@@ -1,20 +1,29 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { RefreshControl, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { observer, inject } from 'mobx-react'
+import { compose } from 'recompose'
 
-import { LimitView } from '@components/common/styled'
 import FeedItem from '@components/Feed/FeedItem'
 import Logo from '@components/common/Logo'
+import { PhotoStore } from '@stores/PhotoStore'
+import { UserStore } from '@stores/UserStore'
 
-import { photos } from '../../mocks'
+interface Props {
+  photoStore: PhotoStore
+  userStore: UserStore
+}
 
-const Feed = () => {
-  const [refreshing, setRefreshing] = useState(false);
+const Feed = ({ photoStore, userStore }: Props) => {
+  const [refreshing, setRefreshing] = useState(false)
+
+  useEffect(() => {
+    photoStore.fetchPagedPhotos()
+  }, [])
 
   const onRefresh = useCallback(() => {
-    setRefreshing(false);
-
-    // TODO: Fetch new feeds
+    setRefreshing(false)
+    photoStore.fetchPagedPhotos()
     setRefreshing(false)
   }, [refreshing])
 
@@ -25,7 +34,12 @@ const Feed = () => {
     >
       <View>
         {
-          photos.map(photo => <FeedItem key={photo.id} photo={photo} />)
+          photoStore.pagedPhotos &&
+          photoStore.pagedPhotos.data.map(photo =>
+            <FeedItem
+              key={photo.id}
+              photo={photo}
+            />)
         }
       </View>
     </ScrollView>
@@ -36,4 +50,10 @@ Feed.navigationOptions = {
   headerTitle: () => <Logo />
 }
 
-export default Feed
+export default compose(
+  inject(({ rootStore }) => ({
+    photoStore: rootStore.photoStore,
+    userStore: rootStore.userStore
+  })),
+  observer
+)(Feed)

@@ -2,7 +2,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import PhotoDetail from "@screens/PhotoDetail";
 import Feed from '@screens/Feed'
-import OtherUserProfile from '@components/UserProfile/OtherUserProfile'
+import User from '@components/UserProfile'
 
 const FeedNavigator = createStackNavigator({
   Feed,
@@ -10,7 +10,7 @@ const FeedNavigator = createStackNavigator({
     screen: PhotoDetail
   },
   UserFromFeed: {
-    screen: OtherUserProfile,
+    screen: User,
     navigationOptions: ({ navigation }) => ({
       title: navigation.getParam('displayName'),
     })

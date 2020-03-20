@@ -35,6 +35,7 @@ const OtherUserProfile = ({ displayName }: Props) => {
       displayImage: null,
       photos
     }
+
     setUser(userData)
   }, [displayName])
 

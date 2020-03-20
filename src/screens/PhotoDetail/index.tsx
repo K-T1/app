@@ -11,7 +11,7 @@ import { spaces } from '@styles/sizes'
 const PhotoDetail = () => {
   const navigation = useNavigation()
   const photo = useNavigationParam('photo')
-  const { uri, width, height, usageCount, favoriteCount } = photo
+  const { url, width, height, usageCount, favorite } = photo
 
   const useTone = () => {
     // TODO: REMOVE THIS.
@@ -20,10 +20,10 @@ const PhotoDetail = () => {
 
   return (
     <CenterSAV>
-      <ResizeImage source={{ uri }} originalRatio={height / width} maxHeight={FULL_HEIGHT * 0.5} />
+      <ResizeImage source={{ uri: url }} originalRatio={height / width} maxHeight={FULL_HEIGHT * 0.5} />
       <HR size={300} m={`${spaces.large4} 0 ${spaces.large2}`} />
       <CountView>
-        <Count name="FAVORITE" count={favoriteCount} />
+        <Count name="FAVORITE" count={favorite} />
         <Count name="TONE USAGE" count={usageCount} />
       </CountView>
       <LimitView>
