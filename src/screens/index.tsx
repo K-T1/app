@@ -23,6 +23,7 @@ const Root = ({ spinnerStore, userStore }: Props) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
         userStore.setFirebaseUser(user)
         userStore.login(user)
+        console.log('onAuthStateChanged');
       } else {
         delete axios.defaults.headers.common['Authorization']
         userStore.signout()

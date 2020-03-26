@@ -1,15 +1,21 @@
 import React from 'react'
 import { useNavigation } from 'react-navigation-hooks'
 import { TouchableWithoutFeedback } from 'react-native'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 
 import { CenterSAV, Text, LimitView } from '@components/common/styled'
 import { PhotoView, SquareImage } from '@components/UserProfile/styled'
 import Button from '@components/common/Button'
+import { UserStore } from '@stores/UserStore'
 
-import { photos } from '../../mocks'
+interface Props {
+  userStore: UserStore
+}
 
-const Main = () => {
+const Main = ({ userStore }: Props) => {
   const navigation = useNavigation()
+  const user = userStore.user
 
   const openPhotoDetail = (photo) => {
     navigation.navigate('PhotoDetailFromMain', { photo })
@@ -24,12 +30,18 @@ const Main = () => {
       <Text bold>favorite</Text>
       <PhotoView style={{ margin: 50 }}>
         {
-          // TODO: Change photos to user favorite photos.
-          photos.map(photo =>
-            <TouchableWithoutFeedback key={photo.id} onPress={() => openPhotoDetail(photo)}>
-              <SquareImage source={{ uri: photo.uri }} />
-            </TouchableWithoutFeedback>
-          )
+          user
+            ? user.favoritePhotos.length
+              ? user.favoritePhotos.map(favPhoto =>
+                <TouchableWithoutFeedback key={favPhoto.id} onPress={() => openPhotoDetail(favPhoto)}>
+                  <SquareImage source={{ uri: favPhoto.url }} />
+                </TouchableWithoutFeedback>)
+              : <Text>
+                {`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`}
+              </Text>
+            : <Text>
+              please sign in.
+              </Text>
         }
       </PhotoView>
       <LimitView>
@@ -39,4 +51,9 @@ const Main = () => {
   )
 }
 
-export default Main
+export default compose(
+  inject(({ rootStore }) => ({
+    userStore: rootStore.userStore
+  })),
+  observer
+)(Main)

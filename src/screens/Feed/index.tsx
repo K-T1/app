@@ -39,6 +39,7 @@ const Feed = ({ photoStore, userStore }: Props) => {
             <FeedItem
               key={photo.id}
               photo={photo}
+              isLoggedIn={userStore.user != null}
             />)
         }
       </View>

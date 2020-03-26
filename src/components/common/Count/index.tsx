@@ -11,7 +11,7 @@ interface Props {
 const Count = ({ name, count }: Props) => {
   return (
     <CenterContainer>
-      <Text size={textSizes.large2} bold>{count.toLocaleString()}</Text>
+      <Text size={textSizes.large2} bold>{Number(count).toLocaleString()}</Text>
       <Text size={textSizes.small3}>{name}</Text>
     </CenterContainer>
   )

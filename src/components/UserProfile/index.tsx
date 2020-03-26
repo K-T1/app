@@ -20,20 +20,13 @@ interface Props {
   userStore: UserStore
 }
 
-const initUser = {
-  favoriteCount: 0,
-  usageCount: 0,
-  displayImage: null,
-  displayName: '',
-  favoritePhotos: []
-}
-
 const UserProfile = ({ userStore }: Props) => {
   const navigation = useNavigation()
-  const [user, setUser] = useState(initUser)
+  const [user, setUser] = useState<User>()
+  const isUserProfile = navigation.state.routeName === 'User'
 
   useEffect(() => {
-    if (navigation.state.routeName === 'User') {
+    if (isUserProfile) {
       setUserState(toJS(userStore.user))
     } else {
       setUserState(navigation.getParam('owner'))
@@ -59,11 +52,13 @@ const UserProfile = ({ userStore }: Props) => {
   }
 
   return (
-    <ScrollView>
-      <TouchableWithoutFeedback style={{ backgroundColor: 'white', alignItems: 'flex-end', marginRight: 10 }} onPress={signOut}>
-        <Text color={FAVORITE_COLOR} bold>sign out</Text>
-      </TouchableWithoutFeedback>
-
+    user && <ScrollView>
+      {
+        isUserProfile &&
+        <TouchableWithoutFeedback style={{ backgroundColor: 'white', alignItems: 'flex-end', marginRight: 10 }} onPress={signOut}>
+          <Text color={FAVORITE_COLOR} bold>sign out</Text>
+        </TouchableWithoutFeedback>
+      }
       <CenterView>
         <CircleView m={`${spaces.large4} 0`}>
           <CircleImage source={user.displayImage ? { uri: user.displayImage } : require('@assets/default-profile.png')} />
@@ -75,10 +70,9 @@ const UserProfile = ({ userStore }: Props) => {
         <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2}`} />
         <PhotoView>
           {
-            user.favoritePhotos &&
-            user.favoritePhotos.map(photo =>
+            user.photos && user.photos.map(photo =>
               <TouchableWithoutFeedback key={photo.id} onPress={() => openPhotoDetail(photo)}>
-                <SquareImage source={{ uri: photo.uri }} />
+                <SquareImage source={{ uri: photo.url }} />
               </TouchableWithoutFeedback>
             )
           }

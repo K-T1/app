@@ -5,6 +5,8 @@ export interface User {
   email: string
   displayName: string
   displayImage: string | null
+  favoriteCount: number
+  usageCount: number
   favoritePhotos: [Photo]
   photos: [Photo]
   createAt: Date

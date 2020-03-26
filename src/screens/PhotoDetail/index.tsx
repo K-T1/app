@@ -1,12 +1,13 @@
 import React from 'react'
 import { useNavigationParam, useNavigation } from 'react-navigation-hooks'
 
-import { ResizeImage, LimitView, CenterSAV, HR, Text } from '@components/common/styled'
+import { ResizeImage, LimitView, CenterSAV, HR } from '@components/common/styled'
 import { FULL_HEIGHT } from '@utils'
-import { CountView } from './styled'
 import Count from '@components/common/Count'
 import Button from '@components/common/Button'
 import { spaces } from '@styles/sizes'
+
+import { CountView } from './styled'
 
 const PhotoDetail = () => {
   const navigation = useNavigation()

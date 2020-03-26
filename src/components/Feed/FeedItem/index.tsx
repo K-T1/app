@@ -15,17 +15,22 @@ import { PhotoStore } from '@stores/PhotoStore'
 interface Props {
   photo: Photo
   photoStore: PhotoStore
+  isLoggedIn: boolean
 }
 
-const FeedItem = ({ photo, photoStore }: Props) => {
+const FeedItem = ({ photo, photoStore, isLoggedIn }: Props) => {
   const navigation = useNavigation()
   const { id, url: uri, width, height, owner, viewerLiked } = photo
 
   const toggleFavorite = () => {
-    if (viewerLiked) {
-      photoStore.unfavPhoto(id)
+    if (isLoggedIn) {
+      if (viewerLiked) {
+        photoStore.unfavPhoto(id)
+      } else {
+        photoStore.favPhoto(id)
+      }
     } else {
-      photoStore.favPhoto(id)
+      navigation.navigate('UserProfile')
     }
   }
 

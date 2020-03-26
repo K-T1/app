@@ -12,7 +12,7 @@ interface Props {
 
 const User = ({ userStore }: Props) => {
   return (
-    userStore.firebaseUser
+    userStore.user
       ? <UserProfile />
       : <PreSignIn />
   )
