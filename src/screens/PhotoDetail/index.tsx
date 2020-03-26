@@ -16,6 +16,7 @@ const PhotoDetail = () => {
 
   const useTone = () => {
     // TODO: REMOVE THIS.
+    photo.uri = url
     navigation.navigate('EditPhoto', { asset: photo })
   }
 
