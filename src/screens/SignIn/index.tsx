@@ -24,16 +24,23 @@ interface Props {
 
 const SignIn = ({ navigation }: Props) => {
   const [input, setInput] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
+  const [error, setError] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
 
   const handleInput = (inputName, value) => {
     setInput({ [inputName]: value })
   }
 
   const signIn = () => {
+    setError(initInput)
     firebase.auth().signInWithEmailAndPassword(input.email, input.password).then(() => {
       navigation.navigate('HomeTabNavigator', { signInDetail: input })
     }).catch((error) => {
-      //TODO: Show error
+      console.log(error.code);
+      if (error.code === 'auth/wrong-password') {
+        setError({ ['password']: '* Wrong password'})
+      } else {
+        setError({ ['email']: '* User not found'})
+      }
     })
   }
 
@@ -49,12 +56,17 @@ const SignIn = ({ navigation }: Props) => {
             <Text size={textSizes.large1} margin={spaces.large3} bold>Sign In</Text>
             {
               signInInput.map(({ name }) => (
-                <InputForm
-                  key={name}
-                  name={name}
-                  value={input[name]}
-                  onChangeText={handleInput}
-                />
+                <LimitView key={name+"view"}>
+                  <Text color={'red'} key={name+"error"}>
+                    {error[name]}
+                  </Text>
+                  <InputForm
+                    key={name}
+                    name={name}
+                    value={input[name]}
+                    onChangeText={handleInput}
+                  />
+                </LimitView>
               ))
             }
             <Button margin={`${spaces.large3} 0`} onPress={signIn}>
