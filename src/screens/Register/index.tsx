@@ -1,4 +1,6 @@
 import React, { useReducer } from 'react'
+import userApi from '@api/user'
+
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
 
@@ -6,6 +8,7 @@ import { CenterSAV, LimitView, Text } from '@components/common/styled'
 import InputForm from '@components/common/InputForm';
 import Button from '@components/common/Button';
 import { textSizes, spaces } from '@styles/sizes'
+import user from '@api/user';
 
 const registerInput = [
   { name: 'displayName', },
@@ -25,6 +28,7 @@ interface Props {
 
 const Register = ({ navigation }: Props) => {
   const [input, setInput] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
+  const [error, setError] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
 
   const handleInput = (inputName, value) => {
     setInput({ [inputName]: value })
@@ -35,18 +39,15 @@ const Register = ({ navigation }: Props) => {
     return re.test(email);
   }
 
-  const register = () => {
-    if (!input.displayName && !input.email && !input.password) {
-      //TODO: Show some error
-      return;
-    } else if (input.password.length < 6) {
-      // TODO: Show some error
-      return;
-    } else if (!validateEmail(input.email)) {
-      // TODO: Show some error
-      return;
-    } else {
-      navigation.navigate('ProfilePicker', { registerDetail: input })
+  const register = async() => {
+    try {
+      const response = await userApi.validteRegister(input);
+      if(response === 'Pass') {
+        navigation.navigate('ProfilePicker', { registerDetail: input })
+      }
+    }
+    catch(error) {
+      setError(error.response.data);
     }
   }
 

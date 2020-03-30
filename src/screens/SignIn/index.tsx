@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
 
@@ -24,23 +24,18 @@ interface Props {
 
 const SignIn = ({ navigation }: Props) => {
   const [input, setInput] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
-  const [error, setError] = useReducer((state, newState) => ({ ...state, ...newState }), initInput)
+  const [error, setError] = useState('')
 
   const handleInput = (inputName, value) => {
     setInput({ [inputName]: value })
   }
 
   const signIn = () => {
-    setError(initInput)
+    setError('')
     firebase.auth().signInWithEmailAndPassword(input.email, input.password).then(() => {
       navigation.navigate('HomeTabNavigator', { signInDetail: input })
     }).catch((error) => {
-      console.log(error.code);
-      if (error.code === 'auth/wrong-password') {
-        setError({ ['password']: '* Wrong password'})
-      } else {
-        setError({ ['email']: '* User not found'})
-      }
+      setError('Email or password is invalid')
     })
   }
 
@@ -54,19 +49,17 @@ const SignIn = ({ navigation }: Props) => {
         <LimitView>
           <KeyboardAvoidingView>
             <Text size={textSizes.large1} margin={spaces.large3} bold>Sign In</Text>
+            <Text color="red" margin={spaces.large1} align="center" bold>
+              {error}
+            </Text>
             {
               signInInput.map(({ name }) => (
-                <LimitView key={name+"view"}>
-                  <Text color={'red'} key={name+"error"}>
-                    {error[name]}
-                  </Text>
-                  <InputForm
-                    key={name}
-                    name={name}
-                    value={input[name]}
-                    onChangeText={handleInput}
-                  />
-                </LimitView>
+                <InputForm
+                  key={name}
+                  name={name}
+                  value={input[name]}
+                  onChangeText={handleInput}
+                />
               ))
             }
             <Button margin={`${spaces.large3} 0`} onPress={signIn}>

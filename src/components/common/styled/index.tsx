@@ -19,13 +19,14 @@ const circle = css`
 `
 
 export const Text = styled.Text`
-  ${({ size = textSizes.small1, color = 'black', bold, underline, margin = 0 }) => css`
+  ${({ size = textSizes.small1, color = 'black', bold, underline, margin = 0, align = 'left' }) => css`
     font-family: 'public-sans';
     ${size};
     color: ${color};
     font-weight: ${bold ? 'bold' : 'normal'};
     text-decoration: ${underline ? 'underline' : 'none'};
     margin-bottom: ${margin};
+    text-align: ${align}
   `}
 `
 
