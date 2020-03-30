@@ -34,12 +34,8 @@ const Register = ({ navigation }: Props) => {
     setInput({ [inputName]: value })
   }
 
-  const validateEmail = (email) => {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  }
-
   const register = async() => {
+    setError(initInput)
     try {
       const response = await userApi.validteRegister(input);
       if(response === 'Pass') {
@@ -59,12 +55,15 @@ const Register = ({ navigation }: Props) => {
             <Text size={textSizes.large1} margin={spaces.large3} bold>Register</Text>
             {
               registerInput.map(({ name }) => (
-                <InputForm
-                  key={name}
-                  name={name}
-                  value={input[name]}
-                  onChangeText={handleInput}
-                />
+                <LimitView key={name+'view'}>
+                  <Text color="red" key={name+'error'}>{error[name]}</Text>
+                  <InputForm
+                    key={name}
+                    name={name}
+                    value={input[name]}
+                    onChangeText={handleInput}
+                  />
+                </LimitView>
               ))
             }
             <Button margin={`${spaces.large3} 0`} onPress={register}>
