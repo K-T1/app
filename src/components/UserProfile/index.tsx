@@ -58,8 +58,8 @@ const UserProfile = ({ userStore }: Props) => {
   }
 
   const openPhotoDetail = (photo) => {
-    photo.owner = userStore.user
-    navigation.navigate('PhotoDetailFromUser', { photo })
+    photo.owner = user
+    navigation.navigate(isUserProfile ? 'PhotoDetailFromUser' : 'PhotoDetailFromFeed', { photo })
   }
 
   const signOut = () => {
