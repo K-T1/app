@@ -20,5 +20,9 @@ export default {
   async validteRegister(registerDetail) {
     const { data: user } = await axios.post(`${configs.API_URL}/users/register/validate`, registerDetail)
     return user
+  },
+  async fetchCurrentUser() {
+    const { data: user } = await axios.get(`${configs.API_URL}/users/current`)
+    return user
   }
 }

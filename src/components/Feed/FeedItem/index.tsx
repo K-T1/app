@@ -30,7 +30,7 @@ const FeedItem = ({ photo, photoStore, isLoggedIn }: Props) => {
         photoStore.favPhoto(id)
       }
     } else {
-      navigation.navigate('UserProfile')
+      navigation.navigate('User')
     }
   }
 

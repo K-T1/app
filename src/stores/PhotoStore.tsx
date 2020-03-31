@@ -4,7 +4,7 @@ import photoApi from '@api/photo'
 import { Photo } from '@models/Photo'
 import { PagedData } from '@models/PagedData'
 
-import { RootStore } from './RootStore'
+import { RootStore, rootStore } from './RootStore'
 
 export class PhotoStore {
   rootStore: RootStore
@@ -25,11 +25,13 @@ export class PhotoStore {
   favPhoto = async (photoId) => {
     await photoApi.favPhoto(photoId)
     this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = true
+    this.rootStore.userStore.fetchCurrentUser()
   }
 
   @action
   unfavPhoto = async (photoId) => {
     await photoApi.unfavPhoto(photoId)
     this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = false
+    this.rootStore.userStore.fetchCurrentUser()
   }
 }

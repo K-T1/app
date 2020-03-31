@@ -13,8 +13,8 @@ export const CountView = styled.View`
 export const PhotoView = styled.View`
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
   width: ${FULL_WIDTH};
+  margin: ${spaces.large1} 0;
 `
 
 export const SquareImage = styled.Image`

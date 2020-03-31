@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
@@ -15,6 +15,7 @@ import { FAVORITE_COLOR } from '@styles/colors'
 import { UserStore } from '@stores/UserStore'
 import { User } from '@models/User'
 import { toJS } from 'mobx'
+import { RefreshControl } from 'react-native'
 
 interface Props {
   userStore: UserStore
@@ -24,26 +25,40 @@ const UserProfile = ({ userStore }: Props) => {
   const navigation = useNavigation()
   const [user, setUser] = useState<User>()
   const isUserProfile = navigation.state.routeName === 'User'
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
+    fetchUser()
+  }, [userStore.user])
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(false)
+    fetchUser()
+    setRefreshing(false)
+  }, [refreshing])
+
+  const fetchUser = async () => {
     if (isUserProfile) {
       setUserState(toJS(userStore.user))
     } else {
-      setUserState(navigation.getParam('owner'))
+      const user = await userApi.getUser(navigation.getParam('owner').id)
+      setUserState(user)
     }
-  }, [])
+  }
 
   const setUserState = (user) => {
-    const { favoritePhotos, displayName } = user
+    const { photos, displayName } = user
+
     setUser({
-      favoriteCount: favoritePhotos.reduce((accum, current) => accum + current.favoriteCount, 0),
-      usageCount: favoritePhotos.reduce((accum, current) => accum + current.usageCount, 0),
+      favoriteCount: photos.reduce((accum, current) => accum + current.favorite, 0),
+      usageCount: photos.reduce((accum, current) => accum + current.usageCount, 0),
       ...user
     })
     navigation.setParams({ displayName })
   }
 
   const openPhotoDetail = (photo) => {
+    photo.owner = userStore.user
     navigation.navigate('PhotoDetailFromUser', { photo })
   }
 
@@ -52,7 +67,7 @@ const UserProfile = ({ userStore }: Props) => {
   }
 
   return (
-    user && <ScrollView>
+    user && <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       {
         isUserProfile &&
         <TouchableWithoutFeedback style={{ backgroundColor: 'white', alignItems: 'flex-end', marginRight: 10 }} onPress={signOut}>
@@ -67,7 +82,7 @@ const UserProfile = ({ userStore }: Props) => {
           <Count name="FAVORITE" count={user.favoriteCount} />
           <Count name="TONE USAGE" count={user.usageCount} />
         </CountView>
-        <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2}`} />
+        <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2} 0 0`} />
         <PhotoView>
           {
             user.photos && user.photos.map(photo =>

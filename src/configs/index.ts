@@ -3,7 +3,7 @@ const config = {
     API_URL: '',
   },
   development: {
-    API_URL: 'http://172.19.0.1:3000',
+    API_URL: 'http://192.168.1.33:3000',
   },
 }
 

@@ -8,6 +8,7 @@ import { CenterSAV, Text, LimitView } from '@components/common/styled'
 import { PhotoView, SquareImage } from '@components/UserProfile/styled'
 import Button from '@components/common/Button'
 import { UserStore } from '@stores/UserStore'
+import { toJS } from 'mobx'
 
 interface Props {
   userStore: UserStore
@@ -36,12 +37,16 @@ const Main = ({ userStore }: Props) => {
                 <TouchableWithoutFeedback key={favPhoto.id} onPress={() => openPhotoDetail(favPhoto)}>
                   <SquareImage source={{ uri: favPhoto.url }} />
                 </TouchableWithoutFeedback>)
-              : <Text>
-                {`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`}
+              : <CenterSAV>
+                <Text>
+                  {`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`}
+                </Text>
+              </CenterSAV>
+            : <CenterSAV>
+              <Text>
+                please sign in.
               </Text>
-            : <Text>
-              please sign in.
-              </Text>
+            </CenterSAV>
         }
       </PhotoView>
       <LimitView>

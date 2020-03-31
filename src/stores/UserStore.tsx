@@ -19,6 +19,11 @@ export class UserStore {
   user: User
 
   @action
+  fetchCurrentUser = async () => {
+    this.user = await userApi.fetchCurrentUser()
+  }
+
+  @action
   setFirebaseUser = async (user: firebase.User) => {
     this.firebaseUser = user
   }
