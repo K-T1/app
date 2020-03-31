@@ -1,33 +1,56 @@
-import React, { Component, useReducer, useState, useEffect } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
   View,
 } from "react-native";
-import { Surface } from "gl-react-expo";
-
-import Effects from "@components/EditPhoto/gl-react-effects";
-import Field from '@components/EditPhoto/Field'
 import { useNavigation } from "react-navigation-hooks";
-import { StyledSurface } from "./styled";
+
+import Tones from "@components/EditPhoto/tones";
+import Field from '@components/EditPhoto/Field'
+import * as Filters from '@components/EditPhoto/filters'
+import { Text } from "@components/common/styled";
+
+import { StyledSurface, StyledButton } from "./styled";
 
 const percentagePrint = v => (v * 100).toFixed(0) + "%";
-const radiantPrint = r => ((180 * r) / Math.PI).toFixed(0) + "°";
+// const radiantPrint = r => ((180 * r) / Math.PI).toFixed(0) + "°";
 
-// prettier-ignore
 const fields = [
-  // { id: "blur", name: "Blur", min: 0, max: 6, step: 0.1, prettyPrint: blur => blur.toFixed(1) },
   { id: "contrast", name: "Contrast", min: 0, max: 4, step: 0.1, prettyPrint: percentagePrint },
   { id: "brightness", name: "Brightness", min: 0, max: 4, step: 0.1, prettyPrint: percentagePrint },
   { id: "saturation", name: "Saturation", min: 0, max: 10, step: 0.1, prettyPrint: percentagePrint },
+  { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
+  { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100, prettyPrint: percentagePrint }
+  // { id: "blur", name: "Blur", min: 0, max: 6, step: 0.1, prettyPrint: blur => blur.toFixed(1) },
   // { id: "hue", name: "HueRotate", min: 0, max: 2 * Math.PI, step: 0.1, prettyPrint: radiantPrint },
   // { id: "negative", name: "Negative", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
-  { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
   // { id: "flyeye", name: "FlyEye", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
-  { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100, prettyPrint: percentagePrint }
 ];
 
-const initialEffectsState = {
+const filters = [
+  'Normal',
+  'F1977',
+  'Amaro',
+  'Brannan',
+  'Earlybird',
+  'Hefe',
+  'Hudson',
+  'Inkwell',
+  'Lokofi',
+  'LordKelvin',
+  'Nashville',
+  'Rise',
+  'Sierra',
+  'Sutro',
+  'Toaster',
+  'Valencia',
+  'Walden',
+  'XproII',
+];
+
+
+const initialTonesState = {
   blur: 0,
   saturation: 1,
   contrast: 1,
@@ -53,14 +76,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     paddingTop: 10,
-    paddingBottom: 40,
+    paddingBottom: 10,
     backgroundColor: "#EEE"
   }
 });
 
 const EditPhoto = () => {
-  const [effects, setEffects] = useReducer((state, newState) => ({ ...state, ...newState }), initialEffectsState)
   const [asset, setAsset] = useState({ uri: '' })
+  const [tones, setTones] = useReducer((state, newState) => ({ ...state, ...newState }), initialTonesState)
+  const [Filter, setFilter] = useState(() => Filters.Normal)
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -68,21 +92,27 @@ const EditPhoto = () => {
   }, [])
 
   const onEffectChange = (value, id) => {
-    setEffects({ ...effects, [id]: value })
+    setTones({ ...tones, [id]: value })
   };
 
   const onEffectReset = (id) => {
-    setEffects({ ...effects, [id]: initialEffectsState[id] })
+    setTones({ ...tones, [id]: initialTonesState[id] })
   };
+
+  const onFilterChange = (filter) => {
+    setFilter(() => Filters[filter])
+  }
 
   return (
     <ScrollView bounces={false} style={styles.root}>
       {
         asset.uri != '' &&
         <StyledSurface>
-          <Effects {...effects}>
-            {{ uri: asset.uri }}
-          </Effects>
+          <Filter>
+            <Tones {...tones}>
+              {{ uri: asset.uri }}
+            </Tones>
+          </Filter>
         </StyledSurface>
       }
       <View style={styles.fields}>
@@ -91,12 +121,21 @@ const EditPhoto = () => {
             {...props}
             key={id}
             id={id}
-            value={effects[id]}
+            value={tones[id]}
             onChange={onEffectChange}
             onReset={onEffectReset}
           />
         ))}
       </View>
+      <ScrollView horizontal>
+        {
+          filters.map(filter => (
+            <StyledButton key={filter} onPress={() => onFilterChange(filter)}>
+              <Text color="white" bold>{filter}</Text>
+            </StyledButton>
+          ))
+        }
+      </ScrollView>
     </ScrollView>
   )
 }
