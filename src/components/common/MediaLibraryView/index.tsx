@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Picker from 'react-native-picker-select'
 import { View } from 'react-native'
 import { inject, observer } from 'mobx-react'
@@ -14,9 +14,16 @@ interface Props {
 }
 
 const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
+  useEffect(() => {
+    mediaLibraryStore.getPermission()
+    mediaLibraryStore.getAllAlbum()
+    mediaLibraryStore.getAssets()
+  }, [mediaLibraryStore.isPermissionGranted])
+
   return (
     <View>
       <Picker
+        placeholder={{ label: 'Select a albums...', value: null }}
         onValueChange={album => mediaLibraryStore.getAssets(album)}
         items={mediaLibraryStore.albums.map(album => ({ label: album.title, value: album }))}
         style={pickerSelectStyles}

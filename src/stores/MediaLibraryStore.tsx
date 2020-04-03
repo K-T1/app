@@ -41,10 +41,14 @@ export class MediaLibraryStore {
   getAssets = async (selectedAlbum = null) => {
     if (!this.isPermissionGranted) { return }
 
+    const assetsOptions = {
+      first: 60,
+      sortBy: MediaLibrary.SortBy.creationTime
+    }
     if (selectedAlbum) {
-      this.pagedAssets = await MediaLibrary.getAssetsAsync({ first: 60, album: selectedAlbum.id })
+      this.pagedAssets = await MediaLibrary.getAssetsAsync({ ...assetsOptions, album: selectedAlbum.id })
     } else {
-      this.pagedAssets = await MediaLibrary.getAssetsAsync({ first: 60 })
+      this.pagedAssets = await MediaLibrary.getAssetsAsync(assetsOptions)
     }
   }
 
