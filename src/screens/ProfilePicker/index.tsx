@@ -53,6 +53,10 @@ const ProfilePicker = ({ navigation, spinnerStore, userStore }: Props) => {
     navigation.navigate('ImagePicker', { setAsset })
   }
 
+  const skipToHomePage = () => {
+    navigation.navigate('UserNavigator')
+  }
+
   return (
     <CenterSAV>
       <LimitView>
@@ -69,7 +73,7 @@ const ProfilePicker = ({ navigation, spinnerStore, userStore }: Props) => {
         <Button margin={`${spaces.large4} 0`} onPress={register}>
           DONE
         </Button>
-        <SkipButton onPress={register} />
+        <SkipButton onPress={skipToHomePage} />
       </LimitView>
     </CenterSAV>
   )

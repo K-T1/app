@@ -6,6 +6,9 @@ import { textSizes } from '@styles/sizes'
 import { FULL_WIDTH } from '@utils'
 import { StyleSheet } from 'react-native'
 
+const imageWidth = FULL_WIDTH * 0.3333
+const height = imageWidth
+
 const center = css`
   flex: 1;
   justify-content: center;
@@ -26,7 +29,7 @@ export const Text = styled.Text`
     font-weight: ${bold ? 'bold' : 'normal'};
     text-decoration: ${underline ? 'underline' : 'none'};
     margin-bottom: ${margin};
-    text-align: ${align}
+    text-align: ${align};
   `}
 `
 
@@ -73,6 +76,22 @@ export const CircleView = styled(CenterView)`
 
 export const CircleImage = styled.Image`
   ${circle}
+`
+
+export const TripleImageView = styled.View`
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: ${FULL_WIDTH};
+`
+
+export const SquareImage = styled.Image`
+  width: ${imageWidth};
+  height: ${height};
+`
+
+export const ScrollView = styled.ScrollView`
+  flex: 1;
+  background-color: white;
 `
 
 export const pickerSelectStyles = StyleSheet.create({

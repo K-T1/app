@@ -8,13 +8,14 @@ import { CenterSAV, Text, LimitView } from '@components/common/styled'
 import { PhotoView, SquareImage } from '@components/UserProfile/styled'
 import Button from '@components/common/Button'
 import { UserStore } from '@stores/UserStore'
-import { toJS } from 'mobx'
+import { KoomToneStore } from '@stores/KoomToneStore'
 
 interface Props {
   userStore: UserStore
+  koomToneStore: KoomToneStore
 }
 
-const Main = ({ userStore }: Props) => {
+const Main = ({ userStore, koomToneStore }: Props) => {
   const navigation = useNavigation()
   const user = userStore.user
 
@@ -23,6 +24,7 @@ const Main = ({ userStore }: Props) => {
   }
 
   const startKoomTone = () => {
+    koomToneStore.clearStore()
     navigation.navigate('KoomToneNavigator')
   }
 
@@ -58,7 +60,8 @@ const Main = ({ userStore }: Props) => {
 
 export default compose(
   inject(({ rootStore }) => ({
-    userStore: rootStore.userStore
+    userStore: rootStore.userStore,
+    koomToneStore: rootStore.koomToneStore
   })),
   observer
 )(Main)

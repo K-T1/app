@@ -3,7 +3,7 @@ import { observable, action } from 'mobx'
 import userApi from '@api/user'
 import { User } from '@models/User'
 
-import { RootStore } from './RootStore'
+import { RootStore, rootStore } from './RootStore'
 
 export class UserStore {
   rootStore: RootStore
@@ -36,6 +36,7 @@ export class UserStore {
   @action
   login = async user => {
     this.user = await userApi.login(user.uid)
+    this.rootStore.photoStore.fetchPagedPhotos()
   }
 
   @action

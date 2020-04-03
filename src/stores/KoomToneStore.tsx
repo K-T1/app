@@ -1,12 +1,6 @@
 import { observable, action } from 'mobx'
 import { RootStore } from './RootStore'
-
-enum Step {
-  SOURCE,
-  TARGET,
-  EDIT,
-  SHARE
-}
+import { PhotoData } from '@models/PhotoData'
 
 export class KoomToneStore {
   rootStore: RootStore
@@ -16,10 +10,47 @@ export class KoomToneStore {
   }
 
   @observable
-  currentStep: Step = Step.SOURCE
+  target: PhotoData = null
+
+  @observable
+  source: PhotoData = null
+
+  @observable
+  processed: PhotoData = null
+
+  @observable
+  edited: PhotoData = null
 
   @action
-  testFunc = () => {
+  clearStore = () => {
+    this.target = null
+    this.source = null
+    this.processed = null
+    this.edited = null
+  }
 
+  @action
+  setTarget = (target) => {
+    this.target = target
+  }
+
+  @action
+  setSource = (source) => {
+    this.source = source
+  }
+
+  @action
+  setTargetWithSource = (source) => {
+    this.source = source
+  }
+
+  @action
+  setProcessed = (processed) => {
+    this.processed = processed
+  }
+
+  @action
+  setEdited = (edited) => {
+    this.edited = edited
   }
 }

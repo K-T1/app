@@ -47,4 +47,13 @@ export class MediaLibraryStore {
       this.pagedAssets = await MediaLibrary.getAssetsAsync({ first: 60 })
     }
   }
+
+  @action
+  saveToLibrary = async (localUri) => {
+    if (!this.isPermissionGranted) { return }
+
+    if (localUri) {
+      await MediaLibrary.saveToLibraryAsync(localUri)
+    }
+  }
 }

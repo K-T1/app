@@ -1,17 +1,19 @@
-import React, { useReducer, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-} from "react-native";
+import React, { useReducer, useState, useEffect, useRef } from "react";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
+import { compose } from 'recompose'
+import { observer, inject } from "mobx-react";
 
 import Tones from "@components/EditPhoto/tones";
 import Field from '@components/EditPhoto/Field'
 import * as Filters from '@components/EditPhoto/filters'
-import { Text } from "@components/common/styled";
+import { Text, ScrollView } from "@components/common/styled";
+import { KoomToneStore } from "@stores/KoomToneStore";
 
 import { StyledSurface, StyledButton } from "./styled";
+import StepBar from '@components/KoomTone/StepBar'
+import HeaderButton from "@components/common/HeaderButton";
+import Button from "@components/common/Button";
 
 const percentagePrint = v => (v * 100).toFixed(0) + "%";
 // const radiantPrint = r => ((180 * r) / Math.PI).toFixed(0) + "°";
@@ -49,7 +51,6 @@ const filters = [
   'XproII',
 ];
 
-
 const initialTonesState = {
   blur: 0,
   saturation: 1,
@@ -63,15 +64,6 @@ const initialTonesState = {
 };
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "#EEE"
-  },
-  surface: {
-    width: 512,
-    height: 340,
-    alignSelf: "center"
-  },
   fields: {
     flexDirection: "column",
     flex: 1,
@@ -81,14 +73,18 @@ const styles = StyleSheet.create({
   }
 });
 
-const EditPhoto = () => {
-  const [asset, setAsset] = useState({ uri: '' })
+interface Props {
+  koomToneStore: KoomToneStore
+}
+
+const EditStep = ({ koomToneStore }: Props) => {
   const [tones, setTones] = useReducer((state, newState) => ({ ...state, ...newState }), initialTonesState)
   const [Filter, setFilter] = useState(() => Filters.Normal)
   const navigation = useNavigation()
+  const surface = useRef()
 
   useEffect(() => {
-    setAsset(navigation.getParam('asset'))
+    navigation.setParams({ nextStep })
   }, [])
 
   const onEffectChange = (value, id) => {
@@ -103,14 +99,24 @@ const EditPhoto = () => {
     setFilter(() => Filters[filter])
   }
 
+  const nextStep = async () => {
+    const snapshotPhoto = await surface.current.glView.capture({ type: "png", format: "file" })
+
+    koomToneStore.setEdited(snapshotPhoto)
+    navigation.navigate('ShareStep')
+  }
+
   return (
-    <ScrollView bounces={false} style={styles.root}>
+    <ScrollView>
+      <StepBar step={2} />
       {
-        asset.uri != '' &&
-        <StyledSurface>
+        <StyledSurface
+          ref={surface}
+          originalRatio={koomToneStore.processed.height / koomToneStore.processed.width}
+        >
           <Filter>
             <Tones {...tones}>
-              {{ uri: asset.uri }}
+              {{ uri: koomToneStore.processed.uri }}
             </Tones>
           </Filter>
         </StyledSurface>
@@ -136,8 +142,18 @@ const EditPhoto = () => {
           ))
         }
       </ScrollView>
+      <Button onPress={nextStep}>Save</Button>
     </ScrollView>
   )
 }
 
-export default EditPhoto
+EditStep.navigationOptions = ({ navigation }) => ({
+  headerRight: () => <HeaderButton onPress={navigation.getParam('nextStep')} title="next" />
+})
+
+export default compose(
+  inject(({ rootStore }) => ({
+    koomToneStore: rootStore.koomToneStore,
+  })),
+  observer
+)(EditStep)

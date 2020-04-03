@@ -12,9 +12,6 @@ export const StyledSurface = styled(Surface)`
   `}
 `
 
-export const FilterView = styled.ScrollView`
-`
-
 export const StyledButton = styled.TouchableOpacity`
   color: white;
   font-weight: bold;

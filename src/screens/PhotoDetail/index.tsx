@@ -1,15 +1,22 @@
 import React from 'react'
 import { useNavigationParam, useNavigation } from 'react-navigation-hooks'
+import { compose } from 'recompose'
+import { observer, inject } from 'mobx-react'
 
 import { ResizeImage, LimitView, CenterSAV, HR } from '@components/common/styled'
 import { FULL_HEIGHT } from '@utils'
 import Count from '@components/common/Count'
 import Button from '@components/common/Button'
 import { spaces } from '@styles/sizes'
+import { KoomToneStore } from '@stores/KoomToneStore'
 
 import { CountView } from './styled'
 
-const PhotoDetail = () => {
+interface Props {
+  koomToneStore: KoomToneStore
+}
+
+const PhotoDetail = ({ koomToneStore }: Props) => {
   const navigation = useNavigation()
   const photo = useNavigationParam('photo')
   const { url, width, height, usageCount, favorite } = photo
@@ -17,7 +24,9 @@ const PhotoDetail = () => {
   const useTone = () => {
     // TODO: REMOVE THIS.
     photo.uri = url
-    navigation.navigate('EditPhoto', { asset: photo })
+    koomToneStore.clearStore()
+    koomToneStore.setTargetWithSource(url)
+    navigation.navigate('TargetStep', { isSourceSelected: true })
   }
 
   return (
@@ -39,4 +48,9 @@ PhotoDetail.navigationOptions = ({ navigation }) => ({
   title: navigation.getParam('photo').owner.displayName
 })
 
-export default PhotoDetail
+export default compose(
+  inject(({ rootStore }) => ({
+    koomToneStore: rootStore.koomToneStore
+  })),
+  observer
+)(PhotoDetail)

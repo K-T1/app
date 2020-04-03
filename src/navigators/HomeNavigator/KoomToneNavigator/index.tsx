@@ -1,24 +1,27 @@
 import React from 'react'
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 
+import Logo from '@components/common/Logo'
 import Camera from '@screens/Camera'
-import SelectTargetStep from '@screens/SelectTargetStep'
-import SelectSourceStep from '@screens/SelectSourceStep'
 import BottomTabBar from "@components/common/BottomTabBar"
+import TargetStep from '@components/KoomTone/TargetStep'
+import SourceStep from '@components/KoomTone/SourceStep'
+import EditStep from '@components/KoomTone/EditStep'
+import ShareStep from '@components/KoomTone/ShareStep'
 import PhotoPreview from '@screens/PhotoPreview'
-import EditPhoto from '@screens/EditPhoto'
+import HeaderButton from '@components/common/HeaderButton'
 
 const tabTitle = {
   Camera: 'CAMERA',
-  SelectTargetStep: 'GALLERY',
+  TargetStep: 'GALLERY',
 }
 
-const TargetStep = createBottomTabNavigator({
+const TargetStepBTNav = createBottomTabNavigator({
   Camera,
-  SelectTargetStep
+  TargetStep
 }, {
-  initialRouteName: 'SelectTargetStep',
+  initialRouteName: 'TargetStep',
   defaultNavigationOptions: ({ navigation }) => ({
     tabBarButtonComponent: props =>
       <BottomTabBar routeName={tabTitle[navigation.state.routeName]} active={navigation.isFocused()}  {...props} />
@@ -26,8 +29,18 @@ const TargetStep = createBottomTabNavigator({
 })
 
 export default createStackNavigator({
-  TargetStep,
-  SelectSourceStep,
-  PhotoPreview,
-  EditPhoto
-})
+  TargetStepBTNav,
+  SourceStep,
+  EditStep,
+  ShareStep,
+  PhotoPreviewFromTarget: { screen: PhotoPreview },
+  PhotoPreviewFromSource: { screen: PhotoPreview },
+},
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerTitle: () => <Logo />,
+      headerTitleAlign: 'center',
+      headerLeft: () => <HeaderButton onPress={() => navigation.goBack(null)} title="back" />
+    })
+  }
+)
