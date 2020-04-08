@@ -4,7 +4,7 @@ import photoApi from '@api/photo'
 import { Photo } from '@models/Photo'
 import { PagedData } from '@models/PagedData'
 
-import { RootStore, rootStore } from './RootStore'
+import { RootStore } from './RootStore'
 
 export class PhotoStore {
   rootStore: RootStore

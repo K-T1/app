@@ -142,7 +142,6 @@ const EditStep = ({ koomToneStore }: Props) => {
           ))
         }
       </ScrollView>
-      <Button onPress={nextStep}>Save</Button>
     </ScrollView>
   )
 }

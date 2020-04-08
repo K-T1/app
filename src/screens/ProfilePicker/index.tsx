@@ -11,6 +11,7 @@ import SkipButton from '@components/common/SkipButton'
 import { textSizes, spaces } from '@styles/sizes'
 import { SpinnerStore } from '@stores/SpinnerStore'
 import { UserStore } from '@stores/UserStore';
+import { uploadImageToFirebase } from '@utils';
 
 interface Props {
   navigation: NavigationStackProp
@@ -27,26 +28,12 @@ const ProfilePicker = ({ navigation, spinnerStore, userStore }: Props) => {
     firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).then(() => {
       registerDetail.uid = firebase.auth().currentUser.uid
     })
-    registerDetail.displayImage = await uploadImage(asset.uri, asset.id)
+    registerDetail.displayImage = await uploadImageToFirebase(asset.uri)
 
     await userStore.register(registerDetail)
 
     spinnerStore.hide()
     navigation.navigate('Feed')
-  }
-
-  const uploadImage = async (imageUri, imageId) => {
-    const response = await fetch(imageUri);
-    const blob = await response.blob();
-    const id = imageId.replace(/\//g, '-')
-    const ref = firebase.storage().ref().child(`UserProfile/${id}`)
-    try {
-      return ref.put(blob).then((snapshot) => {
-        return snapshot.ref.getDownloadURL().then(url => url)
-      })
-    } catch (error) {
-      return null
-    }
   }
 
   const openImagePicker = () => {

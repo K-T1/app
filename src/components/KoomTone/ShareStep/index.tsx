@@ -8,25 +8,38 @@ import Button from '@components/common/Button'
 import StepBar from '@components/KoomTone/StepBar'
 import { KoomToneStore } from '@stores/KoomToneStore'
 import { MediaLibraryStore } from '@stores/MediaLibraryStore'
+import { Image } from 'react-native'
+import { SpinnerStore } from '@stores/SpinnerStore'
 
 interface Props {
   koomToneStore: KoomToneStore
   mediaLibraryStore: MediaLibraryStore
+  spinnerStore: SpinnerStore
 }
 
-const ShareStep = ({ koomToneStore, mediaLibraryStore }: Props) => {
+const ShareStep = ({ koomToneStore, mediaLibraryStore, spinnerStore }: Props) => {
   const navigation = useNavigation()
 
-  const onSave = async () => {
+  const saveToGallery = async () => {
     if (koomToneStore.edited) {
       await mediaLibraryStore.saveToLibrary(koomToneStore.edited.uri)
     }
 
-    navigation.navigate('MainNavigator')
+    backToMain()
+  }
+
+  const shareToKoomTone = async () => {
+    if (koomToneStore.edited) {
+      spinnerStore.show()
+      await koomToneStore.uploadPhoto()
+      spinnerStore.hide()
+    }
+
+    backToMain()
   }
 
   const backToMain = async () => {
-    navigation.navigate('MainNavigator')
+    navigation.navigate('FeedNavigator')
   }
 
   return (
@@ -38,7 +51,8 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore }: Props) => {
           originalRatio={koomToneStore.edited.height / koomToneStore.edited.width}
         />
       </CenterSAV>
-      <Button onPress={onSave}>save local</Button>
+      <Button onPress={saveToGallery}>save to gallery</Button>
+      <Button onPress={shareToKoomTone}>share to koomtone app</Button>
       <Button onPress={backToMain}>back to main</Button>
     </ScrollView>
   )
@@ -47,7 +61,8 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore }: Props) => {
 export default compose(
   inject(({ rootStore }) => ({
     koomToneStore: rootStore.koomToneStore,
-    mediaLibraryStore: rootStore.mediaLibraryStore
+    mediaLibraryStore: rootStore.mediaLibraryStore,
+    spinnerStore: rootStore.spinnerStore
   })),
   observer
 )(ShareStep)

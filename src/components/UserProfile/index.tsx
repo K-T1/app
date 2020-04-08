@@ -38,12 +38,8 @@ const UserProfile = ({ userStore }: Props) => {
   }, [refreshing])
 
   const fetchUser = async () => {
-    if (isUserProfile) {
-      setUserState(toJS(userStore.user))
-    } else {
-      const user = await userApi.getUser(navigation.getParam('owner').id)
-      setUserState(user)
-    }
+    const user = await userApi.getUser(isUserProfile ? userStore.user.id : navigation.getParam('owner').id)
+    setUserState(user)
   }
 
   const setUserState = (user) => {
