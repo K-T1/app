@@ -4,6 +4,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { Text } from '@components/common/styled';
 import { useNavigation } from 'react-navigation-hooks'
+import { Entypo } from '@expo/vector-icons';
+
 
 
 const CameraTab = () => {
@@ -48,7 +50,7 @@ const CameraTab = () => {
                   : Camera.Constants.Type.back
               );
             }}>
-            <Text style={{ fontSize: 18, marginTop: 30, color: 'red' }}> Flip </Text>
+            <Entypo style={{ marginTop: 30, marginRight: 10 }} size={32} color="white" name="cycle" />
           </TouchableOpacity>
           <View
             style={{
