@@ -1,8 +1,9 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { RefreshControl, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import { observer, inject } from 'mobx-react'
+import { RefreshControl } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import { toJS } from 'mobx'
 
 import FeedItem from '@components/Feed/FeedItem'
 import Logo from '@components/common/Logo'
@@ -28,22 +29,20 @@ const Feed = ({ photoStore, userStore }: Props) => {
   }, [refreshing])
 
   return (
-    <ScrollView
-      contentContainerStyle={{ alignItems: 'center' }}
+    <FlatList
+      data={toJS(photoStore.pagedPhotos.data)}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => (
+        <FeedItem
+          key={item.id}
+          photo={item}
+          isLoggedIn={userStore.user != null}
+        />
+      )}
+      onEndReached={photoStore.loadMorePhotos}
+      onEndReachedThreshold={30}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    >
-      <View>
-        {
-          photoStore.pagedPhotos &&
-          photoStore.pagedPhotos.data.map(photo =>
-            <FeedItem
-              key={photo.id}
-              photo={photo}
-              isLoggedIn={userStore.user != null}
-            />)
-        }
-      </View>
-    </ScrollView>
+    />
   )
 }
 

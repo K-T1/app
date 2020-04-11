@@ -45,6 +45,7 @@
     "react-navigation-stack": "^2.0.15",
     "react-navigation-tabs": "^2.7.0",
     "recompose": "^0.30.0",
+    "recyclerlistview": "^3.0.0",
     "styled-components": "^4.4.1"
   },
   "devDependencies": {

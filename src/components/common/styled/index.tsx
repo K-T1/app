@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components'
+import { StyleSheet } from 'react-native'
+import { ScrollView as RNGHScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { SECONDARY_COLOR } from '@styles/colors'
 import { textSizes } from '@styles/sizes'
 import { FULL_WIDTH } from '@utils'
-import { StyleSheet } from 'react-native'
 
 const imageWidth = FULL_WIDTH * 0.3333
 const height = imageWidth
@@ -19,6 +20,11 @@ const circle = css`
   width: ${({ size = 150 }) => size};
   height: ${({ size = 150 }) => size};
   border-radius: ${({ size = 150 }) => size / 2};
+`
+
+const flex1 = css`
+  flex: 1;
+  background-color: white;
 `
 
 export const Text = styled.Text`
@@ -78,20 +84,17 @@ export const CircleImage = styled.Image`
   ${circle}
 `
 
-export const TripleImageView = styled.View`
-  flex-wrap: wrap;
-  flex-direction: row;
-  width: ${FULL_WIDTH};
-`
-
 export const SquareImage = styled.Image`
   width: ${imageWidth};
   height: ${height};
 `
 
-export const ScrollView = styled.ScrollView`
-  flex: 1;
-  background-color: white;
+export const ScrollView = styled(RNGHScrollView)`
+  ${flex1}
+`
+
+export const View = styled.View`
+  ${flex1}
 `
 
 export const pickerSelectStyles = StyleSheet.create({

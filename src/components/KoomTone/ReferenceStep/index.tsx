@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigation } from 'react-navigation-hooks'
 
-import { ScrollView } from '@components/common/styled'
+import { View } from '@components/common/styled'
 import StepBar from '@components/KoomTone/StepBar'
 import MediaLibraryView from '@components/common/MediaLibraryView'
 
@@ -13,10 +13,10 @@ const ReferenceStep = () => {
   }
 
   return (
-    <ScrollView>
+    <View>
       <StepBar step={'referenceStep'} />
       <MediaLibraryView imageSelect={imageSelect} />
-    </ScrollView>
+    </View>
   )
 }
 

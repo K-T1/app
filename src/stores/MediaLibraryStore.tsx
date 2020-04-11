@@ -4,6 +4,11 @@ import * as Permissions from 'expo-permissions'
 
 import { RootStore } from './RootStore'
 
+const assetsOptions = {
+  first: 60,
+  sortBy: MediaLibrary.SortBy.creationTime
+}
+
 export class MediaLibraryStore {
   rootStore: RootStore
 
@@ -41,14 +46,25 @@ export class MediaLibraryStore {
   getAssets = async (selectedAlbum = null) => {
     if (!this.isPermissionGranted) { return }
 
-    const assetsOptions = {
-      first: 60,
-      sortBy: MediaLibrary.SortBy.creationTime
-    }
     if (selectedAlbum) {
       this.pagedAssets = await MediaLibrary.getAssetsAsync({ ...assetsOptions, album: selectedAlbum.id })
     } else {
       this.pagedAssets = await MediaLibrary.getAssetsAsync(assetsOptions)
+    }
+  }
+
+  @action
+  loadMoreAssets = async () => {
+    if (!this.pagedAssets.hasNextPage) return
+
+    const newPagedAsset = await MediaLibrary.getAssetsAsync({
+      ...assetsOptions,
+      after: this.pagedAssets.endCursor,
+    })
+
+    this.pagedAssets = {
+      ...newPagedAsset,
+      assets: this.pagedAssets.assets.concat(newPagedAsset.assets),
     }
   }
 

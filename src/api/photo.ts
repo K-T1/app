@@ -6,8 +6,8 @@ import { createFormData } from '@utils'
 const PHOTO_API_URL = `${configs.API_URL}/photo`
 
 export default {
-  async fetchPagedPhotos() {
-    const { data: pagedPhotos } = await axios.get(`${PHOTO_API_URL}`)
+  async fetchPagedPhotos(page = 1) {
+    const { data: pagedPhotos } = await axios.get(`${PHOTO_API_URL}/?page=${page}`)
     return pagedPhotos
   },
   async processImage(sourceUri, refUri, referenceId) {

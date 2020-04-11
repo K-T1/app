@@ -1,9 +1,9 @@
 import React from 'react'
-import { ScrollView } from 'react-native'
 import { NavigationStackProp } from 'react-navigation-stack'
-
-import MediaLibraryView from '@components/common/MediaLibraryView'
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { View } from '@components/common/styled'
+import MediaLibraryView from '@components/common/MediaLibraryView'
 
 interface Props {
   navigation: NavigationStackProp
@@ -22,11 +22,11 @@ const ImagePicker = ({ navigation }: Props) => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: 'white' }} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+    <View contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
       <SafeAreaView>
         <MediaLibraryView imageSelect={imageSelect} />
       </SafeAreaView>
-    </ScrollView>
+    </View>
   )
 }
 
