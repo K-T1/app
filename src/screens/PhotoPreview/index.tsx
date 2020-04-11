@@ -23,7 +23,7 @@ const PhotoPreview = ({ koomToneStore }: Props) => {
   const nextStep = async () => {
     const { uri, width, height } = asset
     const photoData: PhotoData = { uri, width, height }
-    const isFromSourceStep = navigation.state.routeName === 'PhotoPreviewFromTarget'
+    const isFromSourceStep = navigation.state.routeName === 'PhotoPreviewFromSource'
 
     if (isFromSourceStep) {
       koomToneStore.setSource(photoData)

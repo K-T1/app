@@ -6,8 +6,6 @@ import { Text } from '@components/common/styled';
 import { useNavigation } from 'react-navigation-hooks'
 import { Entypo } from '@expo/vector-icons';
 
-
-
 const CameraTab = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -28,6 +26,12 @@ const CameraTab = () => {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
+  const onTakePhoto = async () => {
+    const asset = await camera.takePictureAsync();
+    navigation.navigate('PhotoPreviewFromSource', { asset })
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <Camera style={{ flex: 1 }} type={type} ref={ref => setCamera(ref)}>
@@ -57,28 +61,24 @@ const CameraTab = () => {
               alignItems: 'center',
               marginBottom: 20,
             }}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={{
                 width: 75,
                 height: 75,
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderRadius: 75/2,
+                borderRadius: 75 / 2,
                 backgroundColor: 'transparent',
                 borderWidth: 5,
                 borderColor: 'white'
               }}
-              onPress={async() => {
-                const asset = await camera.takePictureAsync();
-                const isSourceSelected = navigation.getParam('isSourceSelected')
-                navigation.navigate('PhotoPreviewFromTarget', { asset, isSourceSelected })
-              }}
+              onPress={onTakePhoto}
             >
-              <View 
+              <View
                 style={{
                   width: 60,
                   height: 60,
-                  borderRadius: 60/2,
+                  borderRadius: 60 / 2,
                   backgroundColor: 'white',
                 }}
               />

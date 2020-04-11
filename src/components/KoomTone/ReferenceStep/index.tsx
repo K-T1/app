@@ -9,7 +9,7 @@ const ReferenceStep = () => {
   const navigation = useNavigation()
 
   const imageSelect = (asset) => {
-    navigation.navigate('PhotoPreviewFromSource', { asset })
+    navigation.navigate('PhotoPreviewFromReference', { asset })
   }
 
   return (

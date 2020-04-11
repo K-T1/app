@@ -38,8 +38,8 @@ export default createStackNavigator({
   ReferenceStep,
   EditStep,
   ShareStep,
-  PhotoPreviewFromTarget: { screen: PhotoPreview },
   PhotoPreviewFromSource: { screen: PhotoPreview },
+  PhotoPreviewFromReference: { screen: PhotoPreview },
 },
   {
     defaultNavigationOptions: ({ navigation }) => ({
