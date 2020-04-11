@@ -29,12 +29,11 @@ const Feed = ({ photoStore, userStore }: Props) => {
   }, [refreshing])
 
   return (
-    <FlatList
+    photoStore.pagedPhotos && <FlatList
       data={toJS(photoStore.pagedPhotos.data)}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => (
         <FeedItem
-          key={item.id}
           photo={item}
           isLoggedIn={userStore.user != null}
         />

@@ -19,19 +19,16 @@ export class PhotoStore {
   @action
   fetchPagedPhotos = async () => {
     this.pagedPhotos = await photoApi.fetchPagedPhotos()
-    console.log(this.pagedPhotos);
-
   }
 
   @action
   loadMorePhotos = async () => {
     if (this.pagedPhotos.currentPage === this.pagedPhotos.lastPage) return
 
-    const { data: newPagedPhotos } = await photoApi.fetchPagedPhotos(this.pagedPhotos.currentPage + 1)
-
+    const newPagedPhotos = await photoApi.fetchPagedPhotos(this.pagedPhotos.currentPage + 1)
     this.pagedPhotos = {
       ...newPagedPhotos,
-      data: this.pagedPhotos.data.concat(newPagedPhotos.photos)
+      data: this.pagedPhotos.data.concat(newPagedPhotos.data)
     }
   }
 
