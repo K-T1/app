@@ -43,6 +43,7 @@ export default createStackNavigator({
 },
   {
     defaultNavigationOptions: ({ navigation }) => ({
+      headerShown: navigation.state.index !== 0,
       headerTitle: () => <Logo />,
       headerTitleAlign: 'center',
       headerLeft: () => <HeaderButton onPress={() => navigation.goBack(null)} title="back" />
