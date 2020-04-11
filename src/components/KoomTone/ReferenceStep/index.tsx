@@ -5,20 +5,19 @@ import { ScrollView } from '@components/common/styled'
 import StepBar from '@components/KoomTone/StepBar'
 import MediaLibraryView from '@components/common/MediaLibraryView'
 
-const TargetStep = () => {
+const ReferenceStep = () => {
   const navigation = useNavigation()
 
   const imageSelect = (asset) => {
-    const isSourceSelected = navigation.getParam('isSourceSelected')
-    navigation.navigate('PhotoPreviewFromTarget', { asset, isSourceSelected })
+    navigation.navigate('PhotoPreviewFromSource', { asset })
   }
 
   return (
     <ScrollView>
-      <StepBar step={0} />
+      <StepBar step={'referenceStep'} />
       <MediaLibraryView imageSelect={imageSelect} />
     </ScrollView>
   )
 }
 
-export default TargetStep
+export default ReferenceStep

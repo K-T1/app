@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigationParam, useNavigation } from 'react-navigation-hooks'
+import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { observer, inject } from 'mobx-react'
 
@@ -11,6 +11,7 @@ import { spaces } from '@styles/sizes'
 import { KoomToneStore } from '@stores/KoomToneStore'
 
 import { CountView } from './styled'
+import HeaderButton from '@components/common/HeaderButton'
 
 interface Props {
   koomToneStore: KoomToneStore
@@ -18,20 +19,19 @@ interface Props {
 
 const PhotoDetail = ({ koomToneStore }: Props) => {
   const navigation = useNavigation()
-  const photo = useNavigationParam('photo')
-  const { url, width, height, usageCount, favorite } = photo
+  const photo = navigation.getParam('photo')
+  const { id, url: uri, width, height, usageCount, favorite } = photo
 
   const useTone = () => {
     // TODO: REMOVE THIS.
-    photo.uri = url
     koomToneStore.clearStore()
-    koomToneStore.setTargetWithSource(url)
-    navigation.navigate('TargetStep', { isSourceSelected: true })
+    koomToneStore.setSourceWithReference({ id, uri, width, height })
+    navigation.navigate('SourceStep', { isSourceSelected: true })
   }
 
   return (
     <CenterSAV>
-      <ResizeImage source={{ uri: url }} originalRatio={height / width} maxHeight={FULL_HEIGHT * 0.5} />
+      <ResizeImage source={{ uri }} originalRatio={height / width} maxHeight={FULL_HEIGHT * 0.5} />
       <HR size={300} m={`${spaces.large4} 0 ${spaces.large2}`} />
       <CountView>
         <Count name="FAVORITE" count={favorite} />
@@ -45,6 +45,7 @@ const PhotoDetail = ({ koomToneStore }: Props) => {
 }
 
 PhotoDetail.navigationOptions = ({ navigation }) => ({
+  headerLeft: () => <HeaderButton onPress={() => navigation.goBack(null)} title="close" />,
   title: navigation.getParam('photo').owner.displayName
 })
 

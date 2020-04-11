@@ -49,7 +49,6 @@ const CameraTab = () => {
       </Camera>
     </View>
   );
-
 }
 
 export default CameraTab

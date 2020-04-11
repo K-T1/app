@@ -6,7 +6,7 @@ import { Container } from './styled'
 const Spinner = () => {
   return (
     <Container>
-      <UIActivityIndicator color="black" />
+      <UIActivityIndicator color="white" size={50} />
     </Container>
   )
 }

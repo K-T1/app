@@ -20,33 +20,27 @@ const PhotoPreview = ({ koomToneStore }: Props) => {
     navigation.setParams({ nextStep })
   }, [])
 
-  const nextStep = () => {
+  const nextStep = async () => {
     const { uri, width, height } = asset
     const photoData: PhotoData = { uri, width, height }
-    const isFromTargetStep = navigation.state.routeName === 'PhotoPreviewFromTarget'
+    const isFromSourceStep = navigation.state.routeName === 'PhotoPreviewFromTarget'
 
-    if (isFromTargetStep) {
-      console.log('TargetSTEP');
-      koomToneStore.setTarget(photoData)
+    if (isFromSourceStep) {
+      koomToneStore.setSource(photoData)
       if (navigation.getParam('isSourceSelected')) {
-        console.log('2nd Flow: source selected');
-        processedImage(photoData)
-        navigation.navigate('EditStep')
+        await processImage()
       } else {
-        console.log('goto SourceStep');
-        navigation.navigate('SourceStep')
+        navigation.navigate('ReferenceStep')
       }
     } else {
-      console.log('SourceSTEP');
-      koomToneStore.setSource(photoData)
-      processedImage(photoData)
-      navigation.navigate('EditStep')
+      koomToneStore.setReference(photoData)
+      await processImage()
     }
   }
 
-  const processedImage = (photoData) => {
-    // TODO: WAIT PROCESSED IMAGE SOMEHOW
-    koomToneStore.setProcessed(photoData)
+  const processImage = async () => {
+    await koomToneStore.processImage()
+    navigation.navigate('EditStep')
   }
 
   return (

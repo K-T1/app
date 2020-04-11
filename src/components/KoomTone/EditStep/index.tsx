@@ -7,7 +7,7 @@ import { observer, inject } from "mobx-react";
 import Tones from "@components/EditPhoto/tones";
 import Field from '@components/EditPhoto/Field'
 import * as Filters from '@components/EditPhoto/filters'
-import { Text, ScrollView } from "@components/common/styled";
+import { Text, ScrollView, ResizeImage } from "@components/common/styled";
 import { KoomToneStore } from "@stores/KoomToneStore";
 
 import { StyledSurface, StyledButton } from "./styled";
@@ -108,7 +108,7 @@ const EditStep = ({ koomToneStore }: Props) => {
 
   return (
     <ScrollView>
-      <StepBar step={2} />
+      <StepBar step={'editStep'} />
       {
         <StyledSurface
           ref={surface}

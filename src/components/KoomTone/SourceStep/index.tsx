@@ -7,14 +7,15 @@ import MediaLibraryView from '@components/common/MediaLibraryView'
 
 const SourceStep = () => {
   const navigation = useNavigation()
+  const isSourceSelected = navigation.getParam('isSourceSelected')
 
   const imageSelect = (asset) => {
-    navigation.navigate('PhotoPreviewFromSource', { asset })
+    navigation.navigate('PhotoPreviewFromTarget', { asset, isSourceSelected })
   }
 
   return (
     <ScrollView>
-      <StepBar step={1} />
+      <StepBar step={isSourceSelected ? 'sourceWithReferenceStep' : 'sourceStep'} />
       <MediaLibraryView imageSelect={imageSelect} />
     </ScrollView>
   )

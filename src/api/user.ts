@@ -2,27 +2,29 @@ import axios from 'axios'
 
 import configs from '@configs/index'
 
+const USER_API_URL = `${configs.API_URL}/users`
+
 export default {
   async register(registerDetail) {
-    const { data: user } = await axios.post(`${configs.API_URL}/users/register`, registerDetail)
+    const { data: user } = await axios.post(`${USER_API_URL}/register`, registerDetail)
     return user
   },
   async login(uid) {
-    const { data: user } = await axios.post(`${configs.API_URL}/users/login`, {
+    const { data: user } = await axios.post(`${USER_API_URL}/login`, {
       uid
     })
     return user
   },
   async getUser(uid) {
-    const { data: user } = await axios.get(`${configs.API_URL}/users/${uid}`)
+    const { data: user } = await axios.get(`${USER_API_URL}/${uid}`)
     return user
   },
   async validteRegister(registerDetail) {
-    const { data: user } = await axios.post(`${configs.API_URL}/users/register/validate`, registerDetail)
+    const { data: user } = await axios.post(`${USER_API_URL}/register/validate`, registerDetail)
     return user
   },
   async fetchCurrentUser() {
-    const { data: user } = await axios.get(`${configs.API_URL}/users/current`)
+    const { data: user } = await axios.get(`${USER_API_URL}/current`)
     return user
   }
 }

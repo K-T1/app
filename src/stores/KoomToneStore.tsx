@@ -15,10 +15,10 @@ export class KoomToneStore {
   }
 
   @observable
-  target: PhotoData = null
+  source: PhotoData = null
 
   @observable
-  source: PhotoData = null
+  reference: PhotoData = null
 
   @observable
   processed: PhotoData = null
@@ -28,15 +28,10 @@ export class KoomToneStore {
 
   @action
   clearStore = () => {
-    this.target = null
     this.source = null
+    this.reference = null
     this.processed = null
     this.edited = null
-  }
-
-  @action
-  setTarget = (target) => {
-    this.target = target
   }
 
   @action
@@ -45,8 +40,13 @@ export class KoomToneStore {
   }
 
   @action
-  setTargetWithSource = (source) => {
-    this.source = source
+  setReference = (reference) => {
+    this.reference = reference
+  }
+
+  @action
+  setSourceWithReference = (reference) => {
+    this.reference = reference
   }
 
   @action
@@ -60,21 +60,28 @@ export class KoomToneStore {
   }
 
   @action
-  processImage = () => {
+  processImage = async () => {
+    if (!(this.source && this.reference)) return
 
+    this.rootStore.spinnerStore.show()
+    const processedUri = await photoApi.processImage(this.source.uri, this.reference.uri, this.reference.id)
+    this.setProcessed({ uri: processedUri, width: this.source.width, height: this.source.height })
+    this.rootStore.spinnerStore.hide()
   }
 
   @action
   uploadPhoto = async () => {
-    const uploadedPhotoUrl = await uploadImageToFirebase(this.processed.uri)
-    const photoData = {
-      url: uploadedPhotoUrl,
+    if (!this.processed) return
+
+    this.rootStore.spinnerStore.show()
+    await photoApi.uploadPhoto({
+      url: this.processed.uri,
       width: this.processed.width,
       height: this.processed.height
-    }
-    await photoApi.uploadPhoto(photoData)
+    })
 
     this.rootStore.photoStore.fetchPagedPhotos()
     this.rootStore.userStore.fetchCurrentUser()
+    this.rootStore.spinnerStore.hide()
   }
 }
