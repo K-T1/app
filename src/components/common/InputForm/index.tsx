@@ -19,6 +19,8 @@ const InputForm = ({ name, value, onChangeText }: Props) => (
         secureTextEntry={name === 'password'}
         value={value}
         onChangeText={value => onChangeText(name, value)}
+        keyboardType={name === 'email' ? 'email-address' : 'default'}
+        autoCapitalize="none"
       />
     </InputView>
   </StyledView>

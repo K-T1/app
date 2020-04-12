@@ -7,9 +7,6 @@ import { SECONDARY_COLOR } from '@styles/colors'
 import { textSizes } from '@styles/sizes'
 import { FULL_WIDTH } from '@utils'
 
-const imageWidth = FULL_WIDTH * 0.3333
-const height = imageWidth
-
 const center = css`
   flex: 1;
   justify-content: center;
@@ -82,11 +79,6 @@ export const CircleView = styled(CenterView)`
 
 export const CircleImage = styled.Image`
   ${circle}
-`
-
-export const SquareImage = styled.Image`
-  width: ${imageWidth};
-  height: ${height};
 `
 
 export const ScrollView = styled(RNGHScrollView)`

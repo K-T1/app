@@ -3,19 +3,19 @@ import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handl
 import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { inject, observer } from 'mobx-react'
+import { RefreshControl } from 'react-native'
 
 import userApi from '@api/user'
 import firebase from '@configs/firebase'
 import { CircleView, CircleImage, CenterView, HR, Text } from '@components/common/styled'
 import Count from '@components/common/Count'
-import { CountView, SquareImage, PhotoView } from '@components/UserProfile/styled'
+import { CountView, PhotoView } from '@components/UserProfile/styled'
 import { FULL_WIDTH } from '@utils'
 import { spaces } from '@styles/sizes'
 import { FAVORITE_COLOR } from '@styles/colors'
 import { UserStore } from '@stores/UserStore'
 import { User } from '@models/User'
-import { toJS } from 'mobx'
-import { RefreshControl } from 'react-native'
+import SquareImageButton from '@components/common/SquareImageButton'
 
 interface Props {
   userStore: UserStore
@@ -82,10 +82,7 @@ const UserProfile = ({ userStore }: Props) => {
         <PhotoView>
           {
             user.photos && user.photos.map(photo =>
-              <TouchableWithoutFeedback key={photo.id} onPress={() => openPhotoDetail(photo)}>
-                <SquareImage source={{ uri: photo.url }} />
-              </TouchableWithoutFeedback>
-            )
+              <SquareImageButton key={photo.id} photo={photo} onPress={openPhotoDetail} withSpace />)
           }
         </PhotoView>
       </CenterView>
