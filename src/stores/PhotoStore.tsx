@@ -45,4 +45,12 @@ export class PhotoStore {
     this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = false
     this.rootStore.userStore.fetchCurrentUser()
   }
+
+  @action
+  softDeletePhoto = async (photoId) => {
+    await photoApi.deletePhoto(photoId)
+
+    this.fetchPagedPhotos()
+    this.rootStore.userStore.fetchCurrentUser()
+  }
 }

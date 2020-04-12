@@ -60,7 +60,7 @@ const UserProfile = ({ userStore }: Props) => {
   return (
     user && <View refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <CenterView>
-        <CircleView m={`${spaces.large4} 0`}>
+        <CircleView m={`${spaces.large4} 0 ${spaces.normal}`}>
           <CircleImage source={user.displayImage ? { uri: user.displayImage } : require('@assets/default-profile.png')} />
         </CircleView>
         <CountView>

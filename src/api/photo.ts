@@ -45,5 +45,9 @@ export default {
   async unfavPhoto(photoId) {
     const { data: photo } = await axios.put(`${PHOTO_API_URL}/unfav`, { photoId })
     return photo
+  },
+  async deletePhoto(photoId) {
+    const response = await axios.delete(`${PHOTO_API_URL}/delete/${photoId}`)
+    return response
   }
 }
