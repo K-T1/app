@@ -1,33 +1,25 @@
 import React, { useReducer, useState, useEffect, useRef } from "react";
-import { StyleSheet, View } from "react-native";
 import { useNavigation } from "react-navigation-hooks";
 import { compose } from 'recompose'
 import { observer, inject } from "mobx-react";
 
 import Tones from "@components/EditPhoto/tones";
-import Field from '@components/EditPhoto/Field'
+import SliderView from '@components/EditPhoto/SliderView'
 import * as Filters from '@components/EditPhoto/filters'
-import { Text, ScrollView, ResizeImage } from "@components/common/styled";
-import { KoomToneStore } from "@stores/KoomToneStore";
-
-import { StyledSurface, StyledButton } from "./styled";
+import { Text, ScrollView, View } from "@components/common/styled";
 import StepBar from '@components/KoomTone/StepBar'
 import HeaderButton from "@components/common/HeaderButton";
-import Button from "@components/common/Button";
+import { KoomToneStore } from "@stores/KoomToneStore";
 
-const percentagePrint = v => (v * 100).toFixed(0) + "%";
-// const radiantPrint = r => ((180 * r) / Math.PI).toFixed(0) + "°";
+import { StyledSurface, StyledButton, FilterButton } from "./styled";
 
-const fields = [
-  { id: "contrast", name: "Contrast", min: 0, max: 4, step: 0.1, prettyPrint: percentagePrint },
-  { id: "brightness", name: "Brightness", min: 0, max: 4, step: 0.1, prettyPrint: percentagePrint },
-  { id: "saturation", name: "Saturation", min: 0, max: 10, step: 0.1, prettyPrint: percentagePrint },
-  { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
-  { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100, prettyPrint: percentagePrint }
-  // { id: "blur", name: "Blur", min: 0, max: 6, step: 0.1, prettyPrint: blur => blur.toFixed(1) },
-  // { id: "hue", name: "HueRotate", min: 0, max: 2 * Math.PI, step: 0.1, prettyPrint: radiantPrint },
-  // { id: "negative", name: "Negative", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
-  // { id: "flyeye", name: "FlyEye", min: 0, max: 1, step: 0.05, prettyPrint: percentagePrint },
+const tools = [
+  { id: "filter", name: "filter" },
+  { id: "contrast", name: "Contrast", min: 0, max: 4, step: 0.1 },
+  { id: "brightness", name: "Brightness", min: 0, max: 4, step: 0.1 },
+  { id: "saturation", name: "Saturation", min: 0, max: 10, step: 0.1 },
+  { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05 },
+  { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100 }
 ];
 
 const filters = [
@@ -36,7 +28,6 @@ const filters = [
   'Amaro',
   'Brannan',
   'Earlybird',
-  'Hefe',
   'Hudson',
   'Inkwell',
   'Lokofi',
@@ -63,23 +54,15 @@ const initialTonesState = {
   temp: 7000
 };
 
-const styles = StyleSheet.create({
-  fields: {
-    flexDirection: "column",
-    flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: "#EEE"
-  }
-});
-
 interface Props {
   koomToneStore: KoomToneStore
 }
 
 const EditStep = ({ koomToneStore }: Props) => {
   const [tones, setTones] = useReducer((state, newState) => ({ ...state, ...newState }), initialTonesState)
-  const [Filter, setFilter] = useState(() => Filters.Normal)
+  const [FilterComponent, setFilterComponent] = useState(() => Filters.Normal)
+  const [filter, setFilter] = useState(filters[0])
+  const [tool, setTool] = useState(tools[0])
   const navigation = useNavigation()
   const surface = useRef()
 
@@ -96,7 +79,8 @@ const EditStep = ({ koomToneStore }: Props) => {
   };
 
   const onFilterChange = (filter) => {
-    setFilter(() => Filters[filter])
+    setFilter(filter)
+    setFilterComponent(() => Filters[filter])
   }
 
   const nextStep = async () => {
@@ -109,39 +93,41 @@ const EditStep = ({ koomToneStore }: Props) => {
   return (
     <ScrollView>
       <StepBar step={'editStep'} />
-      {
-        <StyledSurface
-          ref={surface}
-          originalRatio={koomToneStore.processed.height / koomToneStore.processed.width}
-        >
-          <Filter>
-            <Tones {...tones}>
-              {{ uri: koomToneStore.processed.uri }}
-            </Tones>
-          </Filter>
-        </StyledSurface>
-      }
-      <View style={styles.fields}>
-        {fields.map(({ id, ...props }) => (
-          <Field
-            {...props}
-            key={id}
-            id={id}
-            value={tones[id]}
-            onChange={onEffectChange}
-            onReset={onEffectReset}
-          />
-        ))}
-      </View>
-      <ScrollView horizontal>
+      <StyledSurface
+        ref={surface}
+        originalRatio={koomToneStore.processed.height / koomToneStore.processed.width}
+      >
+        <FilterComponent>
+          <Tones {...tones}>
+            {{ uri: koomToneStore.processed.uri }}
+          </Tones>
+        </FilterComponent>
+      </StyledSurface>
+      <View style={{ margin: 20 }}>
         {
-          filters.map(filter => (
-            <StyledButton key={filter} onPress={() => onFilterChange(filter)}>
-              <Text color="white" bold>{filter}</Text>
-            </StyledButton>
-          ))
+          tool.name === 'filter'
+            ? <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
+              {filters.map(filterData => (
+                <FilterButton key={filterData} onPress={() => onFilterChange(filterData)} active={filterData === filter}>
+                  <Text bold>{filterData}</Text>
+                </FilterButton>
+              ))}
+            </ScrollView>
+            : <SliderView
+              {...tool}
+              value={tones[tool.id]}
+              onChange={onEffectChange}
+              onReset={onEffectReset}
+            />
         }
-      </ScrollView>
+        <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
+          {tools.map((toolData) => (
+            <StyledButton key={toolData.id} onPress={() => setTool(toolData)} active={toolData === tool}>
+              <Text bold>{toolData.name.toUpperCase()}</Text>
+            </StyledButton>
+          ))}
+        </ScrollView>
+      </View>
     </ScrollView>
   )
 }

@@ -1,9 +1,12 @@
 import React from 'react'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import { MaterialIcons } from '@expo/vector-icons'
+
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '@styles/colors'
-import { StepView, StepTextView } from './styled'
 import { Text } from '@components/common/styled'
 import { textSizes } from '@styles/sizes'
+
+import { StepView, StepTextView } from './styled'
 
 interface Props {
   step: string
@@ -49,7 +52,9 @@ const StepBar = ({ step }: Props) => {
         rotation={0}
         tintColor={PRIMARY_COLOR}
         backgroundColor={SECONDARY_COLOR}
-      />
+      >
+        {(fill) => (fill === 100 && <MaterialIcons name="check" size={32} />)}
+      </AnimatedCircularProgress>
       <StepTextView>
         <Text bold>{title}</Text>
         <Text size={textSizes.small2} color={SECONDARY_COLOR} bold>

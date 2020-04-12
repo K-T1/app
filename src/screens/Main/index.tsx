@@ -47,11 +47,11 @@ const Main = ({ userStore, koomToneStore }: Props) => {
           user
             ? user.favoritePhotos.length
               ? <FlatList
+                numColumns={3}
                 data={toJS(user.favoritePhotos)}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) =>
                   <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />}
-                numColumns={3}
               />
               : <CenterText text={`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`} />
             : <CenterText text={'please sign in.'} />

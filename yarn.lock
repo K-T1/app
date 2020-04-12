@@ -878,6 +878,13 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@brlja/react-native-slider@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@brlja/react-native-slider/-/react-native-slider-0.12.1.tgz#bc85788d8193de4f49eb1f9350ef8444f98c70ba"
+  integrity sha512-AOC+vezM6TQiMcolrfCIG1ETHYsVFoSv58fi3P9Hc42QsUPBL1M2iVcZ2fqgofu3SVMGhy6SgN0CoMZCGqTH5A==
+  dependencies:
+    prop-types "^15.5.6"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
@@ -5264,7 +5271,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==

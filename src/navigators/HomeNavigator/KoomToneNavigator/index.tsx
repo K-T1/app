@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import Logo from '@components/common/Logo'
 import Camera from '@screens/Camera'
@@ -9,7 +9,7 @@ import SourceStep from '@components/KoomTone/SourceStep'
 import ReferenceStep from '@components/KoomTone/ReferenceStep'
 import EditStep from '@components/KoomTone/EditStep'
 import ShareStep from '@components/KoomTone/ShareStep'
-import PhotoPreview from '@screens/PhotoPreview'
+import PhotoPreview from '@components/KoomTone/PhotoPreview'
 import HeaderButton from '@components/common/HeaderButton'
 
 const tabTitle = {

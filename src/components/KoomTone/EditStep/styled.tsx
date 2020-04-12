@@ -13,9 +13,16 @@ export const StyledSurface = styled(Surface)`
 `
 
 export const StyledButton = styled.TouchableOpacity`
-  color: white;
-  font-weight: bold;
-  background-color: ${PRIMARY_COLOR};
   align-items: center;
   padding: ${spaces.large1};
+  margin: 0 ${spaces.small1};
+  border-bottom-width: ${props => props.active ? 2 : 0};
+`
+
+export const FilterButton = styled.TouchableOpacity`
+  align-items: center;
+  padding: ${spaces.large1};
+  margin: 0 ${spaces.small1};
+  border: ${props => props.active ? '2px solid black' : '1px solid black'};
+  border-radius: 4px;
 `

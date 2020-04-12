@@ -71,13 +71,13 @@ export class KoomToneStore {
 
   @action
   uploadPhoto = async () => {
-    if (!this.processed) return
+    if (!this.edited) return
 
     this.rootStore.spinnerStore.show()
     await photoApi.uploadPhoto({
-      url: this.processed.uri,
-      width: this.processed.width,
-      height: this.processed.height
+      url: this.edited.uri,
+      width: this.edited.width,
+      height: this.edited.height
     })
 
     this.rootStore.photoStore.fetchPagedPhotos()

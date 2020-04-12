@@ -28,8 +28,8 @@ const shaders = Shaders.create({
                             texture2D(inputImageTexture5, vec2(gradSample.g, (1.0-texel.g))).g,
                             texture2D(inputImageTexture5, vec2(gradSample.b, (1.0-texel.b))).b
                             );
-          vec3 metal = texture2D(inputImageTexture6, uv).rgb;
-          vec3 metaled = vec3(
+        vec3 metal = texture2D(inputImageTexture6, uv).rgb;
+        vec3 metaled = vec3(
                               texture2D(inputImageTexture5, vec2(metal.r, (1.0-texel.r))).r,
                               texture2D(inputImageTexture5, vec2(metal.g, (1.0-texel.g))).g,
                               texture2D(inputImageTexture5, vec2(metal.b, (1.0-texel.b))).b

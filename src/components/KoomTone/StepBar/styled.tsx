@@ -3,7 +3,7 @@ import { spaces } from '@styles/sizes'
 
 export const StepView = styled.View`
   flex-direction: row;
-  padding: ${spaces.large1} ${spaces.large1} 0;
+  padding: ${spaces.large1};
 `
 
 export const StepTextView = styled.View`

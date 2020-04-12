@@ -1,21 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler'
+import { ScrollView, FlatList } from 'react-native-gesture-handler'
 import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import { RefreshControl } from 'react-native'
 
 import userApi from '@api/user'
-import firebase from '@configs/firebase'
-import { CircleView, CircleImage, CenterView, HR, Text } from '@components/common/styled'
+import { CircleView, CircleImage, CenterView, HR, View } from '@components/common/styled'
 import Count from '@components/common/Count'
-import { CountView, PhotoView } from '@components/UserProfile/styled'
+import { CountView } from '@components/UserProfile/styled'
 import { FULL_WIDTH } from '@utils'
 import { spaces } from '@styles/sizes'
-import { FAVORITE_COLOR } from '@styles/colors'
 import { UserStore } from '@stores/UserStore'
 import { User } from '@models/User'
 import SquareImageButton from '@components/common/SquareImageButton'
+import { toJS } from 'mobx'
 
 interface Props {
   userStore: UserStore
@@ -58,18 +57,8 @@ const UserProfile = ({ userStore }: Props) => {
     navigation.navigate(isUserProfile ? 'PhotoDetailFromUser' : 'PhotoDetailFromFeed', { photo })
   }
 
-  const signOut = () => {
-    firebase.auth().signOut()
-  }
-
   return (
-    user && <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      {
-        isUserProfile &&
-        <TouchableWithoutFeedback style={{ backgroundColor: 'white', alignItems: 'flex-end', marginRight: 10 }} onPress={signOut}>
-          <Text color={FAVORITE_COLOR} bold>sign out</Text>
-        </TouchableWithoutFeedback>
-      }
+    user && <View refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       <CenterView>
         <CircleView m={`${spaces.large4} 0`}>
           <CircleImage source={user.displayImage ? { uri: user.displayImage } : require('@assets/default-profile.png')} />
@@ -79,14 +68,15 @@ const UserProfile = ({ userStore }: Props) => {
           <Count name="TONE USAGE" count={user.usageCount} />
         </CountView>
         <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2} 0 0`} />
-        <PhotoView>
-          {
-            user.photos && user.photos.map(photo =>
-              <SquareImageButton key={photo.id} photo={photo} onPress={openPhotoDetail} withSpace />)
-          }
-        </PhotoView>
+        <FlatList
+          numColumns={3}
+          nestedScrollEnabled={true}
+          data={toJS(user.photos)}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />}
+        />
       </CenterView>
-    </ScrollView>
+    </View>
   )
 }
 

@@ -18,16 +18,17 @@ interface Props {
 const Root = ({ spinnerStore, userStore }: Props) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async user => {
+      spinnerStore.show()
       if (user) {
         const idToken = await user.getIdToken(true)
         axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
         userStore.setFirebaseUser(user)
         userStore.login(user)
-        console.log('onAuthStateChanged');
       } else {
         delete axios.defaults.headers.common['Authorization']
         userStore.signout()
       }
+      spinnerStore.hide()
     })
   }, [])
 
