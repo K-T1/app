@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Picker from 'react-native-picker-select'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
@@ -15,17 +15,24 @@ interface Props {
 }
 
 const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
+  const [albumPicker, setAlbumPicker] = useState(null)
+
   useEffect(() => {
     mediaLibraryStore.getPermission()
     mediaLibraryStore.getAllAlbum()
     mediaLibraryStore.getAssets()
   }, [mediaLibraryStore.isPermissionGranted])
 
+  const onPickerChange = (album) => {
+    setAlbumPicker(album)
+    mediaLibraryStore.getAssets(album)
+  }
+
   return (
     <View>
       <Picker
         placeholder={{ label: 'Select a albums...', value: null }}
-        onValueChange={album => mediaLibraryStore.getAssets(album)}
+        onValueChange={album => onPickerChange(album)}
         items={mediaLibraryStore.albums.map(album => ({ label: album.title, value: album }))}
         style={pickerSelectStyles}
       />
@@ -36,7 +43,7 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
           data={toJS(mediaLibraryStore.pagedAssets.assets)}
           renderItem={({ item }) =>
             <SquareImageButton key={item.id} photo={item} onPress={imageSelect} />}
-          onEndReached={mediaLibraryStore.loadMoreAssets}
+          onEndReached={() => mediaLibraryStore.loadMoreAssets(albumPicker)}
           onEndReachedThreshold={30}
         />
       }

@@ -54,11 +54,12 @@ export class MediaLibraryStore {
   }
 
   @action
-  loadMoreAssets = async () => {
+  loadMoreAssets = async (album) => {
     if (!this.pagedAssets.hasNextPage) return
 
     const newPagedAsset = await MediaLibrary.getAssetsAsync({
       ...assetsOptions,
+      album,
       after: this.pagedAssets.endCursor,
     })
 
