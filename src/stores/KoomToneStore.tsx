@@ -74,8 +74,9 @@ export class KoomToneStore {
     if (!this.edited) return
 
     this.rootStore.spinnerStore.show()
+    const url = await uploadImageToFirebase(this.edited.uri)
     await photoApi.uploadPhoto({
-      url: this.edited.uri,
+      url,
       width: this.edited.width,
       height: this.edited.height
     })
