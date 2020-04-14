@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Picker from 'react-native-picker-select'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import { TouchableWithoutFeedback, FlatList } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native-gesture-handler'
 import { toJS } from 'mobx'
 
-import { pickerSelectStyles, View, Text } from '@components/common/styled'
+import { pickerSelectStyles, View } from '@components/common/styled'
 import { MediaLibraryStore } from '@stores/MediaLibraryStore'
+
 import SquareImageButton from '../SquareImageButton'
 
 interface Props {

@@ -29,7 +29,7 @@ const PhotoDetail = ({ koomToneStore, userStore, photoStore }: Props) => {
   const { id, url: uri, width, height, usageCount, favorite } = photo
 
   useEffect(() => {
-    navigation.setParams({ deletePost, isOwner: userStore.user.id === photo.owner.id })
+    navigation.setParams({ deletePost, isOwner: userStore.user && (userStore.user.id === photo.owner.id) })
   }, [])
 
   const useTone = () => {

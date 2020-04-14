@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import axios from 'axios'
+import { useNavigation } from 'react-navigation-hooks'
+import { AppLoading } from 'expo'
+import { AsyncStorage } from 'react-native';
 
 import firebase from '@configs/firebase'
-import AppNavigator from '@navigators/index'
-import Spinner from '@components/common/Spinner'
 import { SpinnerStore } from '@stores/SpinnerStore'
 import { UserStore } from '@stores/UserStore'
 
@@ -15,7 +15,9 @@ interface Props {
   userStore: UserStore
 }
 
-const Root = ({ spinnerStore, userStore }: Props) => {
+const AuthLoading = ({ spinnerStore, userStore }: Props) => {
+  const navigation = useNavigation()
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async user => {
       spinnerStore.show()
@@ -23,21 +25,22 @@ const Root = ({ spinnerStore, userStore }: Props) => {
         const idToken = await user.getIdToken(true)
         axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
         userStore.setFirebaseUser(user)
-        userStore.login(user)
+        await userStore.login(user)
+        await AsyncStorage.setItem('loggedInOnce', 'true')
       } else {
         delete axios.defaults.headers.common['Authorization']
         userStore.signout()
+        const isLoggedInOnce = await AsyncStorage.getItem('loggedInOnce') === null
+        if (isLoggedInOnce) {
+          navigation.navigate('ColdStart')
+        }
       }
+      navigation.navigate('FeedNavigator')
       spinnerStore.hide()
     })
   }, [])
 
-  return (
-    <SafeAreaProvider>
-      <AppNavigator />
-      {spinnerStore.display && <Spinner />}
-    </SafeAreaProvider>
-  )
+  return <AppLoading />
 }
 
 export default compose(
@@ -46,4 +49,4 @@ export default compose(
     userStore: rootStore.userStore
   })),
   observer
-)(Root)
+)(AuthLoading)

@@ -3,7 +3,7 @@ import { observable, action } from 'mobx'
 import userApi from '@api/user'
 import { User } from '@models/User'
 
-import { RootStore, rootStore } from './RootStore'
+import { RootStore } from './RootStore'
 
 export class UserStore {
   rootStore: RootStore
@@ -24,8 +24,8 @@ export class UserStore {
   }
 
   @action
-  setFirebaseUser = async (user: firebase.User) => {
-    this.firebaseUser = user
+  setFirebaseUser = (firebaseUser: firebase.User) => {
+    this.firebaseUser = firebaseUser
   }
 
   @action

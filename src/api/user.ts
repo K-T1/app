@@ -10,9 +10,7 @@ export default {
     return user
   },
   async login(uid) {
-    const { data: user } = await axios.post(`${USER_API_URL}/login`, {
-      uid
-    })
+    const { data: user } = await axios.post(`${USER_API_URL}/login`, { uid })
     return user
   },
   async getUser(uid) {

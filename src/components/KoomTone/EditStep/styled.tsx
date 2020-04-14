@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Surface } from "gl-react-expo"
 import { FULL_WIDTH } from '@utils'
-import { PRIMARY_COLOR } from '@styles/colors'
 import { spaces } from '@styles/sizes'
 
 export const StyledSurface = styled(Surface)`
@@ -25,4 +24,8 @@ export const FilterButton = styled.TouchableOpacity`
   margin: 0 ${spaces.small1};
   border: ${props => props.active ? '2px solid black' : '1px solid black'};
   border-radius: 4px;
+`
+
+export const ToolView = styled.View`
+  margin: 20px 20px 40px;
 `

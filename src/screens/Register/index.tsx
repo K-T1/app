@@ -1,14 +1,14 @@
 import React, { useReducer } from 'react'
-import userApi from '@api/user'
-
-import { KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, KeyboardAvoidingView } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
 
-import { CenterSAV, LimitView, Text } from '@components/common/styled'
+import userApi from '@api/user'
+import { LimitView, Text, CenterContainer, SafeAreaView } from '@components/common/styled'
 import InputForm from '@components/common/InputForm';
 import Button from '@components/common/Button';
 import { textSizes, spaces } from '@styles/sizes'
-import user from '@api/user';
+import HeaderButton from '@components/common/HeaderButton';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const registerInput = [
   { name: 'displayName', },
@@ -34,45 +34,50 @@ const Register = ({ navigation }: Props) => {
     setInput({ [inputName]: value })
   }
 
-  const register = async() => {
+  const register = async () => {
     setError(initInput)
     try {
       const response = await userApi.validteRegister(input);
-      if(response === 'Pass') {
+      if (response === 'Pass') {
         navigation.navigate('ProfilePicker', { registerDetail: input })
       }
     }
-    catch(error) {
+    catch (error) {
       setError(error.response.data);
     }
   }
 
   return (
-    <ScrollView contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
-      <CenterSAV>
-        <LimitView>
+    <SafeAreaView>
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <View style={{ alignItems: 'flex-start' }}>
+          <HeaderButton onPress={() => navigation.navigate('User')} title="close" />
+        </View>
+        <CenterContainer style={{ top: -20, zIndex: -1 }}>
           <KeyboardAvoidingView>
-            <Text size={textSizes.large1} margin={spaces.large3} bold>Register</Text>
-            {
-              registerInput.map(({ name }) => (
-                <LimitView key={name+'view'}>
-                  <Text color="red" key={name+'error'}>{error[name]}</Text>
-                  <InputForm
-                    key={name}
-                    name={name}
-                    value={input[name]}
-                    onChangeText={handleInput}
-                  />
-                </LimitView>
-              ))
-            }
-            <Button margin={`${spaces.large3} 0`} onPress={register}>
-              register
-              </Button>
+            <LimitView>
+              <Text size={textSizes.large1} margin={spaces.large3} bold>Register</Text>
+              {
+                registerInput.map(({ name }) => (
+                  <LimitView key={name + 'view'}>
+                    <Text color="red" key={name + 'error'}>{error[name]}</Text>
+                    <InputForm
+                      key={name}
+                      name={name}
+                      value={input[name]}
+                      onChangeText={handleInput}
+                    />
+                  </LimitView>
+                ))
+              }
+              <Button margin={`${spaces.large3} 0`} onPress={register}>
+                register
+            </Button>
+            </LimitView>
           </KeyboardAvoidingView>
-        </LimitView>
-      </CenterSAV>
-    </ScrollView>
+        </CenterContainer>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

@@ -6,13 +6,12 @@ import { compose } from 'recompose'
 import { FlatList } from 'react-native-gesture-handler'
 import { toJS } from 'mobx'
 
-import { CenterSAV, Text, LimitView } from '@components/common/styled'
+import { CenterSAV, Text, LimitView, CenterContainer } from '@components/common/styled'
 import Button from '@components/common/Button'
 import { UserStore } from '@stores/UserStore'
 import { KoomToneStore } from '@stores/KoomToneStore'
 import { FULL_WIDTH } from '@utils'
 import SquareImageButton from '@components/common/SquareImageButton'
-import { spaces, textSizes } from '@styles/sizes'
 
 interface Props {
   userStore: UserStore
@@ -33,11 +32,11 @@ const Main = ({ userStore, koomToneStore }: Props) => {
   }
 
   const CenterText = ({ text }) => (
-    <CenterSAV>
+    <CenterContainer>
       <Text>
         {text}
       </Text>
-    </CenterSAV>
+    </CenterContainer>
   )
 
   return (
@@ -54,7 +53,7 @@ const Main = ({ userStore, koomToneStore }: Props) => {
                   <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />}
               />
               : <CenterText text={`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`} />
-            : <CenterText text={'please sign in.'} />
+            : <CenterText text={'sign in to see your favorite\'s photo.'} />
         }
       </View>
       <LimitView>

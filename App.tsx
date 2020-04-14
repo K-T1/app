@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import { Provider } from 'mobx-react'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import AppNavigator from '@navigators/index'
 import { Ionicons } from '@expo/vector-icons';
 import { rootStore } from '@stores/RootStore'
-import Root from '@screens/index'
+import Spinner from '@components/common/Spinner';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false)
@@ -27,7 +29,10 @@ const App = () => {
 
   return isReady ? (
     <Provider rootStore={rootStore}>
-      <Root />
+      <SafeAreaProvider>
+        <AppNavigator />
+        <Spinner />
+      </SafeAreaProvider>
     </Provider>
   ) : <AppLoading />;
 }

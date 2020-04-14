@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { useNavigation } from 'react-navigation-hooks'
 import { MaterialIcons } from '@expo/vector-icons'
+import Toast from 'react-native-root-toast'
 
 import { ResizeImage, ScrollView, LimitView, CenterContainer, Text } from '@components/common/styled'
 import Button from '@components/common/Button'
@@ -22,15 +23,27 @@ interface Props {
 const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
   const navigation = useNavigation()
 
+  const showToast = (message) => {
+    Toast.show(message, { position: Toast.positions.CENTER })
+  }
+
   const saveToGallery = async () => {
-    if (koomToneStore.edited) {
+    try {
       await mediaLibraryStore.saveToLibrary(koomToneStore.edited.uri)
+      showToast('Download complete')
+    } catch (error) {
+      console.error(error)
+      showToast('Download fail please try again.')
     }
   }
 
   const shareToKoomTone = async () => {
-    if (koomToneStore.edited) {
+    try {
       await koomToneStore.uploadPhoto()
+      showToast('Upload complete')
+    } catch (error) {
+      console.error(error)
+      showToast('Upload fail please try again.')
     }
   }
 

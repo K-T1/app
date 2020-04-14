@@ -2,7 +2,7 @@ import React from 'react'
 import { NavigationStackProp } from 'react-navigation-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { View } from '@components/common/styled'
+import { View, CenterSAV } from '@components/common/styled'
 import MediaLibraryView from '@components/common/MediaLibraryView'
 
 interface Props {
@@ -23,9 +23,9 @@ const ImagePicker = ({ navigation }: Props) => {
 
   return (
     <View contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
-      <SafeAreaView>
+      <CenterSAV>
         <MediaLibraryView imageSelect={imageSelect} />
-      </SafeAreaView>
+      </CenterSAV>
     </View>
   )
 }

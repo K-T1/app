@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { StyleSheet } from 'react-native'
-import { ScrollView as RNGHScrollView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView as RNScrollView } from 'react-native-gesture-handler'
+import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context'
 
 import { SECONDARY_COLOR } from '@styles/colors'
 import { textSizes } from '@styles/sizes'
@@ -44,7 +44,7 @@ export const ResizeImage = styled.Image`
   `}
 `
 
-export const CenterSAV = styled(SafeAreaView)`
+export const CenterSAV = styled(RNSafeAreaView)`
   ${center}
   background-color: white;
 `
@@ -81,11 +81,15 @@ export const CircleImage = styled.Image`
   ${circle}
 `
 
-export const ScrollView = styled(RNGHScrollView)`
+export const ScrollView = styled(RNScrollView)`
   ${flex1}
 `
 
 export const View = styled.View`
+  ${flex1}
+`
+
+export const SafeAreaView = styled(RNSafeAreaView)`
   ${flex1}
 `
 

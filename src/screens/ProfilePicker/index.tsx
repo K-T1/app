@@ -12,6 +12,7 @@ import { textSizes, spaces } from '@styles/sizes'
 import { SpinnerStore } from '@stores/SpinnerStore'
 import { UserStore } from '@stores/UserStore';
 import { uploadImageToFirebase } from '@utils';
+import { Asset } from 'expo-media-library';
 
 interface Props {
   navigation: NavigationStackProp
@@ -20,20 +21,26 @@ interface Props {
 }
 
 const ProfilePicker = ({ navigation, spinnerStore, userStore }: Props) => {
-  const [asset, setAsset] = useState({ id: '', uri: '' })
+  const [asset, setAsset] = useState<Asset>()
 
   const register = async () => {
     spinnerStore.show()
     const registerDetail = navigation.getParam('registerDetail')
-    firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password).then(() => {
-      registerDetail.uid = firebase.auth().currentUser.uid
-    })
-    registerDetail.displayImage = await uploadImageToFirebase(asset.uri)
+    firebase.auth().createUserWithEmailAndPassword(registerDetail.email, registerDetail.password)
+      .then(async () => {
+        registerDetail.uid = firebase.auth().currentUser.uid
+        if (asset) {
+          registerDetail.displayImage = await uploadImageToFirebase(asset.uri)
+        }
 
-    await userStore.register(registerDetail)
+        await userStore.register(registerDetail)
 
-    spinnerStore.hide()
-    navigation.navigate('Feed')
+        spinnerStore.hide()
+        navigation.navigate('Feed')
+      })
+      .catch(err => {
+        console.error(err)
+      })
   }
 
   const openImagePicker = () => {
@@ -52,7 +59,7 @@ const ProfilePicker = ({ navigation, spinnerStore, userStore }: Props) => {
           <TouchableWithoutFeedback onPress={openImagePicker}>
             <CircleView m={`${spaces.large5} 0`}>
               {
-                asset.uri ? <CircleImage source={{ uri: asset.uri }} /> : <Text>tap to select image</Text>
+                asset ? <CircleImage source={{ uri: asset.uri }} /> : <Text>tap to select image</Text>
               }
             </CircleView>
           </TouchableWithoutFeedback>

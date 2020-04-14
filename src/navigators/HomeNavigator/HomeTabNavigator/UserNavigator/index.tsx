@@ -13,7 +13,7 @@ const UserStackNavigator = createStackNavigator({
     screen: User,
     navigationOptions: ({ navigation }) => ({
       title: navigation.getParam('displayName'),
-      headerRight: () => navigation.state.routeName === 'User' && <HeaderButton onPress={() => firebase.auth().signOut()} textColor={FAVORITE_COLOR} title="sign out" />
+      headerRight: () => navigation.getParam('isShowSignout') && <HeaderButton onPress={() => firebase.auth().signOut()} textColor={FAVORITE_COLOR} title="sign out" />
     })
   },
   PreSignIn,
