@@ -65,10 +65,10 @@ export class KoomToneStore {
 
     this.rootStore.spinnerStore.show()
 
-    // const processedUri = await photoApi.processImage(this.source.uri, this.reference.uri, this.reference.id)
-    // this.setProcessed({ uri: processedUri, width: this.source.width, height: this.source.height })
+    const processedUri = await photoApi.processImage(this.source.uri, this.reference.uri, this.reference.id)
+    this.setProcessed({ uri: processedUri, width: this.source.width, height: this.source.height })
 
-    this.setProcessed({ uri: this.source.uri, width: this.source.width, height: this.source.height })
+    // this.setProcessed({ uri: this.source.uri, width: this.source.width, height: this.source.height })
 
     this.rootStore.spinnerStore.hide()
   }
