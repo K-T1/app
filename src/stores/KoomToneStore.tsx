@@ -5,7 +5,6 @@ import { PhotoData } from '@models/PhotoData'
 import { uploadImageToFirebase } from '@utils'
 
 import { RootStore } from './RootStore'
-import { Image } from 'react-native'
 
 export class KoomToneStore {
   rootStore: RootStore
