@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "tslint --project ."
   },
   "dependencies": {
     "@brlja/react-native-slider": "^0.12.1",
@@ -62,7 +63,8 @@
     "lint-staged": "^10.1.3",
     "prettier": "^2.0.4",
     "tslint": "^6.1.1",
-    "typescript": "~3.6.3"
+    "typescript": "~3.6.3",
+    "typescript-tslint-plugin": "^0.5.5"
   },
   "private": true
 }
