@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const shaders = Shaders.create({
@@ -19,19 +19,22 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class Nashville extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.Nashville}
-      uniforms={{
-        inputImageTexture,
-        inputImageTexture2: resolveAssetSource(require('@assets/resources/nashvilleMap.png')),
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.Nashville}
+        uniforms={{
+          inputImageTexture,
+          inputImageTexture2: resolveAssetSource(require('@assets/resources/nashvilleMap.png')),
+        }}
+      />
+    )
   }
 }

@@ -28,26 +28,26 @@ export class PhotoStore {
     const newPagedPhotos = await photoApi.fetchPagedPhotos(this.pagedPhotos.currentPage + 1)
     this.pagedPhotos = {
       ...newPagedPhotos,
-      data: this.pagedPhotos.data.concat(newPagedPhotos.data)
+      data: this.pagedPhotos.data.concat(newPagedPhotos.data),
     }
   }
 
   @action
-  favPhoto = async (photoId) => {
+  favPhoto = async photoId => {
     await photoApi.favPhoto(photoId)
     this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = true
     this.rootStore.userStore.fetchCurrentUser()
   }
 
   @action
-  unfavPhoto = async (photoId) => {
+  unfavPhoto = async photoId => {
     await photoApi.unfavPhoto(photoId)
     this.pagedPhotos.data.find(photo => photo.id === photoId).viewerLiked = false
     this.rootStore.userStore.fetchCurrentUser()
   }
 
   @action
-  softDeletePhoto = async (photoId) => {
+  softDeletePhoto = async photoId => {
     await photoApi.deletePhoto(photoId)
 
     this.fetchPagedPhotos()

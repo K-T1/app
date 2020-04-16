@@ -1,5 +1,5 @@
 module.exports = function (api) {
-  api.cache(true);
+  api.cache(true)
   return {
     presets: ['babel-preset-expo'],
     plugins: [
@@ -15,19 +15,19 @@ module.exports = function (api) {
           root: ['./src'],
           extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
           alias: {
-            "@api": "./src/api",
-            "@assets": "./src/assets",
-            "@components": "./src/components",
-            "@configs": "./src/configs",
-            "@models": "./src/models",
-            "@navigators": "./src/navigators",
-            "@screens": "./src/screens",
-            "@stores": "./src/stores",
-            "@styles": "./src/styles",
-            "@utils": "./src/utils"
-          }
-        }
-      ]
+            '@api': './src/api',
+            '@assets': './src/assets',
+            '@components': './src/components',
+            '@configs': './src/configs',
+            '@models': './src/models',
+            '@navigators': './src/navigators',
+            '@screens': './src/screens',
+            '@stores': './src/stores',
+            '@styles': './src/styles',
+            '@utils': './src/utils',
+          },
+        },
+      ],
     ],
   }
 }

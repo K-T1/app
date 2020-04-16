@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 
 const shaders = Shaders.create({
   FlyEye: {
@@ -17,15 +17,15 @@ void main () {
   );
 }`,
   },
-});
+})
 
 export default class FlyEye extends Component {
   props: {
-    value: number,
-    children?: any,
-  };
+    value: number
+    children?: any
+  }
   render() {
-    const { children: t, value } = this.props;
-    return <Node shader={shaders.FlyEye} uniforms={{ t, value }} />;
+    const { children: t, value } = this.props
+    return <Node shader={shaders.FlyEye} uniforms={{ t, value }} />
   }
 }

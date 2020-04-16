@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const shaders = Shaders.create({
@@ -17,19 +17,22 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class Inkwell extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.Inkwell}
-      uniforms={{
-        inputImageTexture,
-        inputImageTexture2: resolveAssetSource(require('@assets/resources/inkwellMap.png')),
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.Inkwell}
+        uniforms={{
+          inputImageTexture,
+          inputImageTexture2: resolveAssetSource(require('@assets/resources/inkwellMap.png')),
+        }}
+      />
+    )
   }
 }

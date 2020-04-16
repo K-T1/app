@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders, connectSize } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders, connectSize } from 'gl-react'
 
 const shaders = Shaders.create({
   blur1D: {
@@ -23,7 +23,7 @@ void main () {
   gl_FragColor = blur9(t, uv, resolution, direction);
 }`,
   },
-});
+})
 
 const Blur1D = ({ width, height, pixelRatio, direction, children: t }) => (
   <Node
@@ -37,60 +37,58 @@ const Blur1D = ({ width, height, pixelRatio, direction, children: t }) => (
       t,
     }}
   />
-);
+)
 
-const NORM = Math.sqrt(2) / 2;
+const NORM = Math.sqrt(2) / 2
 
 function directionForPass(p, factor, total) {
-  const f = factor * 2 * Math.ceil(p / 2) / total;
-  switch ((p - 1) % 4) { // alternate horizontal, vertical and 2 diagonals
+  const f = (factor * 2 * Math.ceil(p / 2)) / total
+  switch (
+    (p - 1) %
+    4 // alternate horizontal, vertical and 2 diagonals
+  ) {
     case 0:
-      return [f, 0];
+      return [f, 0]
     case 1:
-      return [0, f];
+      return [0, f]
     case 2:
-      return [f * NORM, f * NORM];
+      return [f * NORM, f * NORM]
     case 3:
-      return [f * NORM, -f * NORM];
+      return [f * NORM, -f * NORM]
   }
 }
 
 export default connectSize(
   class Blur extends Component {
     props: {
-      factor: number,
-      children?: any,
-      passes: number,
-      width: any,
-      height: any,
-      pixelRatio: number,
-    };
+      factor: number
+      children?: any
+      passes: number
+      width: any
+      height: any
+      pixelRatio: number
+    }
 
     static defaultProps = {
       passes: 2,
-    };
+    }
 
     render() {
-      const {
-        width,
-        height,
-        pixelRatio,
-        factor,
-        children,
-        passes,
-      } = this.props;
+      const { width, height, pixelRatio, factor, children, passes } = this.props
       const rec = pass =>
-        (pass <= 0
-          ? children
-          : <Blur1D
+        pass <= 0 ? (
+          children
+        ) : (
+          <Blur1D
             width={width}
             height={height}
             pixelRatio={pixelRatio}
             direction={directionForPass(pass, factor, passes)}
           >
             {rec(pass - 1)}
-          </Blur1D>);
-      return rec(passes);
+          </Blur1D>
+        )
+      return rec(passes)
     }
-  }
-);
+  },
+)

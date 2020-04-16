@@ -9,15 +9,17 @@ import { Container } from './styled'
 
 const Spinner = ({ spinnerStore }: { spinnerStore: SpinnerStore }) => {
   return (
-    spinnerStore.display && <Container>
-      <UIActivityIndicator color="white" size={50} />
-    </Container>
+    spinnerStore.display && (
+      <Container>
+        <UIActivityIndicator color="white" size={50} />
+      </Container>
+    )
   )
 }
 
 export default compose(
   inject(({ rootStore }) => ({
-    spinnerStore: rootStore.spinnerStore
+    spinnerStore: rootStore.spinnerStore,
   })),
-  observer
+  observer,
 )(Spinner)

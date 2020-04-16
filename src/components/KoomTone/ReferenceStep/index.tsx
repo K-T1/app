@@ -8,7 +8,7 @@ import MediaLibraryView from '@components/common/MediaLibraryView'
 const ReferenceStep = () => {
   const navigation = useNavigation()
 
-  const imageSelect = (asset) => {
+  const imageSelect = asset => {
     navigation.navigate('PhotoPreviewFromReference', { asset })
   }
 

@@ -1,21 +1,21 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
 import Slider from '@brlja/react-native-slider'
 
-import { SECONDARY_COLOR } from "@styles/colors";
+import { SECONDARY_COLOR } from '@styles/colors'
 
 const styles = StyleSheet.create({
   field: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     width: 120,
-    textAlign: "right",
-    fontSize: 14
+    textAlign: 'right',
+    fontSize: 14,
   },
   value: {
-    width: 80
+    width: 80,
   },
   range: {
     flex: 1,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   track: {
     height: 2,
     borderRadius: 2,
-    backgroundColor: SECONDARY_COLOR
+    backgroundColor: SECONDARY_COLOR,
   },
   thumb: {
     width: 25,
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: SECONDARY_COLOR,
     borderWidth: 2,
-  }
-});
+  },
+})
 
 interface Props {
   value: number
@@ -61,10 +61,10 @@ const SliderView = ({ value, id, min, max, step, onChange, onReset }: Props) => 
         maximumValue={max}
         step={step || 0.01}
         value={value}
-        onValueChange={(newValue) => onChange(newValue, id)}
+        onValueChange={newValue => onChange(newValue, id)}
       />
     </View>
-  );
+  )
 }
 
 export default SliderView

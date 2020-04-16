@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { FULL_WIDTH } from "@utils"
+import { FULL_WIDTH } from '@utils'
 
 const imageFullWidth = FULL_WIDTH * 0.3333
 const imageWidthWithSpace = FULL_WIDTH * 0.3

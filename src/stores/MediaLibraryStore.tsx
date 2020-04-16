@@ -6,7 +6,7 @@ import { RootStore } from './RootStore'
 
 const assetsOptions = {
   first: 60,
-  sortBy: MediaLibrary.SortBy.creationTime
+  sortBy: MediaLibrary.SortBy.creationTime,
 }
 
 export class MediaLibraryStore {
@@ -27,14 +27,16 @@ export class MediaLibraryStore {
 
   @action
   getPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
 
     this.isPermissionGranted = status === 'granted'
   }
 
   @action
   getAllAlbum = async () => {
-    if (!this.isPermissionGranted) { return }
+    if (!this.isPermissionGranted) {
+      return
+    }
 
     const albumsReponse = await MediaLibrary.getAlbumsAsync()
     const albumsFiltered = albumsReponse.filter(album => album.id)
@@ -44,17 +46,22 @@ export class MediaLibraryStore {
 
   @action
   getAssets = async (selectedAlbum = null) => {
-    if (!this.isPermissionGranted) { return }
+    if (!this.isPermissionGranted) {
+      return
+    }
 
     if (selectedAlbum) {
-      this.pagedAssets = await MediaLibrary.getAssetsAsync({ ...assetsOptions, album: selectedAlbum.id })
+      this.pagedAssets = await MediaLibrary.getAssetsAsync({
+        ...assetsOptions,
+        album: selectedAlbum.id,
+      })
     } else {
       this.pagedAssets = await MediaLibrary.getAssetsAsync(assetsOptions)
     }
   }
 
   @action
-  loadMoreAssets = async (album) => {
+  loadMoreAssets = async album => {
     if (!this.pagedAssets.hasNextPage) return
 
     const newPagedAsset = await MediaLibrary.getAssetsAsync({
@@ -70,8 +77,10 @@ export class MediaLibraryStore {
   }
 
   @action
-  saveToLibrary = async (localUri) => {
-    if (!this.isPermissionGranted) { return }
+  saveToLibrary = async localUri => {
+    if (!this.isPermissionGranted) {
+      return
+    }
 
     if (localUri) {
       await MediaLibrary.saveToLibraryAsync(localUri)

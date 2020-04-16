@@ -8,10 +8,7 @@
     ],
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
@@ -19,36 +16,16 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
-      "@api/*": [
-        "src/api/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@configs/*": [
-        "src/configs/*"
-      ],
-      "@models/*": [
-        "src/models/*"
-      ],
-      "@navigators/*": [
-        "src/navigators/*"
-      ],
-      "@screens/*": [
-        "src/screens/*"
-      ],
-      "@stores/*": [
-        "src/stores/*"
-      ],
-      "@styles/*": [
-        "src/styles/*"
-      ],
-      "@utils": [
-        "src/utils"
-      ]
+      "@api/*": ["src/api/*"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@configs/*": ["src/configs/*"],
+      "@models/*": ["src/models/*"],
+      "@navigators/*": ["src/navigators/*"],
+      "@screens/*": ["src/screens/*"],
+      "@stores/*": ["src/stores/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils": ["src/utils"]
     }
   }
 }

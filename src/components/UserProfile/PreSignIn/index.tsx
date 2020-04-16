@@ -15,8 +15,7 @@ const PreSignIn = ({ userStore }: Props) => {
   const navigation = useNavigation()
 
   useEffect(() => {
-    if (userStore.firebaseUser)
-      navigation.navigate('UserProfile')
+    if (userStore.firebaseUser) navigation.navigate('UserProfile')
   }, [])
 
   const login = () => {
@@ -27,9 +26,13 @@ const PreSignIn = ({ userStore }: Props) => {
     <CenterSAV>
       <LimitView>
         <CenterView>
-          <Text size={textSizes.large5} bold>share your own style</Text>
+          <Text size={textSizes.large5} bold>
+            share your own style
+          </Text>
           <Text margin={spaces.large3}>koom.tone</Text>
-          <Button margin={'10px 0'} onPress={login}>sign in</Button>
+          <Button margin={'10px 0'} onPress={login}>
+            sign in
+          </Button>
         </CenterView>
       </LimitView>
     </CenterSAV>
@@ -38,7 +41,7 @@ const PreSignIn = ({ userStore }: Props) => {
 
 export default compose(
   inject(({ rootStore }) => ({
-    userStore: rootStore.userStore
+    userStore: rootStore.userStore,
   })),
-  observer
+  observer,
 )(PreSignIn)

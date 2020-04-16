@@ -49,10 +49,12 @@ const FeedItem = ({ photo, photoStore, isLoggedIn }: Props) => {
       </TouchableWithoutFeedback>
       <ItemBarView>
         <TouchableWithoutFeedback onPress={openUserProfile}>
-          <Text style={{ marginRight: 10 }} >{owner.displayName}</Text>
+          <Text style={{ marginRight: 10 }}>{owner.displayName}</Text>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={toggleFavorite}>
-          <Text color={viewerLiked ? FAVORITE_COLOR : SECONDARY_COLOR} bold>favorite</Text>
+          <Text color={viewerLiked ? FAVORITE_COLOR : SECONDARY_COLOR} bold>
+            favorite
+          </Text>
         </TouchableWithoutFeedback>
       </ItemBarView>
     </FeedItemView>
@@ -63,5 +65,5 @@ export default compose(
   inject(({ rootStore }) => ({
     photoStore: rootStore.photoStore,
   })),
-  observer
+  observer,
 )(FeedItem)

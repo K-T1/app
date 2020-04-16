@@ -25,7 +25,14 @@ const flex1 = css`
 `
 
 export const Text = styled.Text`
-  ${({ size = textSizes.small1, color = 'black', bold, underline, margin = 0, align = 'left' }) => css`
+  ${({
+    size = textSizes.small1,
+    color = 'black',
+    bold,
+    underline,
+    margin = 0,
+    align = 'left',
+  }) => css`
     font-family: 'public-sans';
     ${size};
     color: ${color};
@@ -114,4 +121,4 @@ export const pickerSelectStyles = StyleSheet.create({
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
-});
+})

@@ -29,7 +29,10 @@ const PhotoDetail = ({ koomToneStore, userStore, photoStore }: Props) => {
   const { id, url: uri, width, height, usageCount, favorite } = photo
 
   useEffect(() => {
-    navigation.setParams({ deletePost, isOwner: userStore.user && (userStore.user.id === photo.owner.id) })
+    navigation.setParams({
+      deletePost,
+      isOwner: userStore.user && userStore.user.id === photo.owner.id,
+    })
   }, [])
 
   const useTone = () => {
@@ -51,8 +54,8 @@ const PhotoDetail = ({ koomToneStore, userStore, photoStore }: Props) => {
         { text: 'cancel', style: 'cancel' },
         { text: 'delete', onPress: deleteConfirm },
       ],
-      { cancelable: false }
-    );
+      { cancelable: false },
+    )
   }
 
   return (
@@ -73,15 +76,21 @@ const PhotoDetail = ({ koomToneStore, userStore, photoStore }: Props) => {
 PhotoDetail.navigationOptions = ({ navigation }) => ({
   headerLeft: () => <HeaderButton onPress={() => navigation.goBack(null)} title="close" />,
   title: navigation.getParam('photo').owner.displayName,
-  headerRight: () => navigation.getParam('isOwner') &&
-    <HeaderButton onPress={navigation.getParam('deletePost')} title="delete" textColor={FAVORITE_COLOR} />,
+  headerRight: () =>
+    navigation.getParam('isOwner') && (
+      <HeaderButton
+        onPress={navigation.getParam('deletePost')}
+        title="delete"
+        textColor={FAVORITE_COLOR}
+      />
+    ),
 })
 
 export default compose(
   inject(({ rootStore }) => ({
     koomToneStore: rootStore.koomToneStore,
     userStore: rootStore.userStore,
-    photoStore: rootStore.photoStore
+    photoStore: rootStore.photoStore,
   })),
-  observer
+  observer,
 )(PhotoDetail)

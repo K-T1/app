@@ -11,7 +11,9 @@ interface Props {
 
 const Button = ({ children, margin, onPress }: Props) => (
   <StyledButton margin={margin} onPress={onPress} style={{ width: '100%' }}>
-    <Text color="white" bold>{children}</Text>
+    <Text color="white" bold>
+      {children}
+    </Text>
   </StyledButton>
 )
 

@@ -29,30 +29,27 @@ const Feed = ({ photoStore, userStore }: Props) => {
   }, [refreshing])
 
   return (
-    photoStore.pagedPhotos && <FlatList
-      data={toJS(photoStore.pagedPhotos.data)}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item }) => (
-        <FeedItem
-          photo={item}
-          isLoggedIn={userStore.user != null}
-        />
-      )}
-      onEndReached={photoStore.loadMorePhotos}
-      onEndReachedThreshold={30}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-    />
+    photoStore.pagedPhotos && (
+      <FlatList
+        data={toJS(photoStore.pagedPhotos.data)}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <FeedItem photo={item} isLoggedIn={userStore.user != null} />}
+        onEndReached={photoStore.loadMorePhotos}
+        onEndReachedThreshold={30}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      />
+    )
   )
 }
 
 Feed.navigationOptions = {
-  headerTitle: () => <Logo />
+  headerTitle: () => <Logo />,
 }
 
 export default compose(
   inject(({ rootStore }) => ({
     photoStore: rootStore.photoStore,
-    userStore: rootStore.userStore
+    userStore: rootStore.userStore,
   })),
-  observer
+  observer,
 )(Feed)

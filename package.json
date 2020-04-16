@@ -6,7 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "tslint --project ."
+    "lint": "prettier --write .; tslint --project ."
   },
   "dependencies": {
     "@brlja/react-native-slider": "^0.12.1",

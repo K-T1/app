@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const shaders = Shaders.create({
@@ -35,23 +35,26 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class Sutro extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.Sutro}
-      uniforms={{
-        inputImageTexture,
-        inputImageTexture2: resolveAssetSource(require('@assets/resources/vignetteMap.png')),
-        inputImageTexture3: resolveAssetSource(require('@assets/resources/sutroMetal.png')),
-        inputImageTexture4: resolveAssetSource(require('@assets/resources/softLight.png')),
-        inputImageTexture5: resolveAssetSource(require('@assets/resources/sutroEdgeBurn.png')),
-        inputImageTexture6: resolveAssetSource(require('@assets/resources/sutroCurves.png'))
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.Sutro}
+        uniforms={{
+          inputImageTexture,
+          inputImageTexture2: resolveAssetSource(require('@assets/resources/vignetteMap.png')),
+          inputImageTexture3: resolveAssetSource(require('@assets/resources/sutroMetal.png')),
+          inputImageTexture4: resolveAssetSource(require('@assets/resources/softLight.png')),
+          inputImageTexture5: resolveAssetSource(require('@assets/resources/sutroEdgeBurn.png')),
+          inputImageTexture6: resolveAssetSource(require('@assets/resources/sutroCurves.png')),
+        }}
+      />
+    )
   }
 }

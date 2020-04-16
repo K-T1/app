@@ -9,19 +9,27 @@ import UserNavigator from './UserNavigator'
 const tabTitle = {
   FeedNavigator: 'FEED',
   MainNavigator: null,
-  UserNavigator: 'USER'
+  UserNavigator: 'USER',
 }
 
-const HomeTabNavigator = createBottomTabNavigator({
-  FeedNavigator,
-  MainNavigator,
-  UserNavigator
-}, {
-  initialRouteName: 'FeedNavigator',
-  defaultNavigationOptions: ({ navigation }) => ({
-    tabBarButtonComponent: props =>
-      <BottomTabBar routeName={tabTitle[navigation.state.routeName]} active={navigation.isFocused()}  {...props} />
-  })
-})
+const HomeTabNavigator = createBottomTabNavigator(
+  {
+    FeedNavigator,
+    MainNavigator,
+    UserNavigator,
+  },
+  {
+    initialRouteName: 'FeedNavigator',
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarButtonComponent: props => (
+        <BottomTabBar
+          routeName={tabTitle[navigation.state.routeName]}
+          active={navigation.isFocused()}
+          {...props}
+        />
+      ),
+    }),
+  },
+)
 
 export default HomeTabNavigator

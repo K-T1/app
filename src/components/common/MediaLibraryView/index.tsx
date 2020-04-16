@@ -24,7 +24,7 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
     mediaLibraryStore.getAssets()
   }, [mediaLibraryStore.isPermissionGranted])
 
-  const onPickerChange = (album) => {
+  const onPickerChange = album => {
     setAlbumPicker(album)
     mediaLibraryStore.getAssets(album)
   }
@@ -34,20 +34,24 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
       <Picker
         placeholder={{ label: 'Select a albums...', value: null }}
         onValueChange={album => onPickerChange(album)}
-        items={mediaLibraryStore.albums.map(album => ({ label: album.title, value: album }))}
+        items={mediaLibraryStore.albums.map(album => ({
+          label: album.title,
+          value: album,
+        }))}
         style={pickerSelectStyles}
       />
-      {mediaLibraryStore.pagedAssets &&
+      {mediaLibraryStore.pagedAssets && (
         <FlatList
           numColumns={3}
           keyExtractor={(item, index) => index.toString()}
           data={toJS(mediaLibraryStore.pagedAssets.assets)}
-          renderItem={({ item }) =>
-            <SquareImageButton key={item.id} photo={item} onPress={imageSelect} />}
+          renderItem={({ item }) => (
+            <SquareImageButton key={item.id} photo={item} onPress={imageSelect} />
+          )}
           onEndReached={() => mediaLibraryStore.loadMoreAssets(albumPicker)}
           onEndReachedThreshold={30}
         />
-      }
+      )}
     </View>
   )
 }
@@ -56,5 +60,5 @@ export default compose(
   inject(({ rootStore }) => ({
     mediaLibraryStore: rootStore.mediaLibraryStore,
   })),
-  observer
+  observer,
 )(MediaLibraryView)

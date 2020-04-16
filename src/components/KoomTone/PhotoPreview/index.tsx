@@ -51,12 +51,12 @@ const PhotoPreview = ({ koomToneStore }: Props) => {
 }
 
 PhotoPreview.navigationOptions = ({ navigation }) => ({
-  headerRight: () => <HeaderButton onPress={navigation.getParam('nextStep')} title="next" />
+  headerRight: () => <HeaderButton onPress={navigation.getParam('nextStep')} title="next" />,
 })
 
 export default compose(
   inject(({ rootStore }) => ({
-    koomToneStore: rootStore.koomToneStore
+    koomToneStore: rootStore.koomToneStore,
   })),
-  observer
+  observer,
 )(PhotoPreview)

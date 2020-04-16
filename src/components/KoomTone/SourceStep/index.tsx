@@ -9,7 +9,7 @@ const SourceStep = () => {
   const navigation = useNavigation()
   const isSourceSelected = navigation.getParam('isSourceSelected')
 
-  const imageSelect = (asset) => {
+  const imageSelect = asset => {
     navigation.navigate('PhotoPreviewFromSource', { asset, isSourceSelected })
   }
 

@@ -22,7 +22,7 @@ const Main = ({ userStore, koomToneStore }: Props) => {
   const navigation = useNavigation()
   const user = userStore.user
 
-  const openPhotoDetail = (photo) => {
+  const openPhotoDetail = photo => {
     navigation.navigate('PhotoDetailFromMain', { photo })
   }
 
@@ -33,28 +33,31 @@ const Main = ({ userStore, koomToneStore }: Props) => {
 
   const CenterText = ({ text }) => (
     <CenterContainer>
-      <Text>
-        {text}
-      </Text>
+      <Text>{text}</Text>
     </CenterContainer>
   )
 
   return (
     <CenterSAV>
       <View style={{ maxHeight: FULL_WIDTH, marginBottom: 16 }}>
-        {
-          user
-            ? user.favoritePhotos.length
-              ? <FlatList
-                numColumns={3}
-                data={toJS(user.favoritePhotos)}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) =>
-                  <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />}
-              />
-              : <CenterText text={`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`} />
-            : <CenterText text={'sign in to see your favorite\'s photo.'} />
-        }
+        {user ? (
+          user.favoritePhotos.length ? (
+            <FlatList
+              numColumns={3}
+              data={toJS(user.favoritePhotos)}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => (
+                <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />
+              )}
+            />
+          ) : (
+            <CenterText
+              text={`sorry, but it’s seem like you didn’t favorite\nany tone yet. Explore our feed for new tone!`}
+            />
+          )
+        ) : (
+          <CenterText text={"sign in to see your favorite's photo."} />
+        )}
       </View>
       <LimitView>
         <Button onPress={startKoomTone}>start by choosing image</Button>
@@ -66,7 +69,7 @@ const Main = ({ userStore, koomToneStore }: Props) => {
 export default compose(
   inject(({ rootStore }) => ({
     userStore: rootStore.userStore,
-    koomToneStore: rootStore.koomToneStore
+    koomToneStore: rootStore.koomToneStore,
   })),
-  observer
+  observer,
 )(Main)

@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ImagePicker = ({ navigation }: Props) => {
-  const imageSelect = (asset) => {
+  const imageSelect = asset => {
     const setAsset = navigation.getParam('setAsset')
     const setImageUri = navigation.getParam('setImageUri')
     if (setAsset) {

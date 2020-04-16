@@ -1,22 +1,19 @@
 import React, { useReducer, useState } from 'react'
-import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
-import { NavigationStackProp } from 'react-navigation-stack';
+import { KeyboardAvoidingView, ScrollView, View } from 'react-native'
+import { NavigationStackProp } from 'react-navigation-stack'
 
-import firebase from '@configs/firebase';
+import firebase from '@configs/firebase'
 import { LimitView, Text, SafeAreaView, CenterContainer } from '@components/common/styled'
-import InputForm from '@components/common/InputForm';
-import Button from '@components/common/Button';
+import InputForm from '@components/common/InputForm'
+import Button from '@components/common/Button'
 import { textSizes, spaces } from '@styles/sizes'
-import HeaderButton from '@components/common/HeaderButton';
+import HeaderButton from '@components/common/HeaderButton'
 
-const signInInput = [
-  { name: 'email' },
-  { name: 'password' },
-]
+const signInInput = [{ name: 'email' }, { name: 'password' }]
 
 const initInput = {
   email: '',
-  password: ''
+  password: '',
 }
 
 interface Props {
@@ -33,11 +30,15 @@ const SignIn = ({ navigation }: Props) => {
 
   const signIn = () => {
     setError('')
-    firebase.auth().signInWithEmailAndPassword(input.email, input.password).then(() => {
-      navigation.navigate('HomeTabNavigator', { signInDetail: input })
-    }).catch((error) => {
-      setError('Email or password is invalid')
-    })
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(input.email, input.password)
+      .then(() => {
+        navigation.navigate('HomeTabNavigator', { signInDetail: input })
+      })
+      .catch(err => {
+        setError('Email or password is invalid')
+      })
   }
 
   return (
@@ -49,23 +50,18 @@ const SignIn = ({ navigation }: Props) => {
         <CenterContainer style={{ top: 0 }}>
           <KeyboardAvoidingView>
             <LimitView>
-              <Text size={textSizes.large1} margin={spaces.large3} bold>Sign In</Text>
+              <Text size={textSizes.large1} margin={spaces.large3} bold>
+                Sign In
+              </Text>
               <Text color="red" margin={spaces.large1} align="center" bold>
                 {error}
               </Text>
-              {
-                signInInput.map(({ name }) => (
-                  <InputForm
-                    key={name}
-                    name={name}
-                    value={input[name]}
-                    onChangeText={handleInput}
-                  />
-                ))
-              }
+              {signInInput.map(({ name }) => (
+                <InputForm key={name} name={name} value={input[name]} onChangeText={handleInput} />
+              ))}
               <Button margin={`${spaces.large3} 0`} onPress={signIn}>
                 sign in
-            </Button>
+              </Button>
               <Button margin={`${spaces.small3} 0`} onPress={() => navigation.navigate('Register')}>
                 register
               </Button>

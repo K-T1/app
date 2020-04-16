@@ -34,27 +34,27 @@ export class KoomToneStore {
   }
 
   @action
-  setSource = (source) => {
+  setSource = source => {
     this.source = source
   }
 
   @action
-  setReference = (reference) => {
+  setReference = reference => {
     this.reference = reference
   }
 
   @action
-  setSourceWithReference = (reference) => {
+  setSourceWithReference = reference => {
     this.reference = reference
   }
 
   @action
-  setProcessed = (processed) => {
+  setProcessed = processed => {
     this.processed = processed
   }
 
   @action
-  setEdited = (edited) => {
+  setEdited = edited => {
     this.edited = edited
   }
 
@@ -64,8 +64,16 @@ export class KoomToneStore {
 
     this.rootStore.spinnerStore.show()
 
-    const processedUri = await photoApi.processImage(this.source.uri, this.reference.uri, this.reference.id)
-    this.setProcessed({ uri: processedUri, width: this.source.width, height: this.source.height })
+    const processedUri = await photoApi.processImage(
+      this.source.uri,
+      this.reference.uri,
+      this.reference.id,
+    )
+    this.setProcessed({
+      uri: processedUri,
+      width: this.source.width,
+      height: this.source.height,
+    })
 
     // this.setProcessed({ uri: this.source.uri, width: this.source.width, height: this.source.height })
 
@@ -81,7 +89,7 @@ export class KoomToneStore {
     await photoApi.uploadPhoto({
       url,
       width: this.edited.width,
-      height: this.edited.height
+      height: this.edited.height,
     })
 
     this.rootStore.photoStore.fetchPagedPhotos()

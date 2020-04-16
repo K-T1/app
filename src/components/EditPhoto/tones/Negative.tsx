@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 
 const shaders = Shaders.create({
   Negative: {
@@ -12,18 +12,18 @@ const shaders = Shaders.create({
     gl_FragColor = vec4(mix(c.rgb, 1.0 - c.rgb, factor), c.a);
   }`,
   },
-});
+})
 
 export default class Negative extends Component {
   props: {
-    factor: number,
-    children?: any,
-  };
+    factor: number
+    children?: any
+  }
   static defaultProps = {
     factor: 1,
-  };
+  }
   render() {
-    const { children: t, factor } = this.props;
-    return <Node shader={shaders.Negative} uniforms={{ t, factor }} />;
+    const { children: t, factor } = this.props
+    return <Node shader={shaders.Negative} uniforms={{ t, factor }} />
   }
 }

@@ -15,19 +15,17 @@ const User = ({ userStore }: Props) => {
   const navigation = useNavigation()
 
   useEffect(() => {
-    navigation.setParams({ isShowSignout: userStore.user && navigation.state.routeName === 'User' })
+    navigation.setParams({
+      isShowSignout: userStore.user && navigation.state.routeName === 'User',
+    })
   }, [userStore.user])
 
-  return (
-    userStore.user
-      ? <UserProfile />
-      : <PreSignIn />
-  )
+  return userStore.user ? <UserProfile /> : <PreSignIn />
 }
 
 export default compose(
   inject(({ rootStore }) => ({
-    userStore: rootStore.userStore
+    userStore: rootStore.userStore,
   })),
-  observer
+  observer,
 )(User)

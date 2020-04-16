@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const shaders = Shaders.create({
@@ -11,7 +11,7 @@ const shaders = Shaders.create({
       uniform sampler2D inputImageTexture;
       uniform sampler2D inputImageTexture2;
       uniform sampler2D inputImageTexture3;
-      uniform sampler2D inputImageTexture4; 
+      uniform sampler2D inputImageTexture4;
 
       void main () {
 
@@ -31,21 +31,24 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class Hudson extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.Hudson}
-      uniforms={{
-        inputImageTexture,
-        inputImageTexture2: resolveAssetSource(require('@assets/resources/hudsonBackground.png')),
-        inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
-        inputImageTexture4: resolveAssetSource(require('@assets/resources/hudsonMap.png')),
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.Hudson}
+        uniforms={{
+          inputImageTexture,
+          inputImageTexture2: resolveAssetSource(require('@assets/resources/hudsonBackground.png')),
+          inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
+          inputImageTexture4: resolveAssetSource(require('@assets/resources/hudsonMap.png')),
+        }}
+      />
+    )
   }
 }

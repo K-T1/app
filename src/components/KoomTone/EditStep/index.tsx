@@ -1,18 +1,18 @@
-import React, { useReducer, useState, useEffect, useRef } from "react";
-import { useNavigation } from "react-navigation-hooks";
+import React, { useReducer, useState, useEffect, useRef } from 'react'
+import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
-import { observer, inject } from "mobx-react";
+import { observer, inject } from 'mobx-react'
 import { useSafeArea } from 'react-native-safe-area-context'
 
-import Tones from "@components/EditPhoto/tones";
+import Tones from '@components/EditPhoto/tones'
 import SliderView from '@components/EditPhoto/SliderView'
 import * as Filters from '@components/EditPhoto/filters'
-import { Text, ScrollView } from "@components/common/styled";
+import { Text, ScrollView } from '@components/common/styled'
 import StepBar from '@components/KoomTone/StepBar'
-import HeaderButton from "@components/common/HeaderButton";
-import { KoomToneStore } from "@stores/KoomToneStore";
+import HeaderButton from '@components/common/HeaderButton'
+import { KoomToneStore } from '@stores/KoomToneStore'
 
-import { StyledSurface, StyledButton, FilterButton, ToolView } from "./styled";
+import { StyledSurface, StyledButton, FilterButton, ToolView } from './styled'
 
 const filters = [
   'Normal',
@@ -32,16 +32,16 @@ const filters = [
   'Valencia',
   'Walden',
   'XproII',
-];
+]
 
 const tools = [
-  { id: "filter", name: "filter" },
-  { id: "contrast", name: "Contrast", min: 0, max: 4, step: 0.1 },
-  { id: "brightness", name: "Brightness", min: 0, max: 4, step: 0.1 },
-  { id: "saturation", name: "Saturation", min: 0, max: 10, step: 0.1 },
-  { id: "sepia", name: "Sepia", min: 0, max: 1, step: 0.05 },
-  { id: "temp", name: "WhiteBalance", min: 2000, max: 12000, step: 100 }
-];
+  { id: 'filter', name: 'filter' },
+  { id: 'contrast', name: 'Contrast', min: 0, max: 4, step: 0.1 },
+  { id: 'brightness', name: 'Brightness', min: 0, max: 4, step: 0.1 },
+  { id: 'saturation', name: 'Saturation', min: 0, max: 10, step: 0.1 },
+  { id: 'sepia', name: 'Sepia', min: 0, max: 1, step: 0.05 },
+  { id: 'temp', name: 'WhiteBalance', min: 2000, max: 12000, step: 100 },
+]
 
 const initialTonesState = {
   blur: 0,
@@ -52,8 +52,8 @@ const initialTonesState = {
   hue: 0,
   sepia: 0,
   flyeye: 0,
-  temp: 7000
-};
+  temp: 7000,
+}
 
 interface Props {
   koomToneStore: KoomToneStore
@@ -63,7 +63,10 @@ const EditStep = ({ koomToneStore }: Props) => {
   const surface = useRef()
   const insets = useSafeArea()
   const navigation = useNavigation()
-  const [tones, setTones] = useReducer((state, newState) => ({ ...state, ...newState }), initialTonesState)
+  const [tones, setTones] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    initialTonesState,
+  )
   const [FilterComponent, setFilterComponent] = useState(() => Filters.Normal)
   const [filter, setFilter] = useState(filters[0])
   const [tool, setTool] = useState(tools[0])
@@ -74,19 +77,22 @@ const EditStep = ({ koomToneStore }: Props) => {
 
   const onEffectChange = (value, id) => {
     setTones({ ...tones, [id]: value })
-  };
+  }
 
-  const onEffectReset = (id) => {
+  const onEffectReset = id => {
     setTones({ ...tones, [id]: initialTonesState[id] })
-  };
+  }
 
-  const onFilterChange = (filter) => {
-    setFilter(filter)
-    setFilterComponent(() => Filters[filter])
+  const onFilterChange = (newFilter: string) => {
+    setFilter(newFilter)
+    setFilterComponent(() => Filters[newFilter])
   }
 
   const nextStep = async () => {
-    const snapshotPhoto = await surface.current.glView.capture({ type: "png", format: "file" })
+    const snapshotPhoto = await surface.current.glView.capture({
+      type: 'png',
+      format: 'file',
+    })
 
     koomToneStore.setEdited(snapshotPhoto)
     navigation.navigate('ShareStep')
@@ -95,7 +101,11 @@ const EditStep = ({ koomToneStore }: Props) => {
   const filterListEl = (
     <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
       {filters.map(filterData => (
-        <FilterButton key={filterData} onPress={() => onFilterChange(filterData)} active={filterData === filter}>
+        <FilterButton
+          key={filterData}
+          onPress={() => onFilterChange(filterData)}
+          active={filterData === filter}
+        >
           <Text bold>{filterData}</Text>
         </FilterButton>
       ))}
@@ -104,8 +114,12 @@ const EditStep = ({ koomToneStore }: Props) => {
 
   const editToolListEl = (
     <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
-      {tools.map((toolData) => (
-        <StyledButton key={toolData.id} onPress={() => setTool(toolData)} active={toolData === tool}>
+      {tools.map(toolData => (
+        <StyledButton
+          key={toolData.id}
+          onPress={() => setTool(toolData)}
+          active={toolData === tool}
+        >
           <Text bold>{toolData.name.toUpperCase()}</Text>
         </StyledButton>
       ))}
@@ -120,22 +134,20 @@ const EditStep = ({ koomToneStore }: Props) => {
         originalRatio={koomToneStore.processed.height / koomToneStore.processed.width}
       >
         <FilterComponent>
-          <Tones {...tones}>
-            {{ uri: koomToneStore.processed.uri }}
-          </Tones>
+          <Tones {...tones}>{{ uri: koomToneStore.processed.uri }}</Tones>
         </FilterComponent>
       </StyledSurface>
       <ToolView>
-        {
-          tool.name === 'filter'
-            ? filterListEl
-            : <SliderView
-              {...tool}
-              value={tones[tool.id]}
-              onChange={onEffectChange}
-              onReset={onEffectReset}
-            />
-        }
+        {tool.name === 'filter' ? (
+          filterListEl
+        ) : (
+          <SliderView
+            {...tool}
+            value={tones[tool.id]}
+            onChange={onEffectChange}
+            onReset={onEffectReset}
+          />
+        )}
         {editToolListEl}
       </ToolView>
     </ScrollView>
@@ -143,12 +155,12 @@ const EditStep = ({ koomToneStore }: Props) => {
 }
 
 EditStep.navigationOptions = ({ navigation }) => ({
-  headerRight: () => <HeaderButton onPress={navigation.getParam('nextStep')} title="next" />
+  headerRight: () => <HeaderButton onPress={navigation.getParam('nextStep')} title="next" />,
 })
 
 export default compose(
   inject(({ rootStore }) => ({
     koomToneStore: rootStore.koomToneStore,
   })),
-  observer
+  observer,
 )(EditStep)

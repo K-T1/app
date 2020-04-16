@@ -24,5 +24,5 @@ export default {
   async fetchCurrentUser() {
     const { data: user } = await axios.get(`${USER_API_URL}/current`)
     return user
-  }
+  },
 }

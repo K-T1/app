@@ -12,7 +12,9 @@ interface Props {
 const SkipButton = ({ onPress }: Props) => (
   <View style={{ alignItems: 'center', alignContent: 'flex-start' }}>
     <TouchableWithoutFeedback onPress={onPress}>
-      <Text color={SECONDARY_COLOR} bold underline>SKIP</Text>
+      <Text color={SECONDARY_COLOR} bold underline>
+        SKIP
+      </Text>
     </TouchableWithoutFeedback>
   </View>
 )

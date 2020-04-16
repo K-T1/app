@@ -5,7 +5,13 @@ import { useNavigation } from 'react-navigation-hooks'
 import { MaterialIcons } from '@expo/vector-icons'
 import Toast from 'react-native-root-toast'
 
-import { ResizeImage, ScrollView, LimitView, CenterContainer, Text } from '@components/common/styled'
+import {
+  ResizeImage,
+  ScrollView,
+  LimitView,
+  CenterContainer,
+  Text,
+} from '@components/common/styled'
 import Button from '@components/common/Button'
 import StepBar from '@components/KoomTone/StepBar'
 import { KoomToneStore } from '@stores/KoomToneStore'
@@ -23,7 +29,7 @@ interface Props {
 const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
   const navigation = useNavigation()
 
-  const showToast = (message) => {
+  const showToast = message => {
     Toast.show(message, { position: Toast.positions.CENTER })
   }
 
@@ -69,13 +75,21 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
       </CenterContainer>
       <CenterContainer style={{ marginBottom: 20 }}>
         <LimitView>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', margin: 20 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              margin: 20,
+            }}
+          >
             <ButtonWithIcon onPress={saveToGallery} name="file-download">
               download
-          </ButtonWithIcon>
-            {userStore.user && <ButtonWithIcon onPress={shareToKoomTone} name="share">
-              share to KT-1
-            </ButtonWithIcon>}
+            </ButtonWithIcon>
+            {userStore.user && (
+              <ButtonWithIcon onPress={shareToKoomTone} name="share">
+                share to KT-1
+              </ButtonWithIcon>
+            )}
           </View>
           <Button onPress={backToFeed}>close</Button>
         </LimitView>
@@ -88,7 +102,7 @@ export default compose(
   inject(({ rootStore }) => ({
     koomToneStore: rootStore.koomToneStore,
     mediaLibraryStore: rootStore.mediaLibraryStore,
-    userStore: rootStore.userStore
+    userStore: rootStore.userStore,
   })),
-  observer
+  observer,
 )(ShareStep)

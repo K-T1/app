@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 
 const shaders = Shaders.create({
   Normal: {
@@ -13,18 +13,21 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class Normal extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.Normal}
-      uniforms={{
-        inputImageTexture,
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.Normal}
+        uniforms={{
+          inputImageTexture,
+        }}
+      />
+    )
   }
 }

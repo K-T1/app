@@ -12,20 +12,20 @@ export default {
   },
   async processImage(sourceUri, refUri, referenceId) {
     const config = {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
     }
     const data = {
       source: {
         uri: sourceUri,
         type: 'image/jpg',
-        name: 'source.jpg'
+        name: 'source.jpg',
       },
       reference: {
         uri: refUri,
         type: 'image/jpg',
-        name: 'reference.jpg'
+        name: 'reference.jpg',
       },
-      referenceId
+      referenceId,
     }
 
     const formData = createFormData(data)
@@ -43,11 +43,13 @@ export default {
     return photo
   },
   async unfavPhoto(photoId) {
-    const { data: photo } = await axios.put(`${PHOTO_API_URL}/unfav`, { photoId })
+    const { data: photo } = await axios.put(`${PHOTO_API_URL}/unfav`, {
+      photoId,
+    })
     return photo
   },
   async deletePhoto(photoId) {
     const response = await axios.delete(`${PHOTO_API_URL}/delete/${photoId}`)
     return response
-  }
+  },
 }

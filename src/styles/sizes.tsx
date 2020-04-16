@@ -28,12 +28,12 @@ export enum lineHeights {
   small3 = 14,
 }
 
-export const textSizes = Object.keys(fontSizes).reduce((textSizes, size) => {
-  textSizes[size] = css`
-		font-size: ${fontSizes[size]};
-		line-height: ${lineHeights[size]};
+export const textSizes = Object.keys(fontSizes).reduce((accTextSizes, size) => {
+  accTextSizes[size] = css`
+    font-size: ${fontSizes[size]};
+    line-height: ${lineHeights[size]};
   `
-  return textSizes
+  return accTextSizes
 }, {}) as typeof fontSizes
 
 export enum spaces {
@@ -54,4 +54,3 @@ export enum spaces {
   small2 = '2px',
   small3 = '1px',
 }
-

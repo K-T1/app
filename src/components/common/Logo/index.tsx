@@ -9,7 +9,13 @@ interface Props {
 }
 
 const Logo = ({ active = true, width = 30 }: Props) => {
-  return <ResizeImage source={active ? LOGO_ACTIVE : LOGO_INACTIVE} originalRatio={945 / 1685} newWidth={width} />
+  return (
+    <ResizeImage
+      source={active ? LOGO_ACTIVE : LOGO_INACTIVE}
+      originalRatio={945 / 1685}
+      newWidth={width}
+    />
+  )
 }
 
 export default Logo

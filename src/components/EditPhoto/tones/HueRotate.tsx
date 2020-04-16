@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 
 const shaders = Shaders.create({
   HueRotate: {
@@ -19,18 +19,18 @@ void main() {
   gl_FragColor = vec4(yiq2rgb*yFinalColor, c.a);
 }`,
   },
-});
+})
 
 export default class HueRotate extends Component {
   props: {
-    hue: number,
-    children?: any,
-  };
+    hue: number
+    children?: any
+  }
   static defaultProps = {
     hue: 0,
-  };
+  }
   render() {
-    const { children: t, hue } = this.props;
-    return <Node shader={shaders.HueRotate} uniforms={{ t, hue }} />;
+    const { children: t, hue } = this.props
+    return <Node shader={shaders.HueRotate} uniforms={{ t, hue }} />
   }
 }

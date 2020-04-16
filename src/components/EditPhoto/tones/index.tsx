@@ -1,14 +1,13 @@
-import React from "react";
-import Blur from "./Blur";
-import ContrastSaturationBrightness from "./ContrastSaturationBrightness";
-import Negative from "./Negative";
-import HueRotate from "./HueRotate";
-import ColorMatrix from "./ColorMatrix";
-import Flyeye from "./FlyEye";
-import WhiteBalance from "./WhiteBalance";
+import React from 'react'
+import Blur from './Blur'
+import ContrastSaturationBrightness from './ContrastSaturationBrightness'
+import Negative from './Negative'
+import HueRotate from './HueRotate'
+import ColorMatrix from './ColorMatrix'
+import Flyeye from './FlyEye'
+import WhiteBalance from './WhiteBalance'
 
-const mixArrays = (arr1, arr2, m) =>
-  arr1.map((v, i) => (1 - m) * v + m * arr2[i]);
+const mixArrays = (arr1, arr2, m) => arr1.map((v, i) => (1 - m) * v + m * arr2[i])
 
 // prettier-ignore
 const matrixForSepia = sepia =>
@@ -24,7 +23,7 @@ const matrixForSepia = sepia =>
     .6, .6, .6, 0,
     .1, .1, .1, 0,
     0.2, 0, -0.2, 1
-  ], sepia);
+  ], sepia)
 
 const Effects = ({
   children,
@@ -38,27 +37,27 @@ const Effects = ({
   hue,
   sepia,
   flyeye,
-  temp
+  temp,
 }: any) => (
-    <WhiteBalance temp={temp}>
-      <ColorMatrix matrix={matrixForSepia(sepia)}>
-        <Flyeye value={flyeye}>
-          <HueRotate hue={hue}>
-            <Negative factor={negative}>
-              <ContrastSaturationBrightness
-                contrast={contrast}
-                saturation={saturation}
-                brightness={brightness}
-              >
-                <Blur passes={6} factor={blur} width={width} height={height}>
-                  {children}
-                </Blur>
-              </ContrastSaturationBrightness>
-            </Negative>
-          </HueRotate>
-        </Flyeye>
-      </ColorMatrix>
-    </WhiteBalance>
-  );
+  <WhiteBalance temp={temp}>
+    <ColorMatrix matrix={matrixForSepia(sepia)}>
+      <Flyeye value={flyeye}>
+        <HueRotate hue={hue}>
+          <Negative factor={negative}>
+            <ContrastSaturationBrightness
+              contrast={contrast}
+              saturation={saturation}
+              brightness={brightness}
+            >
+              <Blur passes={6} factor={blur} width={width} height={height}>
+                {children}
+              </Blur>
+            </ContrastSaturationBrightness>
+          </Negative>
+        </HueRotate>
+      </Flyeye>
+    </ColorMatrix>
+  </WhiteBalance>
+)
 
-export default Effects;
+export default Effects

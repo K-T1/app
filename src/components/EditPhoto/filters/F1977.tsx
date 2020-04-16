@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const shaders = Shaders.create({
@@ -19,19 +19,22 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class F1977 extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.F1977}
-      uniforms={{
-        inputImageTexture,
-        inputImageTexture2: resolveAssetSource(require('@assets/resources/1977map.png'))
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.F1977}
+        uniforms={{
+          inputImageTexture,
+          inputImageTexture2: resolveAssetSource(require('@assets/resources/1977map.png')),
+        }}
+      />
+    )
   }
 }

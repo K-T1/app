@@ -6,7 +6,15 @@ import { inject, observer } from 'mobx-react'
 import { RefreshControl } from 'react-native'
 
 import userApi from '@api/user'
-import { CircleView, CircleImage, CenterView, HR, View, CenterContainer, Text } from '@components/common/styled'
+import {
+  CircleView,
+  CircleImage,
+  CenterView,
+  HR,
+  View,
+  CenterContainer,
+  Text,
+} from '@components/common/styled'
 import Count from '@components/common/Count'
 import { CountView } from '@components/UserProfile/styled'
 import { FULL_WIDTH } from '@utils'
@@ -37,58 +45,70 @@ const UserProfile = ({ userStore }: Props) => {
   }, [refreshing])
 
   const fetchUser = async () => {
-    const user = await userApi.getUser(isUserProfile ? userStore.user.uid : navigation.getParam('owner').uid)
-    setUserState(user)
+    const userData = await userApi.getUser(
+      isUserProfile ? userStore.user.uid : navigation.getParam('owner').uid,
+    )
+    setUserState(userData)
   }
 
-  const setUserState = (user) => {
-    const { photos, displayName } = user
+  const setUserState = userData => {
+    const { photos, displayName } = userData
 
     setUser({
       favoriteCount: photos.reduce((accum, current) => accum + current.favorite, 0),
       usageCount: photos.reduce((accum, current) => accum + current.usageCount, 0),
-      ...user
+      ...userData,
     })
     navigation.setParams({ displayName })
   }
 
-  const openPhotoDetail = (photo) => {
+  const openPhotoDetail = photo => {
     photo.owner = user
     navigation.navigate(isUserProfile ? 'PhotoDetailFromUser' : 'PhotoDetailFromFeed', { photo })
   }
 
   return (
-    user && <View refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      <CenterView style={{ flex: 1 }}>
-        <CircleView m={`${spaces.large4} 0 ${spaces.normal}`}>
-          <CircleImage source={user.displayImage ? { uri: user.displayImage } : require('@assets/default-profile.png')} />
-        </CircleView>
-        <CountView>
-          <Count name="FAVORITE" count={user.favoriteCount} />
-          <Count name="TONE USAGE" count={user.usageCount} />
-        </CountView>
-        <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2} 0 0`} />
-        {
-          user.photos.length
-            ? <FlatList
+    user && (
+      <View refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <CenterView style={{ flex: 1 }}>
+          <CircleView m={`${spaces.large4} 0 ${spaces.normal}`}>
+            <CircleImage
+              source={
+                user.displayImage
+                  ? { uri: user.displayImage }
+                  : require('@assets/default-profile.png')
+              }
+            />
+          </CircleView>
+          <CountView>
+            <Count name="FAVORITE" count={user.favoriteCount} />
+            <Count name="TONE USAGE" count={user.usageCount} />
+          </CountView>
+          <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2} 0 0`} />
+          {user.photos.length ? (
+            <FlatList
               numColumns={3}
               nestedScrollEnabled={true}
               data={toJS(user.photos)}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => (
+                <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />
+              )}
             />
-            : <CenterContainer>
+          ) : (
+            <CenterContainer>
               <Text size={textSizes.large3}>no post</Text>
             </CenterContainer>
-        }
-      </CenterView>
-    </View>
+          )}
+        </CenterView>
+      </View>
+    )
   )
 }
 
 export default compose(
   inject(({ rootStore }) => ({
-    userStore: rootStore.userStore
+    userStore: rootStore.userStore,
   })),
-  observer
+  observer,
 )(UserProfile)

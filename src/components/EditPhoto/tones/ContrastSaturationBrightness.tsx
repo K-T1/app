@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 
 const shaders = Shaders.create({
   ContrastSaturationBrightness: {
@@ -19,27 +19,27 @@ void main () {
     contrast), c.a);
 }`,
   },
-});
+})
 
 export default class ContrastSaturationBrightness extends Component {
   props: {
-    contrast: number,
-    saturation: number,
-    brightness: number,
-    children?: any,
-  };
+    contrast: number
+    saturation: number
+    brightness: number
+    children?: any
+  }
   static defaultProps = {
     contrast: 1,
     saturation: 1,
     brightness: 1,
-  };
+  }
   render() {
-    const { children: t, contrast, saturation, brightness } = this.props;
+    const { children: t, contrast, saturation, brightness } = this.props
     return (
       <Node
         shader={shaders.ContrastSaturationBrightness}
         uniforms={{ t, contrast, saturation, brightness }}
       />
-    );
+    )
   }
 }

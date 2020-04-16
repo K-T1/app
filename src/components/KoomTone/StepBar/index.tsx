@@ -16,27 +16,27 @@ const textSteps = {
   sourceStep: {
     title: '1- Select Input Image',
     description: 'This image will be processed to match\nthe style you preferred.',
-    fill: 25
+    fill: 25,
   },
   referenceStep: {
     title: '2- Select Styling Image',
     description: 'Select the image you prefered to be\na styling for the input image.',
-    fill: 50
+    fill: 50,
   },
   sourceWithReferenceStep: {
     title: '2- Select Input Image',
     description: 'This image will be processed to match\nthe style you preferred.',
-    fill: 50
+    fill: 50,
   },
   editStep: {
     title: '3- Edit the Image',
     description: 'Adjust the image to make it perfect.',
-    fill: 75
+    fill: 75,
   },
   shareStep: {
     title: '4- Share to your favorite app',
     description: 'Share this image to your favorite social application.',
-    fill: 100
+    fill: 100,
   },
 }
 
@@ -53,7 +53,7 @@ const StepBar = ({ step }: Props) => {
         tintColor={PRIMARY_COLOR}
         backgroundColor={SECONDARY_COLOR}
       >
-        {(fill) => (fill === 100 && <MaterialIcons name="check" size={32} />)}
+        {currentFill => currentFill === 100 && <MaterialIcons name="check" size={32} />}
       </AnimatedCircularProgress>
       <StepTextView>
         <Text bold>{title}</Text>

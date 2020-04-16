@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { GLSL, Node, Shaders } from "gl-react";
+import React, { Component } from 'react'
+import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
 
 const shaders = Shaders.create({
@@ -26,21 +26,24 @@ const shaders = Shaders.create({
       }
     `,
   },
-});
+})
 
 export default class Rise extends Component {
   props: {
-    children?: any,
-  };
+    children?: any
+  }
   render() {
-    const { children: inputImageTexture } = this.props;
-    return <Node
-      shader={shaders.Rise}
-      uniforms={{
-        inputImageTexture,
-        inputImageTexture2: resolveAssetSource(require('@assets/resources/blackboard1024.png')),
-        inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
-        inputImageTexture4: resolveAssetSource(require('@assets/resources/riseMap.png')),
-      }} />;
+    const { children: inputImageTexture } = this.props
+    return (
+      <Node
+        shader={shaders.Rise}
+        uniforms={{
+          inputImageTexture,
+          inputImageTexture2: resolveAssetSource(require('@assets/resources/blackboard1024.png')),
+          inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
+          inputImageTexture4: resolveAssetSource(require('@assets/resources/riseMap.png')),
+        }}
+      />
+    )
   }
 }

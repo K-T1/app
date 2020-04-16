@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Shaders, Node, GLSL } from "gl-react";
+import React, { Component } from 'react'
+import { Shaders, Node, GLSL } from 'gl-react'
 
 const shaders = Shaders.create({
   Saturate: {
@@ -36,26 +36,21 @@ const shaders = Shaders.create({
         #endif
         gl_FragColor = vec4(outColor, 1.0);
       }
-    `
-  }
-});
+    `,
+  },
+})
 
 export default class ContrastSaturationBrightness extends Component {
   props: {
-    temp: number,
+    temp: number
     children?: Node
   }
   static defaultProps = {
-    temp: 7000
-  };
+    temp: 7000,
+  }
 
   render() {
-    const { children: t, temp } = this.props;
-    return (
-      <Node
-        shader={shaders.Saturate}
-        uniforms={{ t, temp }}
-      />
-    );
+    const { children: t, temp } = this.props
+    return <Node shader={shaders.Saturate} uniforms={{ t, temp }} />
   }
 }

@@ -17,11 +17,13 @@ const BottomTabBar = ({ routeName, active, onPress }: Props) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <StyledCenterContainer active={active}>
-        {
-          routeName
-            ? <Text color={`${active ? 'black' : SECONDARY_COLOR}`} bold>{routeName}</Text>
-            : <Logo active={active} />
-        }
+        {routeName ? (
+          <Text color={`${active ? 'black' : SECONDARY_COLOR}`} bold>
+            {routeName}
+          </Text>
+        ) : (
+          <Logo active={active} />
+        )}
       </StyledCenterContainer>
     </TouchableWithoutFeedback>
   )
