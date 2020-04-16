@@ -26,7 +26,7 @@ const AuthLoading = ({ spinnerStore, userStore }: Props) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
         userStore.setFirebaseUser(user)
         await userStore.login(user)
-        await AsyncStorage.setItem("loggedInOnce", 'true')
+        await AsyncStorage.setItem('loggedInOnce', 'true')
       } else {
         delete axios.defaults.headers.common['Authorization']
         userStore.signout()

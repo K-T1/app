@@ -11,6 +11,7 @@ const CameraTab = () => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [camera, setCamera] = useState(null);
 
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
