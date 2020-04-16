@@ -1,5 +1,7 @@
 import { Dimensions } from "react-native";
-import uuid from 'react-native-uuid';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid'
+import * as Random from 'expo-random'
 
 import firebase from '@configs/firebase'
 
@@ -12,7 +14,7 @@ export const fetchBlobFromUri = async (uri) => {
 
 export const uploadImageToFirebase = async (uri) => {
   const blob = await fetchBlobFromUri(uri)
-  const id = uuid.v1()
+  const id = uuidv4({ random: await Random.getRandomBytesAsync(16) })
   const ref = firebase.storage().ref().child(`UploadPhoto/${id}`)
 
   try {
