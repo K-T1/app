@@ -1,5 +1,5 @@
 {
-  "*.tsx": [
+  "*.ts": [
     "prettier --write",
     "tslint --fix", 
   ]
