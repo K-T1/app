@@ -13,6 +13,7 @@ import HeaderButton from '@components/common/HeaderButton'
 import { KoomToneStore } from '@stores/KoomToneStore'
 
 import { StyledSurface, StyledButton, FilterButton, ToolView } from './styled'
+import { SpinnerStore } from '@stores/SpinnerStore'
 
 const filters = [
   'Normal',
@@ -57,9 +58,10 @@ const initialTonesState = {
 
 interface Props {
   koomToneStore: KoomToneStore
+  spinnerStore: SpinnerStore
 }
 
-const EditStep = ({ koomToneStore }: Props) => {
+const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
   const surface = useRef()
   const insets = useSafeArea()
   const navigation = useNavigation()
@@ -89,6 +91,7 @@ const EditStep = ({ koomToneStore }: Props) => {
   }
 
   const nextStep = async () => {
+    spinnerStore.show()
     const snapshotPhoto = await surface.current.glView.capture({
       type: 'png',
       format: 'file',
@@ -96,6 +99,7 @@ const EditStep = ({ koomToneStore }: Props) => {
 
     koomToneStore.setEdited(snapshotPhoto)
     navigation.navigate('ShareStep')
+    spinnerStore.hide()
   }
 
   const filterListEl = (
@@ -161,6 +165,7 @@ EditStep.navigationOptions = ({ navigation }) => ({
 export default compose(
   inject(({ rootStore }) => ({
     koomToneStore: rootStore.koomToneStore,
+    spinnerStore: rootStore.spinnerStore,
   })),
   observer,
 )(EditStep)

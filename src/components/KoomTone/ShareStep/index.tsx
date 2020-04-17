@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { useNavigation } from 'react-navigation-hooks'
@@ -28,27 +28,35 @@ interface Props {
 
 const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
   const navigation = useNavigation()
+  const [isDownloaded, setIsDownloaded] = useState(false)
+  const [isUploaded, setIsUploaded] = useState(false)
 
   const showToast = message => {
     Toast.show(message, { position: Toast.positions.CENTER })
   }
 
   const saveToGallery = async () => {
+    if (isDownloaded) return showToast('Photo is already downloaded.')
     try {
+      setIsDownloaded(true)
       await mediaLibraryStore.saveToLibrary(koomToneStore.edited.uri)
       showToast('Download complete')
     } catch (error) {
       console.error(error)
+      setIsDownloaded(false)
       showToast('Download fail please try again.')
     }
   }
 
   const shareToKoomTone = async () => {
+    if (isUploaded) return showToast('Photo is already uploaded.')
     try {
+      setIsUploaded(true)
       await koomToneStore.uploadPhoto()
       showToast('Upload complete')
     } catch (error) {
       console.error(error)
+      setIsUploaded(false)
       showToast('Upload fail please try again.')
     }
   }
