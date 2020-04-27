@@ -19,6 +19,7 @@ interface Props {
 const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
   const [albumPicker, setAlbumPicker] = useState(null)
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     mediaLibraryStore.getPermission()
@@ -34,6 +35,7 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
   const onEndReached = async () => {
     if (!onEndReachedCalledDuringMomentum) {
       await mediaLibraryStore.loadMoreAssets(albumPicker)
+      setIsLoading(mediaLibraryStore.pagedAssets.hasNextPage)
       setOnEndReachedCalledDuringMomentum(true)
     }
   }
@@ -60,7 +62,7 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
           onMomentumScrollBegin={() => setOnEndReachedCalledDuringMomentum(false)}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
-          ListFooterComponent={FooterFlatlist}
+          ListFooterComponent={isLoading && FooterFlatlist}
         />
       )}
     </View>
