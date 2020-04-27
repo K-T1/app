@@ -12,6 +12,7 @@ import { UserStore } from '@stores/UserStore'
 import { KoomToneStore } from '@stores/KoomToneStore'
 import { FULL_WIDTH } from '@utils'
 import SquareImageButton from '@components/common/SquareImageButton'
+import FooterFlatlist from '@components/common/Spinner/FooterFlatlist'
 
 interface Props {
   userStore: UserStore

@@ -9,6 +9,7 @@ import { pickerSelectStyles, View } from '@components/common/styled'
 import { MediaLibraryStore } from '@stores/MediaLibraryStore'
 
 import SquareImageButton from '../SquareImageButton'
+import FooterFlatlist from '../Spinner/FooterFlatlist'
 
 interface Props {
   mediaLibraryStore: MediaLibraryStore
@@ -17,6 +18,7 @@ interface Props {
 
 const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
   const [albumPicker, setAlbumPicker] = useState(null)
+  const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false)
 
   useEffect(() => {
     mediaLibraryStore.getPermission()
@@ -27,6 +29,13 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
   const onPickerChange = album => {
     setAlbumPicker(album)
     mediaLibraryStore.getAssets(album)
+  }
+
+  const onEndReached = async () => {
+    if (!onEndReachedCalledDuringMomentum) {
+      await mediaLibraryStore.loadMoreAssets(albumPicker)
+      setOnEndReachedCalledDuringMomentum(true)
+    }
   }
 
   return (
@@ -48,8 +57,10 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
           renderItem={({ item }) => (
             <SquareImageButton key={item.id} photo={item} onPress={imageSelect} />
           )}
-          onEndReached={() => mediaLibraryStore.loadMoreAssets(albumPicker)}
-          onEndReachedThreshold={30}
+          onMomentumScrollBegin={() => setOnEndReachedCalledDuringMomentum(false)}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={FooterFlatlist}
         />
       )}
     </View>

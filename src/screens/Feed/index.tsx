@@ -9,6 +9,7 @@ import FeedItem from '@components/Feed/FeedItem'
 import Logo from '@components/common/Logo'
 import { PhotoStore } from '@stores/PhotoStore'
 import { UserStore } from '@stores/UserStore'
+import FooterFlatlist from '@components/common/Spinner/FooterFlatlist'
 
 interface Props {
   photoStore: PhotoStore
@@ -35,7 +36,7 @@ const Feed = ({ photoStore, userStore }: Props) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => <FeedItem photo={item} isLoggedIn={userStore.user != null} />}
         onEndReached={photoStore.loadMorePhotos}
-        onEndReachedThreshold={30}
+        onEndReachedThreshold={0.5}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
     )

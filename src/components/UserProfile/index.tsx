@@ -23,6 +23,7 @@ import { UserStore } from '@stores/UserStore'
 import { User } from '@models/User'
 import SquareImageButton from '@components/common/SquareImageButton'
 import { toJS } from 'mobx'
+import FooterFlatlist from '@components/common/Spinner/FooterFlatlist'
 
 interface Props {
   userStore: UserStore

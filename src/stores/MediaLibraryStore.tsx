@@ -5,7 +5,7 @@ import * as Permissions from 'expo-permissions'
 import { RootStore } from './RootStore'
 
 const assetsOptions = {
-  first: 60,
+  first: 30,
   sortBy: MediaLibrary.SortBy.creationTime,
 }
 
