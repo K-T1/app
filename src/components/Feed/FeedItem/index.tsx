@@ -46,7 +46,12 @@ const FeedItem = ({ photo, photoStore, isLoggedIn }: Props) => {
   return (
     <FeedItemView>
       <TouchableWithoutFeedback onPress={openPhotoDetail}>
-        <ResizeImage source={{ uri }} originalRatio={height / width} />
+        <ResizeImage
+          source={{ uri }}
+          // originalRatio={height / width >= 4 / 3 ? 4 / 3 : height / width}
+          originalRatio={height / width}
+          resizeMode="contain"
+        />
       </TouchableWithoutFeedback>
       <ItemBarView>
         <TouchableWithoutFeedback onPress={openUserProfile}>

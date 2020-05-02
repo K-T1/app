@@ -72,9 +72,9 @@ const Main = ({ userStore, koomToneStore }: Props) => {
         </FavPhotoView>
       </View>
       <CenterView>
-        <ButtonView>
-          <Button onPress={startKoomTone}>start by choosing image</Button>
-        </ButtonView>
+        <Button onPress={startKoomTone} style={{ width: 300, marginBottom: 48 }}>
+          start by choosing image
+        </Button>
       </CenterView>
     </SafeAreaView>
   )

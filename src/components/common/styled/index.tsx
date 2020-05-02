@@ -5,7 +5,7 @@ import { SafeAreaView as RNSafeAreaView } from 'react-native-safe-area-context'
 
 import { SECONDARY_COLOR } from '@styles/colors'
 import { textSizes } from '@styles/sizes'
-import { FULL_WIDTH } from '@utils'
+import { FULL_WIDTH, FULL_HEIGHT } from '@utils'
 
 const center = css`
   flex: 1;
@@ -47,6 +47,14 @@ export const ResizeImage = styled.Image`
   ${({ originalRatio = 1, newWidth = FULL_WIDTH, maxHeight = '100%' }) => css`
     width: ${newWidth};
     height: ${originalRatio * newWidth};
+    max-height: ${maxHeight};
+  `}
+`
+
+export const FitHeightImage = styled.Image`
+  ${({ originalRatio = 1, newHeight = FULL_HEIGHT * 0.5, maxHeight = '100%' }) => css`
+    width: ${originalRatio * newHeight};
+    height: ${newHeight};
     max-height: ${maxHeight};
   `}
 `
@@ -99,26 +107,3 @@ export const View = styled.View`
 export const SafeAreaView = styled(RNSafeAreaView)`
   ${flex1}
 `
-
-export const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-})

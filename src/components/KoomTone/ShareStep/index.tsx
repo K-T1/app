@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import { useNavigation } from 'react-navigation-hooks'
 import { MaterialIcons } from '@expo/vector-icons'
 import Toast from 'react-native-root-toast'
+import { View } from 'react-native'
 
 import {
   ResizeImage,
@@ -11,6 +12,7 @@ import {
   LimitView,
   CenterContainer,
   Text,
+  CenterView,
 } from '@components/common/styled'
 import Button from '@components/common/Button'
 import StepBar from '@components/KoomTone/StepBar'
@@ -18,7 +20,6 @@ import { KoomToneStore } from '@stores/KoomToneStore'
 import { MediaLibraryStore } from '@stores/MediaLibraryStore'
 import { UserStore } from '@stores/UserStore'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { View } from 'react-native'
 import HeaderButton from '@components/common/HeaderButton'
 
 interface Props {
@@ -78,15 +79,16 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
   )
 
   return (
-    <ScrollView>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <StepBar step={'shareStep'} withAnimated />
-      <CenterContainer>
+      <View style={{ flex: 1 }}>
         <ResizeImage
           source={{ uri: koomToneStore.edited.uri }}
-          originalRatio={koomToneStore.edited.height / koomToneStore.edited.width}
+          resizeMode="contain"
+          originalRatio={4 / 3}
         />
-      </CenterContainer>
-      <CenterContainer style={{ marginBottom: 20 }}>
+      </View>
+      <CenterView style={{ marginBottom: 45 }}>
         <LimitView>
           <View
             style={{
@@ -105,8 +107,8 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
             )}
           </View>
         </LimitView>
-      </CenterContainer>
-    </ScrollView>
+      </CenterView>
+    </View>
   )
 }
 

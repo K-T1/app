@@ -30,7 +30,7 @@ const PreSignIn = ({ userStore }: Props) => {
             share your own style
           </Text>
           <Text margin={spaces.large3}>koom.tone</Text>
-          <Button margin={'10px 0'} onPress={login}>
+          <Button margin={'10px 0'} onPress={login} style={{ width: 300 }}>
             sign in
           </Button>
         </CenterView>

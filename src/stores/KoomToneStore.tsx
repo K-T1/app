@@ -62,24 +62,26 @@ export class KoomToneStore {
   processImage = async () => {
     if (!(this.source && this.reference)) return
 
-    this.rootStore.spinnerStore.show()
+    this.rootStore.spinnerStore.show(
+      'the image is being processed, please sit\nback and wait for “art” to happend!',
+    )
 
-    // const processedUri = await photoApi.processImage(
-    //   this.source.uri,
-    //   this.reference.uri,
-    //   this.reference.id,
-    // )
-    // this.setProcessed({
-    //   uri: processedUri,
-    //   width: this.source.width,
-    //   height: this.source.height,
-    // })
-
+    const processedUri = await photoApi.processImage(
+      this.source.uri,
+      this.reference.uri,
+      this.reference.id,
+    )
     this.setProcessed({
-      uri: this.source.uri,
+      uri: processedUri,
       width: this.source.width,
       height: this.source.height,
     })
+
+    // this.setProcessed({
+    //   uri: this.source.uri,
+    //   width: this.source.width,
+    //   height: this.source.height,
+    // })
 
     this.rootStore.spinnerStore.hide()
   }

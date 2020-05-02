@@ -3,17 +3,19 @@ import { View } from 'react-native'
 import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { observer, inject } from 'mobx-react'
+import GLImage from 'gl-react-image'
 
 import Tones from '@components/EditPhoto/tones'
 import SliderView from '@components/EditPhoto/SliderView'
 import * as Presets from '@components/EditPhoto/filters'
-import { Text, ScrollView, SafeAreaView } from '@components/common/styled'
+import { Text, SafeAreaView } from '@components/common/styled'
 import StepBar from '@components/KoomTone/StepBar'
 import { KoomToneStore } from '@stores/KoomToneStore'
 
 import { StyledSurface, StyledButton, ToolView, EditorStepView, Dot } from './styled'
 import { SpinnerStore } from '@stores/SpinnerStore'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler'
+import { FULL_WIDTH } from '@utils'
 
 const presets = [
   'Normal',
@@ -102,17 +104,19 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
   }
 
   const presetListEl = (
-    <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
-      {presets.map(presetData => (
-        <StyledButton
-          key={presetData}
-          onPress={() => onFilterChange(presetData)}
-          active={presetData === preset}
-        >
-          <Text bold>{presetData}</Text>
-        </StyledButton>
-      ))}
-    </ScrollView>
+    <View>
+      <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
+        {presets.map(presetData => (
+          <StyledButton
+            key={presetData}
+            onPress={() => onFilterChange(presetData)}
+            active={presetData === preset}
+          >
+            <Text bold>{presetData}</Text>
+          </StyledButton>
+        ))}
+      </ScrollView>
+    </View>
   )
 
   const editToolListEl = (
@@ -145,7 +149,9 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
           originalRatio={koomToneStore.processed.height / koomToneStore.processed.width}
         >
           <PresetComponent>
-            <Tones {...tones}>{{ uri: koomToneStore.processed.uri }}</Tones>
+            <Tones {...tones}>
+              <GLImage source={{ uri: koomToneStore.processed.uri }} resizeMode="contain" />
+            </Tones>
           </PresetComponent>
         </StyledSurface>
         <EditorStepView>

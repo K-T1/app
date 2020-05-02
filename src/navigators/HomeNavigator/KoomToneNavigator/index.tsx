@@ -11,6 +11,7 @@ import EditStep from '@components/KoomTone/EditStep'
 import ShareStep from '@components/KoomTone/ShareStep'
 import PhotoPreview from '@components/KoomTone/PhotoPreview'
 import HeaderButton from '@components/common/HeaderButton'
+import AlbumPicker from '@components/common/MediaLibraryView/AlbumPicker'
 
 const tabTitle = {
   Camera: 'CAMERA',
@@ -42,9 +43,15 @@ export default createStackNavigator(
       screen: SourceStepBTNav,
       navigationOptions: ({ navigation }) => ({
         headerShown: navigation.state.index !== 0,
+        headerTitle: () => <AlbumPicker />,
       }),
     },
-    ReferenceStep,
+    ReferenceStep: {
+      screen: ReferenceStep,
+      navigationOptions: {
+        headerTitle: () => <AlbumPicker />,
+      },
+    },
     EditStep,
     ShareStep,
     PhotoPreviewFromSource: { screen: PhotoPreview },

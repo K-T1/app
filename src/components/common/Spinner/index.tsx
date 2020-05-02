@@ -1,17 +1,24 @@
 import React from 'react'
-import { UIActivityIndicator } from 'react-native-indicators'
+// import { UIActivityIndicator } from 'react-native-indicators'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 
 import { SpinnerStore } from '@stores/SpinnerStore'
 
-import { Container } from './styled'
+import { Container, TextView } from './styled'
+import UIActivityIndicator from './Indicator'
+import { Text } from '../styled'
 
 const Spinner = ({ spinnerStore }: { spinnerStore: SpinnerStore }) => {
   return (
     spinnerStore.display && (
       <Container>
-        <UIActivityIndicator color="white" size={50} />
+        <UIActivityIndicator color="black" size={50} count={8} />
+        <TextView>
+          <Text align="center" bold>
+            {spinnerStore.text}
+          </Text>
+        </TextView>
       </Container>
     )
   )

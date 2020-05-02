@@ -9,11 +9,15 @@ export class SpinnerStore {
   }
 
   @observable
-  display: boolean = true
+  display: boolean = false
+
+  @observable
+  text: string = 'please wait for a sec'
 
   @action
-  show = () => {
+  show = (text = 'please wait for a sec') => {
     this.display = true
+    this.text = text
   }
 
   @action

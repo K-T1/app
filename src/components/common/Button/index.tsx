@@ -7,10 +7,11 @@ interface Props {
   children: ReactChild
   margin?: string
   onPress: () => void
+  style?: object
 }
 
-const Button = ({ children, margin, onPress }: Props) => (
-  <StyledButton margin={margin} onPress={onPress} style={{ width: '100%' }}>
+const Button = ({ children, margin, onPress, style = {} }: Props) => (
+  <StyledButton margin={margin} onPress={onPress} style={style}>
     <Text color="white" bold>
       {children}
     </Text>

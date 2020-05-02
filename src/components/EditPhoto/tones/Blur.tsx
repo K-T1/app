@@ -75,6 +75,8 @@ export default connectSize(
 
     render() {
       const { width, height, pixelRatio, factor, children, passes } = this.props
+      console.log(children)
+
       const rec = pass =>
         pass <= 0 ? (
           children

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { FULL_WIDTH, FULL_HEIGHT } from '@utils'
+import { spaces } from '@styles/sizes'
 
 export const Container = styled.View`
   width: ${FULL_WIDTH};
@@ -9,6 +10,10 @@ export const Container = styled.View`
   justify-content: center;
   align-items: center;
   background-color: white;
-  opacity: 0.65;
   z-index: 999;
+`
+
+export const TextView = styled.View`
+  max-width: 300px;
+  margin: ${spaces.large3} 0;
 `

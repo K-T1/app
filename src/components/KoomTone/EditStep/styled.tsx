@@ -4,10 +4,9 @@ import { FULL_WIDTH } from '@utils'
 import { spaces } from '@styles/sizes'
 
 export const StyledSurface = styled(Surface)`
-  ${({ originalRatio = 1, newWidth = FULL_WIDTH, maxHeight = '100%' }) => css`
+  ${({ originalRatio = 1, newWidth = FULL_WIDTH }) => css`
     width: ${newWidth};
     height: ${originalRatio * newWidth};
-    max-height: ${maxHeight};
   `}
 `
 

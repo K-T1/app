@@ -3,7 +3,15 @@ import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { observer, inject } from 'mobx-react'
 
-import { ResizeImage, LimitView, CenterSAV, HR } from '@components/common/styled'
+import {
+  ResizeImage,
+  LimitView,
+  CenterSAV,
+  HR,
+  SafeAreaView,
+  View,
+  CenterView,
+} from '@components/common/styled'
 import { FULL_HEIGHT } from '@utils'
 import Count from '@components/common/Count'
 import Button from '@components/common/Button'
@@ -59,17 +67,23 @@ const PhotoDetail = ({ koomToneStore, userStore, photoStore }: Props) => {
   }
 
   return (
-    <CenterSAV>
-      <ResizeImage source={{ uri }} originalRatio={height / width} maxHeight={FULL_HEIGHT * 0.5} />
-      <HR size={300} m={`${spaces.large4} 0 ${spaces.large2}`} />
-      <CountView>
-        <Count name="FAVORITE" count={favorite} />
-        <Count name="TONE USAGE" count={usageCount} />
-      </CountView>
-      <LimitView>
-        <Button onPress={useTone}>use this tone</Button>
-      </LimitView>
-    </CenterSAV>
+    <View>
+      <View style={{ alignItems: 'center' }}>
+        <View style={{ maxHeight: FULL_HEIGHT * 0.5 }}>
+          <ResizeImage resizeMode="contain" source={{ uri }} originalRatio={4 / 3} />
+        </View>
+        <HR size={300} m={`${spaces.large4} 0 ${spaces.large2}`} />
+        <CountView>
+          <Count name="FAVORITE" count={favorite} />
+          <Count name="TONE USAGE" count={usageCount} />
+        </CountView>
+      </View>
+      <CenterView>
+        <Button onPress={useTone} style={{ width: 300, marginBottom: 48 }}>
+          use this tone
+        </Button>
+      </CenterView>
+    </View>
   )
 }
 

@@ -10,6 +10,7 @@ import { MediaLibraryStore } from '@stores/MediaLibraryStore'
 
 import SquareImageButton from '../SquareImageButton'
 import FooterFlatlist from '../Spinner/FooterFlatlist'
+import AlbumPicker from './AlbumPicker'
 
 interface Props {
   mediaLibraryStore: MediaLibraryStore
@@ -17,7 +18,6 @@ interface Props {
 }
 
 const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
-  const [albumPicker, setAlbumPicker] = useState(null)
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,14 +27,9 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
     mediaLibraryStore.getAssets()
   }, [mediaLibraryStore.isPermissionGranted])
 
-  const onPickerChange = album => {
-    setAlbumPicker(album)
-    mediaLibraryStore.getAssets(album)
-  }
-
   const onEndReached = async () => {
     if (!onEndReachedCalledDuringMomentum) {
-      await mediaLibraryStore.loadMoreAssets(albumPicker)
+      await mediaLibraryStore.loadMoreAssets(mediaLibraryStore.pickedAlbum)
       setIsLoading(mediaLibraryStore.pagedAssets.hasNextPage)
       setOnEndReachedCalledDuringMomentum(true)
     }
@@ -42,15 +37,6 @@ const MediaLibraryView = ({ mediaLibraryStore, imageSelect }: Props) => {
 
   return (
     <View>
-      <Picker
-        placeholder={{ label: 'Select a albums...', value: null }}
-        onValueChange={album => onPickerChange(album)}
-        items={mediaLibraryStore.albums.map(album => ({
-          label: album.title,
-          value: album,
-        }))}
-        style={pickerSelectStyles}
-      />
       {mediaLibraryStore.pagedAssets && (
         <FlatList
           numColumns={3}

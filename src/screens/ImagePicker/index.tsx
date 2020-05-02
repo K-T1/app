@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavigationStackProp } from 'react-navigation-stack'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { View, CenterSAV } from '@components/common/styled'
 import MediaLibraryView from '@components/common/MediaLibraryView'

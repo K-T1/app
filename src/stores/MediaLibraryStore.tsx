@@ -25,6 +25,9 @@ export class MediaLibraryStore {
   @observable
   pagedAssets: MediaLibrary.PagedInfo<MediaLibrary.Asset>
 
+  @observable
+  pickedAlbum: MediaLibrary.Album
+
   @action
   getPermission = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -85,5 +88,10 @@ export class MediaLibraryStore {
     if (localUri) {
       await MediaLibrary.saveToLibraryAsync(localUri)
     }
+  }
+
+  @action
+  setPickedAlbum = album => {
+    this.pickedAlbum = album
   }
 }
