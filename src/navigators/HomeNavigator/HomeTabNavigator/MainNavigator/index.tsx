@@ -5,7 +5,12 @@ import PhotoDetail from '@screens/PhotoDetail'
 
 const UserStackNavigator = createStackNavigator(
   {
-    Main,
+    Main: {
+      screen: Main,
+      navigationOptions: {
+        headerShown: false
+      }
+    },
     PhotoDetailFromMain: {
       screen: PhotoDetail,
     },

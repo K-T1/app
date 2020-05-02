@@ -11,6 +11,7 @@ import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { PhotoStore } from '@stores/PhotoStore'
+import { View } from 'react-native'
 
 interface Props {
   photo: Photo

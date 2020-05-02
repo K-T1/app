@@ -9,7 +9,7 @@ export class SpinnerStore {
   }
 
   @observable
-  display: boolean = false
+  display: boolean = true
 
   @action
   show = () => {

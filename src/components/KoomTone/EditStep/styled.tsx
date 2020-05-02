@@ -18,14 +18,20 @@ export const StyledButton = styled.TouchableOpacity`
   border-bottom-width: ${props => (props.active ? 2 : 0)};
 `
 
-export const FilterButton = styled.TouchableOpacity`
-  align-items: center;
-  padding: ${spaces.large1};
-  margin: 0 ${spaces.small1};
-  border: ${props => (props.active ? '2px solid black' : '1px solid black')};
-  border-radius: 4px;
+export const ToolView = styled.View`
+  margin: 0 20px 40px;
 `
 
-export const ToolView = styled.View`
-  margin: 20px 20px 40px;
+export const EditorStepView = styled.View`
+  margin: ${spaces.large2} 0;
+  flex-direction: row;
+  justify-content: space-evenly;
+`
+
+export const Dot = styled.View`
+  position: absolute;
+  border-radius: 1;
+  background-color: black;
+  height: 2;
+  width: 2;
 `

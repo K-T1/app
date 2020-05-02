@@ -1,20 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { ScrollView, FlatList } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native-gesture-handler'
 import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { inject, observer } from 'mobx-react'
 import { RefreshControl } from 'react-native'
 
 import userApi from '@api/user'
-import {
-  CircleView,
-  CircleImage,
-  CenterView,
-  HR,
-  View,
-  CenterContainer,
-  Text,
-} from '@components/common/styled'
+import { CircleView, CircleImage, HR, View, CenterContainer, Text } from '@components/common/styled'
 import Count from '@components/common/Count'
 import { CountView } from '@components/UserProfile/styled'
 import { FULL_WIDTH } from '@utils'
@@ -71,7 +63,7 @@ const UserProfile = ({ userStore }: Props) => {
   return (
     user && (
       <View refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <CenterView style={{ flex: 1 }}>
+        <CenterContainer>
           <CircleView m={`${spaces.large4} 0 ${spaces.normal}`}>
             <CircleImage
               source={
@@ -85,23 +77,30 @@ const UserProfile = ({ userStore }: Props) => {
             <Count name="FAVORITE" count={user.favoriteCount} />
             <Count name="TONE USAGE" count={user.usageCount} />
           </CountView>
-          <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2} 0 0`} />
+          <HR size={FULL_WIDTH * 0.95} m={`${spaces.large2}`} />
           {user.photos.length ? (
-            <FlatList
-              numColumns={3}
-              nestedScrollEnabled={true}
-              data={toJS(user.photos)}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({ item }) => (
-                <SquareImageButton key={item.id} photo={item} onPress={openPhotoDetail} withSpace />
-              )}
-            />
+            <View style={{ alignSelf: 'flex-start' }}>
+              <FlatList
+                numColumns={3}
+                nestedScrollEnabled={true}
+                data={toJS(user.photos)}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item }) => (
+                  <SquareImageButton
+                    key={item.id}
+                    photo={item}
+                    onPress={openPhotoDetail}
+                    withSpace
+                  />
+                )}
+              />
+            </View>
           ) : (
             <CenterContainer>
               <Text size={textSizes.large3}>no post</Text>
             </CenterContainer>
           )}
-        </CenterView>
+        </CenterContainer>
       </View>
     )
   )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { useNavigation } from 'react-navigation-hooks'
@@ -19,6 +19,7 @@ import { MediaLibraryStore } from '@stores/MediaLibraryStore'
 import { UserStore } from '@stores/UserStore'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { View } from 'react-native'
+import HeaderButton from '@components/common/HeaderButton'
 
 interface Props {
   koomToneStore: KoomToneStore
@@ -30,6 +31,10 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
   const navigation = useNavigation()
   const [isDownloaded, setIsDownloaded] = useState(false)
   const [isUploaded, setIsUploaded] = useState(false)
+
+  useEffect(() => {
+    navigation.setParams({ backToFeed })
+  }, [])
 
   const showToast = message => {
     Toast.show(message, { position: Toast.positions.CENTER })
@@ -74,7 +79,7 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
 
   return (
     <ScrollView>
-      <StepBar step={'shareStep'} />
+      <StepBar step={'shareStep'} withAnimated />
       <CenterContainer>
         <ResizeImage
           source={{ uri: koomToneStore.edited.uri }}
@@ -99,12 +104,15 @@ const ShareStep = ({ koomToneStore, mediaLibraryStore, userStore }: Props) => {
               </ButtonWithIcon>
             )}
           </View>
-          <Button onPress={backToFeed}>close</Button>
         </LimitView>
       </CenterContainer>
     </ScrollView>
   )
 }
+
+ShareStep.navigationOptions = ({ navigation }) => ({
+  headerRight: () => <HeaderButton title="close" onPress={navigation.getParam('backToFeed')} />,
+})
 
 export default compose(
   inject(({ rootStore }) => ({

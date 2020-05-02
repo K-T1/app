@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Animated } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -7,9 +8,12 @@ import { Text } from '@components/common/styled'
 import { textSizes } from '@styles/sizes'
 
 import { StepView, StepTextView } from './styled'
+import { FULL_WIDTH } from '@utils'
+import { useSafeArea } from 'react-native-safe-area-context'
 
 interface Props {
   step: string
+  withAnimated?: boolean
 }
 
 const textSteps = {
@@ -40,28 +44,64 @@ const textSteps = {
   },
 }
 
-const StepBar = ({ step }: Props) => {
+const StepBar = ({ step, withAnimated = false }: Props) => {
+  const [viewOpacity, setViewOpacity] = useState(new Animated.Value(1))
+  const [viewHeight, setViewHeight] = useState(new Animated.Value(100))
+  const [showStepBar, setShowStepBar] = useState(true)
+
+  useEffect(() => {
+    if (withAnimated) {
+      Animated.timing(viewOpacity, {
+        toValue: 0,
+        duration: 500,
+        delay: 3000,
+      }).start(() => {
+        Animated.timing(viewHeight, {
+          toValue: 0,
+          duration: 500,
+        }).start(() => {
+          setShowStepBar(false)
+        })
+      })
+    }
+  }, [])
+
   const { title, description, fill } = textSteps[step]
   return (
-    <StepView>
-      <AnimatedCircularProgress
-        size={75}
-        width={6}
-        backgroundWidth={3}
-        fill={fill}
-        rotation={0}
-        tintColor={PRIMARY_COLOR}
-        backgroundColor={SECONDARY_COLOR}
+    showStepBar && (
+      <Animated.View
+        style={
+          withAnimated && {
+            position: 'absolute',
+            zIndex: 1,
+            opacity: viewOpacity,
+            height: viewHeight,
+            backgroundColor: 'white',
+            width: FULL_WIDTH,
+          }
+        }
       >
-        {currentFill => currentFill === 100 && <MaterialIcons name="check" size={32} />}
-      </AnimatedCircularProgress>
-      <StepTextView>
-        <Text bold>{title}</Text>
-        <Text size={textSizes.small2} color={SECONDARY_COLOR} bold>
-          {description}
-        </Text>
-      </StepTextView>
-    </StepView>
+        <StepView>
+          <AnimatedCircularProgress
+            size={75}
+            width={6}
+            backgroundWidth={3}
+            fill={fill}
+            rotation={0}
+            tintColor={PRIMARY_COLOR}
+            backgroundColor={SECONDARY_COLOR}
+          >
+            {currentFill => currentFill === 100 && <MaterialIcons name="check" size={32} />}
+          </AnimatedCircularProgress>
+          <StepTextView>
+            <Text bold>{title}</Text>
+            <Text size={textSizes.small2} color={SECONDARY_COLOR} bold>
+              {description}
+            </Text>
+          </StepTextView>
+        </StepView>
+      </Animated.View>
+    )
   )
 }
 
