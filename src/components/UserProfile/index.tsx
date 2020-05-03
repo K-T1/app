@@ -6,7 +6,15 @@ import { inject, observer } from 'mobx-react'
 import { RefreshControl } from 'react-native'
 
 import userApi from '@api/user'
-import { CircleView, CircleImage, HR, View, CenterContainer, Text } from '@components/common/styled'
+import {
+  CircleView,
+  CircleImage,
+  HR,
+  View,
+  CenterContainer,
+  Text,
+  ScrollView,
+} from '@components/common/styled'
 import Count from '@components/common/Count'
 import { CountView } from '@components/UserProfile/styled'
 import { FULL_WIDTH } from '@utils'
@@ -62,7 +70,7 @@ const UserProfile = ({ userStore }: Props) => {
 
   return (
     user && (
-      <View refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <CenterContainer>
           <CircleView m={`${spaces.large4} 0 ${spaces.normal}`}>
             <CircleImage
@@ -101,7 +109,7 @@ const UserProfile = ({ userStore }: Props) => {
             </CenterContainer>
           )}
         </CenterContainer>
-      </View>
+      </ScrollView>
     )
   )
 }
