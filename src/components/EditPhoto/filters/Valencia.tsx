@@ -35,10 +35,11 @@ const shaders = Shaders.create({
 
 export default class Valencia extends Component {
   props: {
-    children?: any
+    children?: any,
+    intensity: number
   }
   render() {
-    const { children: inputImageTexture } = this.props
+    const { children: inputImageTexture, intensity = 1.0 } = this.props
     return (
       <Node
         shader={shaders.Valencia}
