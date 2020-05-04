@@ -40,17 +40,26 @@ const shaders = Shaders.create({
   },
 })
 
+const DEFAULT_TEMP = 6000
+
 export default class ContrastSaturationBrightness extends Component {
   props: {
     temp: number
     children?: Node
   }
   static defaultProps = {
-    temp: 7000,
+    temp: DEFAULT_TEMP,
+  }
+
+  newTemp = () => {
+    const { temp } = this.props
+
+    return temp > DEFAULT_TEMP ? DEFAULT_TEMP - (temp - DEFAULT_TEMP) : 2 * DEFAULT_TEMP - temp
   }
 
   render() {
     const { children: t, temp } = this.props
-    return <Node shader={shaders.Saturate} uniforms={{ t, temp }} />
+
+    return <Node shader={shaders.Saturate} uniforms={{ t, temp: this.newTemp() }} />
   }
 }

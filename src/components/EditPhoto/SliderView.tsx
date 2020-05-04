@@ -41,15 +41,16 @@ const styles = StyleSheet.create({
 
 interface Props {
   value: number
-  id: string
+  id?: string
   min?: number
   max?: number
   step?: number
+  disabled?: boolean
   onChange: (value: number, id: string) => void
   onReset: (id: string) => void
 }
 
-const SliderView = ({ value, id, min, max, step, onChange, onReset }: Props) => {
+const SliderView = ({ value, id, min, max, step, disabled = false, onChange, onReset }: Props) => {
   return (
     <View style={styles.field}>
       <Slider
@@ -61,6 +62,7 @@ const SliderView = ({ value, id, min, max, step, onChange, onReset }: Props) => 
         maximumValue={max}
         step={step || 0.01}
         value={value}
+        disabled={disabled}
         onValueChange={newValue => onChange(newValue, id)}
       />
     </View>

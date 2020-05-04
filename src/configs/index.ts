@@ -1,6 +1,6 @@
 import { PROD_API_URL, DEV_API_URL } from 'react-native-dotenv'
 
-console.log(__DEV__)
+console.log('DEV MODE:', __DEV__)
 
 const config = {
   production: {

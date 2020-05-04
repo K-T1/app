@@ -18,6 +18,7 @@ const shaders = Shaders.create({
 export default class Normal extends Component {
   props: {
     children?: any
+    intensity?: number
   }
   render() {
     const { children: inputImageTexture } = this.props
