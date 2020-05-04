@@ -14,7 +14,7 @@ const shaders = Shaders.create({
       uniform sampler2D inputImageTexture4;
 
       void main () {
-
+        vec4 original = texture2D(inputImageTexture, uv).rgba;
         vec4 texel = texture2D(inputImageTexture, uv);
         vec3 bbTexel = texture2D(inputImageTexture2, uv).rgb;
 
@@ -35,7 +35,7 @@ const shaders = Shaders.create({
 
 export default class Hudson extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {

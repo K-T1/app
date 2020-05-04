@@ -83,7 +83,7 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
   }, [])
 
   const onEffectChange = (value, id) => {
-    if (editorTool.name === 'White Balance') setIsWBClicked(true)
+    if (editorTool.id === 'temp') setIsWBClicked(true)
 
     setTones({ ...tones, [id]: value })
   }
