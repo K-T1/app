@@ -7,6 +7,7 @@ const shaders = Shaders.create({
     frag: GLSL`
       precision highp float;
       varying vec2 uv;
+      uniform float intensity;
       uniform sampler2D inputImageTexture;
       uniform sampler2D inputImageTexture2;
       uniform sampler2D inputImageTexture3;
@@ -15,6 +16,7 @@ const shaders = Shaders.create({
       uniform sampler2D inputImageTexture6;
       void main () {
         vec3 texel = texture2D(inputImageTexture, uv).rgb;
+        vec4 original = texture2D(inputImageTexture, uv).rgba;
         vec3 edge = texture2D(inputImageTexture2, uv).rgb;
         texel = texel * edge;
         texel = vec3(
@@ -34,7 +36,7 @@ const shaders = Shaders.create({
                               texture2D(inputImageTexture5, vec2(metal.g, (1.0-texel.g))).g,
                               texture2D(inputImageTexture5, vec2(metal.b, (1.0-texel.b))).b
                               );
-        gl_FragColor = vec4(metaled, 1.0);
+        gl_FragColor = mix(original, vec4(metaled, 1.0), intensity);
       }
     `,
   },
@@ -50,6 +52,7 @@ export default class Hefe extends Component {
       <Node
         shader={shaders.Hefe}
         uniforms={{
+          intensity,
           inputImageTexture,
           inputImageTexture2: resolveAssetSource(require('@assets/resources/edgeBurn.png')),
           inputImageTexture3: resolveAssetSource(require('@assets/resources/hefeMap.png')),

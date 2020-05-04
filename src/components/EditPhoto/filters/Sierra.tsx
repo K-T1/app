@@ -7,12 +7,14 @@ const shaders = Shaders.create({
     frag: GLSL`
       precision highp float;
       varying vec2 uv;
+      uniform float intensity;
       uniform sampler2D inputImageTexture;
       uniform sampler2D inputImageTexture2;
       uniform sampler2D inputImageTexture3;
       uniform sampler2D inputImageTexture4;
       void main () {
         vec4 texel = texture2D(inputImageTexture, uv);
+        vec4 original = texture2D(inputImageTexture, uv).rgba;
         vec3 bbTexel = texture2D(inputImageTexture2, uv).rgb;
         texel.r = texture2D(inputImageTexture3, vec2(bbTexel.r, (1.0-texel.r))).r;
         texel.g = texture2D(inputImageTexture3, vec2(bbTexel.g, (1.0-texel.g))).g;
@@ -22,7 +24,7 @@ const shaders = Shaders.create({
         mapped.g = texture2D(inputImageTexture4, vec2(texel.g, .5)).g;
         mapped.b = texture2D(inputImageTexture4, vec2(texel.b, .16666)).b;
         mapped.a = 1.0;
-        gl_FragColor = mapped;
+        gl_FragColor = mix(original, mapped, intensity);
       }
     `,
   },
@@ -38,6 +40,7 @@ export default class Sierra extends Component {
       <Node
         shader={shaders.Sierra}
         uniforms={{
+          intensity,
           inputImageTexture,
           inputImageTexture2: resolveAssetSource(require('@assets/resources/sierraVignette.png')),
           inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),

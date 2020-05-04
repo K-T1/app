@@ -7,6 +7,7 @@ const shaders = Shaders.create({
     frag: GLSL`
       precision highp float;
       varying vec2 uv;
+      uniform float intensity;
       uniform sampler2D inputImageTexture;
       uniform sampler2D inputImageTexture2;
       uniform sampler2D inputImageTexture3;
@@ -17,6 +18,7 @@ const shaders = Shaders.create({
       vec3 luma = vec3(.3, .59, .11);
       void main () {
         vec3 texel = texture2D(inputImageTexture, uv).rgb;
+        vec4 original = texture2D(inputImageTexture, uv).rgba;
         vec2 lookup;
         lookup.y = 0.5;
         lookup.x = texel.r;
@@ -52,7 +54,7 @@ const shaders = Shaders.create({
         texel.g = texture2D(inputImageTexture6, lookup).g;
         lookup.x = texel.b;
         texel.b = texture2D(inputImageTexture6, lookup).b;
-        gl_FragColor = vec4(texel, 1.0);
+        gl_FragColor = mix(original, vec4(texel, 1.0), intensity);
       }
     `,
   },
@@ -68,6 +70,7 @@ export default class Brannan extends Component {
       <Node
         shader={shaders.Brannan}
         uniforms={{
+          intensity,
           inputImageTexture,
           inputImageTexture2: resolveAssetSource(require('@assets/resources/brannanProcess.png')),
           inputImageTexture3: resolveAssetSource(require('@assets/resources/brannanBlowout.png')),

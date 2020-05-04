@@ -7,7 +7,7 @@ const shaders = Shaders.create({
     frag: GLSL`
       precision highp float;
       varying vec2 uv;
-
+      uniform float intensity;
       uniform sampler2D inputImageTexture;
       uniform sampler2D inputImageTexture2;
       uniform sampler2D inputImageTexture3;
@@ -27,7 +27,7 @@ const shaders = Shaders.create({
         mapped.g = texture2D(inputImageTexture4, vec2(texel.g, .5)).g;
         mapped.b = texture2D(inputImageTexture4, vec2(texel.b, .16666)).b;
         mapped.a = 1.0;
-        gl_FragColor = mapped;
+        gl_FragColor = mix(original, mapped, intensity);
       }
     `,
   },
@@ -43,6 +43,7 @@ export default class Hudson extends Component {
       <Node
         shader={shaders.Hudson}
         uniforms={{
+          intensity,
           inputImageTexture,
           inputImageTexture2: resolveAssetSource(require('@assets/resources/hudsonBackground.png')),
           inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),

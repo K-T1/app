@@ -7,6 +7,7 @@ const shaders = Shaders.create({
     frag: GLSL`
       precision highp float;
       varying vec2 uv;
+      uniform float intensity;
       uniform sampler2D inputImageTexture;
       uniform sampler2D inputImageTexture2;
       uniform sampler2D inputImageTexture3;
@@ -14,6 +15,7 @@ const shaders = Shaders.create({
       uniform sampler2D inputImageTexture5;
       uniform sampler2D inputImageTexture6;
       void main () {
+        vec4 original = texture2D(inputImageTexture, uv).rgba;
         lowp vec3 texel;
         mediump vec2 lookup;
         vec2 blue;
@@ -65,7 +67,7 @@ const shaders = Shaders.create({
         lowp vec4 tmpvar_8;
         tmpvar_8.w = 1.0;
         tmpvar_8.xyz = texel;
-        gl_FragColor = tmpvar_8;
+        gl_FragColor = mix(original,tmpvar_8, intensity);
       }
     `,
   },
@@ -81,6 +83,7 @@ export default class Toaster extends Component {
       <Node
         shader={shaders.Toaster}
         uniforms={{
+          intensity,
           inputImageTexture,
           inputImageTexture2: resolveAssetSource(require('@assets/resources/toasterMetal.png')),
           inputImageTexture3: resolveAssetSource(require('@assets/resources/toasterSoftLight.png')),
