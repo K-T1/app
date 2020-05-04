@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { CenterSAV, ResizeImage } from '@components/common/styled'
+import { CenterContainer, ResizeImage } from '@components/common/styled'
 import { useNavigation } from 'react-navigation-hooks'
 import { observer, inject } from 'mobx-react'
 import { compose } from 'recompose'
@@ -44,9 +44,13 @@ const PhotoPreview = ({ koomToneStore }: Props) => {
   }
 
   return (
-    <CenterSAV>
-      <ResizeImage source={{ uri: asset.uri }} originalRatio={asset.height / asset.width} />
-    </CenterSAV>
+    <CenterContainer>
+      <ResizeImage
+        source={{ uri: asset.uri }}
+        originalRatio={asset.height / asset.width}
+        resizeMode="contain"
+      />
+    </CenterContainer>
   )
 }
 

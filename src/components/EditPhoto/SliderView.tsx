@@ -54,7 +54,7 @@ const SliderView = ({ value, id, min, max, step, disabled = false, onChange, onR
   return (
     <View style={styles.field}>
       <Slider
-        style={styles.range}
+        style={{ ...styles.range, opacity: disabled ? 0 : 1 }}
         minimumTrackTintColor={SECONDARY_COLOR}
         thumbStyle={styles.thumb}
         trackStyle={styles.track}

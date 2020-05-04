@@ -25,7 +25,7 @@ const matrixForSepia = sepia =>
     0.2, 0, -0.2, 1
   ], sepia)
 
-const Effects = ({
+const Tones = ({
   children,
   width,
   height,
@@ -38,8 +38,9 @@ const Effects = ({
   sepia,
   flyeye,
   temp,
+  isWBClicked,
 }: any) => (
-  <WhiteBalance temp={temp}>
+  <WhiteBalance temp={temp} isWBClicked={isWBClicked}>
     <ColorMatrix matrix={matrixForSepia(sepia)}>
       <Flyeye value={flyeye}>
         <HueRotate hue={hue}>
@@ -60,4 +61,4 @@ const Effects = ({
   </WhiteBalance>
 )
 
-export default Effects
+export default Tones

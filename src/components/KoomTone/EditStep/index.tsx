@@ -4,6 +4,7 @@ import { useNavigation } from 'react-navigation-hooks'
 import { compose } from 'recompose'
 import { observer, inject } from 'mobx-react'
 import GLImage from 'gl-react-image'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 import Tones from '@components/EditPhoto/tones'
 import SliderView from '@components/EditPhoto/SliderView'
@@ -11,11 +12,11 @@ import * as Presets from '@components/EditPhoto/filters'
 import { Text, SafeAreaView } from '@components/common/styled'
 import StepBar from '@components/KoomTone/StepBar'
 import { KoomToneStore } from '@stores/KoomToneStore'
-
-import { StyledSurface, StyledButton, ToolView, EditorStepView, Dot } from './styled'
 import { SpinnerStore } from '@stores/SpinnerStore'
-import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler'
 import { FULL_WIDTH } from '@utils'
+
+import { StyledSurface, ToolView, SelectToolView, Dot, SurfaceView } from './styled'
+import ToolButtonList from './ToolButtonList'
 
 const presets = [
   { name: 'Normal', intensity: 1.0 },
@@ -38,11 +39,11 @@ const presets = [
 ]
 
 const tools = [
-  { id: 'contrast', name: 'Contrast', min: 0.5, max: 2, step: 0.01 },
-  { id: 'brightness', name: 'Brightness', min: 0.5, max: 2, step: 0.01 },
-  { id: 'saturation', name: 'Saturation', min: 0, max: 2.5, step: 0.01 },
-  { id: 'sepia', name: 'Sepia', min: 0, max: 1, step: 0.001 },
-  { id: 'temp', name: 'White Balance', min: 2000, max: 10000, step: 100 },
+  { id: 'contrast', name: 'CONTRAST', min: 0.5, max: 2, step: 0.01 },
+  { id: 'brightness', name: 'BRIGHTNESS', min: 0.5, max: 2, step: 0.01 },
+  { id: 'saturation', name: 'SATURATION', min: 0, max: 2.5, step: 0.01 },
+  { id: 'sepia', name: 'SEPIA', min: 0, max: 1, step: 0.001 },
+  { id: 'temp', name: 'WHITE BALANCE', min: 2000, max: 10000, step: 100 },
 ]
 
 const initialTonesState = {
@@ -73,12 +74,17 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
   const [preset, setPreset] = useState(presets[0])
   const [tool, setTool] = useState('PRESET')
   const [editorTool, setEditorTool] = useState(tools[0])
+  const [isWBClicked, setIsWBClicked] = useState(false)
+  const photoRatio = koomToneStore.processed.height / koomToneStore.processed.width
+  const viewRatio = ((4 / 3) * FULL_WIDTH) / FULL_WIDTH
 
   useEffect(() => {
     navigation.setParams({ nextStep })
   }, [])
 
   const onEffectChange = (value, id) => {
+    if (editorTool.name === 'White Balance') setIsWBClicked(true)
+
     setTones({ ...tones, [id]: value })
   }
 
@@ -103,51 +109,31 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
     spinnerStore.hide()
   }
 
-  const presetListEl = (
-    <View>
+  const presetToolEl = (
+    <>
       <SliderView
         min={0.0}
         max={1.0}
-        step={0.001}
+        step={0.0005}
         disabled={preset.name === 'Normal'}
         value={preset.intensity}
         onChange={value => setPreset({ ...preset, intensity: value })}
         onReset={onEffectReset}
       />
-      <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
-        {presets.map(presetData => (
-          <StyledButton
-            key={presetData.name}
-            onPress={() => onPresetChange(presetData)}
-            active={presetData.name === preset.name}
-          >
-            <Text bold>{presetData.name}</Text>
-          </StyledButton>
-        ))}
-      </ScrollView>
-    </View>
+      <ToolButtonList buttons={presets} currentButton={preset} onPress={onPresetChange} />
+    </>
   )
 
-  const editToolListEl = (
-    <View>
+  const editorToolEl = (
+    <>
       <SliderView
         {...editorTool}
         value={tones[editorTool.id]}
         onChange={onEffectChange}
         onReset={onEffectReset}
       />
-      <ScrollView bounces={false} horizontal showsHorizontalScrollIndicator={false}>
-        {tools.map(toolData => (
-          <StyledButton
-            key={toolData.id}
-            onPress={() => setEditorTool(toolData)}
-            active={toolData === editorTool}
-          >
-            <Text bold>{toolData.name.toUpperCase()}</Text>
-          </StyledButton>
-        ))}
-      </ScrollView>
-    </View>
+      <ToolButtonList buttons={tools} currentButton={editorTool} onPress={setEditorTool} />
+    </>
   )
 
   const items = [
@@ -157,41 +143,25 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
     { name: 'SHARE', onPress: nextStep },
   ]
 
-  const photoRatio = koomToneStore.processed.height / koomToneStore.processed.width
-
   return (
     <SafeAreaView>
       <View style={{ flex: 1 }}>
         <StepBar step={'editStep'} withAnimated />
-        <View
-          style={{
-            width: FULL_WIDTH,
-            height: (4 / 3) * FULL_WIDTH,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <StyledSurface ref={surface} originalRatio={photoRatio}>
+        <SurfaceView>
+          <StyledSurface
+            ref={surface}
+            originalRatio={photoRatio}
+            originalRatio2={koomToneStore.processed.width / koomToneStore.processed.height}
+            isFitHeight={viewRatio < photoRatio}
+          >
             <PresetComponent intensity={preset.intensity}>
-              <Tones {...tones}>
-                <GLImage source={{ uri: koomToneStore.processed.uri }} resizeMode="contain" />
+              <Tones {...tones} isWBClicked={isWBClicked}>
+                <GLImage source={{ uri: koomToneStore.processed.uri }} />
               </Tones>
             </PresetComponent>
           </StyledSurface>
-        </View>
-        {/* <StyledSurface
-          style={{ position: 'absolute', opacity: 0, zIndex: -9999 }}
-          ref={surface}
-          originalRatio={photoRatio}
-          newWidth={koomToneStore.processed.width}
-        >
-          <PresetComponent>
-            <Tones {...tones}>
-              <GLImage source={{ uri: koomToneStore.processed.uri }} resizeMode="contain" />
-            </Tones>
-          </PresetComponent>
-        </StyledSurface> */}
-        <EditorStepView>
+        </SurfaceView>
+        <SelectToolView>
           {items.map(item => (
             <TouchableWithoutFeedback
               style={{ alignItems: 'center' }}
@@ -204,9 +174,9 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
               </Text>
             </TouchableWithoutFeedback>
           ))}
-        </EditorStepView>
+        </SelectToolView>
       </View>
-      <ToolView>{tool === 'PRESET' ? presetListEl : editToolListEl}</ToolView>
+      <ToolView>{tool === 'PRESET' ? presetToolEl : editorToolEl}</ToolView>
     </SafeAreaView>
   )
 }

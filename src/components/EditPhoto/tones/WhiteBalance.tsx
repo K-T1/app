@@ -2,6 +2,17 @@ import React, { Component } from 'react'
 import { Shaders, Node, GLSL } from 'gl-react'
 
 const shaders = Shaders.create({
+  Default: {
+    frag: GLSL`
+      precision highp float;
+      varying vec2 uv;
+      uniform sampler2D t;
+      void main () {
+        vec3 texel = texture2D(t, uv).rgb;
+        gl_FragColor = vec4(texel, 1.0);
+      }
+  `,
+  },
   Saturate: {
     frag: GLSL`
       precision highp float;
@@ -42,13 +53,15 @@ const shaders = Shaders.create({
 
 const DEFAULT_TEMP = 6000
 
-export default class ContrastSaturationBrightness extends Component {
+export default class WhiteBalance extends Component {
   props: {
     temp: number
     children?: Node
+    isWBClicked: boolean
   }
   static defaultProps = {
     temp: DEFAULT_TEMP,
+    isWBClicked: false,
   }
 
   newTemp = () => {
@@ -58,8 +71,12 @@ export default class ContrastSaturationBrightness extends Component {
   }
 
   render() {
-    const { children: t, temp } = this.props
+    const { children: t, isWBClicked } = this.props
 
-    return <Node shader={shaders.Saturate} uniforms={{ t, temp: this.newTemp() }} />
+    return isWBClicked ? (
+      <Node shader={shaders.Saturate} uniforms={{ t, temp: this.newTemp() }} />
+    ) : (
+      <Node shader={shaders.Default} uniforms={{ t }} />
+    )
   }
 }
