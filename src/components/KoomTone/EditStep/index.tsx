@@ -120,20 +120,20 @@ const EditStep = ({ koomToneStore, spinnerStore }: Props) => {
         onChange={value => setPreset({ ...preset, intensity: value })}
         onReset={onEffectReset}
       />
-      <ToolButtonList buttons={presets} currentButton={preset} onPress={onPresetChange} />
+      <ToolButtonList buttons={presets} onPress={onPresetChange} currentButton={preset} />
     </>
   )
 
   const editorToolEl = (
-    <>
+    <View>
       <SliderView
         {...editorTool}
         value={tones[editorTool.id]}
         onChange={onEffectChange}
         onReset={onEffectReset}
       />
-      <ToolButtonList buttons={tools} currentButton={editorTool} onPress={setEditorTool} />
-    </>
+      <ToolButtonList buttons={tools} onPress={setEditorTool} currentButton={editorTool} />
+    </View>
   )
 
   const items = [
