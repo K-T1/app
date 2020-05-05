@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 import { inject, observer } from 'mobx-react'
@@ -13,6 +13,11 @@ interface Props {
 }
 
 const AlbumPicker = ({ mediaLibraryStore }: Props) => {
+  useEffect(() => {
+    mediaLibraryStore.getAssets()
+    mediaLibraryStore.setPickedAlbum(null)
+  }, [])
+
   const onPickerChange = album => {
     mediaLibraryStore.setPickedAlbum(album)
     mediaLibraryStore.getAssets(album)
