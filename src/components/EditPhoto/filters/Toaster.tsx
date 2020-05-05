@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Toaster: {
@@ -75,7 +76,7 @@ const shaders = Shaders.create({
 
 export default class Toaster extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -86,15 +87,11 @@ export default class Toaster extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/toasterMetal.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/toasterSoftLight.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/toasterCurves.png')),
-          inputImageTexture5: resolveAssetSource(
-            require('@assets/resources/toasterOverlayMapWarm.png'),
-          ),
-          inputImageTexture6: resolveAssetSource(
-            require('@assets/resources/toasterColorShift.png'),
-          ),
+          inputImageTexture2: { uri: resourceUrls.FtoasterMetal },
+          inputImageTexture3: { uri: resourceUrls.FtoasterSoftLight },
+          inputImageTexture4: { uri: resourceUrls.FtoasterCurves },
+          inputImageTexture5: { uri: resourceUrls.FtoasterOverlayMapWarm },
+          inputImageTexture6: { uri: resourceUrls.FtoasterColorShift },
         }}
       />
     )

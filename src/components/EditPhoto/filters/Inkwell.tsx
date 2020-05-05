@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Inkwell: {
@@ -23,7 +24,7 @@ const shaders = Shaders.create({
 
 export default class Inkwell extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -34,7 +35,7 @@ export default class Inkwell extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/inkwellMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FinkwellMap },
         }}
       />
     )

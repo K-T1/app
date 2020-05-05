@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
-import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Amaro: {
@@ -32,20 +32,20 @@ const shaders = Shaders.create({
 
 export default class Amaro extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
-    const { children: inputImageTexture , intensity = 1.0 } = this.props
+    const { children: inputImageTexture, intensity = 1.0 } = this.props
     return (
       <Node
         shader={shaders.Amaro}
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/blackboard1024.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/amaroMap.png')),
+          inputImageTexture2: { uri: resourceUrls.Fblackboard1024 },
+          inputImageTexture3: { uri: resourceUrls.FoverlayMap },
+          inputImageTexture4: { uri: resourceUrls.FamaroMap },
         }}
       />
     )

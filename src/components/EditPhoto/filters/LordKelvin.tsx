@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   LordKelvin: {
@@ -29,7 +30,7 @@ const shaders = Shaders.create({
 
 export default class LordKelvin extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -40,7 +41,7 @@ export default class LordKelvin extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/kelvinMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FkelvinMap },
         }}
       />
     )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Rise: {
@@ -32,7 +33,7 @@ const shaders = Shaders.create({
 
 export default class Rise extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -43,9 +44,9 @@ export default class Rise extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/blackboard1024.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/riseMap.png')),
+          inputImageTexture2: { uri: resourceUrls.Fblackboard1024 },
+          inputImageTexture3: { uri: resourceUrls.FoverlayMap },
+          inputImageTexture4: { uri: resourceUrls.FriseMap },
         }}
       />
     )

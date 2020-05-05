@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Earlybird: {
@@ -79,7 +80,7 @@ const shaders = Shaders.create({
 
 export default class Earlybird extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -90,13 +91,11 @@ export default class Earlybird extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/earlyBirdCurves.png')),
-          inputImageTexture3: resolveAssetSource(
-            require('@assets/resources/earlybirdOverlayMap.png'),
-          ),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/vignetteMap.png')),
-          inputImageTexture5: resolveAssetSource(require('@assets/resources/earlybirdBlowout.png')),
-          inputImageTexture6: resolveAssetSource(require('@assets/resources/earlybirdMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FearlyBirdCurves },
+          inputImageTexture3: { uri: resourceUrls.FearlybirdOverlayMap },
+          inputImageTexture4: { uri: resourceUrls.FvignetteMap },
+          inputImageTexture5: { uri: resourceUrls.FearlybirdBlowout },
+          inputImageTexture6: { uri: resourceUrls.FearlybirdMap },
         }}
       />
     )

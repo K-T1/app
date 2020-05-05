@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Walden: {
@@ -31,7 +32,7 @@ const shaders = Shaders.create({
 
 export default class Walden extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -42,8 +43,8 @@ export default class Walden extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/waldenMap.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/vignetteMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FwaldenMap },
+          inputImageTexture3: { uri: resourceUrls.FvignetteMap },
         }}
       />
     )

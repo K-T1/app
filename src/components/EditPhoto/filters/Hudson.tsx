@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Hudson: {
@@ -46,9 +47,9 @@ export default class Hudson extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/hudsonBackground.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/hudsonMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FhudsonBackground },
+          inputImageTexture3: { uri: resourceUrls.FoverlayMap },
+          inputImageTexture4: { uri: resourceUrls.FhudsonMap },
         }}
       />
     )

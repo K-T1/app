@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Sutro: {
@@ -41,7 +42,7 @@ const shaders = Shaders.create({
 
 export default class Sutro extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -52,11 +53,11 @@ export default class Sutro extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/vignetteMap.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/sutroMetal.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/softLight.png')),
-          inputImageTexture5: resolveAssetSource(require('@assets/resources/sutroEdgeBurn.png')),
-          inputImageTexture6: resolveAssetSource(require('@assets/resources/sutroCurves.png')),
+          inputImageTexture2: { uri: resourceUrls.FvignetteMap },
+          inputImageTexture3: { uri: resourceUrls.FsutroMetal },
+          inputImageTexture4: { uri: resourceUrls.FsoftLight },
+          inputImageTexture5: { uri: resourceUrls.FsutroEdgeBurn },
+          inputImageTexture6: { uri: resourceUrls.FsutroCurves },
         }}
       />
     )

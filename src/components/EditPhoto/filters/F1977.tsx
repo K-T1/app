@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   F1977: {
@@ -25,18 +26,18 @@ const shaders = Shaders.create({
 
 export default class F1977 extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
-    const { children: inputImageTexture , intensity = 1.0 } = this.props
+    const { children: inputImageTexture, intensity = 1.0 } = this.props
     return (
       <Node
         shader={shaders.F1977}
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/1977map.png')),
+          inputImageTexture2: { uri: resourceUrls.F1977map },
         }}
       />
     )

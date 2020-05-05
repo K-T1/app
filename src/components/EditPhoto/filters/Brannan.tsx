@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Brannan: {
@@ -62,7 +63,7 @@ const shaders = Shaders.create({
 
 export default class Brannan extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -73,11 +74,11 @@ export default class Brannan extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/brannanProcess.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/brannanBlowout.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/brannanContrast.png')),
-          inputImageTexture5: resolveAssetSource(require('@assets/resources/brannanLuma.png')),
-          inputImageTexture6: resolveAssetSource(require('@assets/resources/brannanScreen.png')),
+          inputImageTexture2: { uri: resourceUrls.FbrannanProcess },
+          inputImageTexture3: { uri: resourceUrls.FbrannanBlowout },
+          inputImageTexture4: { uri: resourceUrls.FbrannanContrast },
+          inputImageTexture5: { uri: resourceUrls.FbrannanLuma },
+          inputImageTexture6: { uri: resourceUrls.FbrannanScreen },
         }}
       />
     )

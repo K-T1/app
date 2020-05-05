@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Hefe: {
@@ -44,22 +45,22 @@ const shaders = Shaders.create({
 
 export default class Hefe extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
-    const { children: inputImageTexture , intensity = 1.0 } = this.props
+    const { children: inputImageTexture, intensity = 1.0 } = this.props
     return (
       <Node
         shader={shaders.Hefe}
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/edgeBurn.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/hefeMap.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/hefeGradientMap.png')),
-          inputImageTexture5: resolveAssetSource(require('@assets/resources/hefeSoftLight.png')),
-          inputImageTexture6: resolveAssetSource(require('@assets/resources/hefeMetal.png')),
+          inputImageTexture2: { uri: resourceUrls.FedgeBurn },
+          inputImageTexture3: { uri: resourceUrls.FhefeMap },
+          inputImageTexture4: { uri: resourceUrls.FhefeGradientMap },
+          inputImageTexture5: { uri: resourceUrls.FhefeSoftLight },
+          inputImageTexture6: { uri: resourceUrls.FhefeMetal },
         }}
       />
     )

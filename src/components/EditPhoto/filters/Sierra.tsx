@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   Sierra: {
@@ -32,7 +33,7 @@ const shaders = Shaders.create({
 
 export default class Sierra extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
@@ -43,9 +44,9 @@ export default class Sierra extends Component {
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/sierraVignette.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/overlayMap.png')),
-          inputImageTexture4: resolveAssetSource(require('@assets/resources/sierraMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FsierraVignette },
+          inputImageTexture3: { uri: resourceUrls.FoverlayMap },
+          inputImageTexture4: { uri: resourceUrls.FsierraMap },
         }}
       />
     )

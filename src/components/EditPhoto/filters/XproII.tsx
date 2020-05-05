@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { GLSL, Node, Shaders } from 'gl-react'
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource'
+import { resourceUrls } from './resourceUrls'
 
 const shaders = Shaders.create({
   XproII: {
@@ -30,19 +31,19 @@ const shaders = Shaders.create({
 
 export default class XproII extends Component {
   props: {
-    children?: any,
+    children?: any
     intensity: number
   }
   render() {
-    const { children: inputImageTexture , intensity = 1.0} = this.props
+    const { children: inputImageTexture, intensity = 1.0 } = this.props
     return (
       <Node
         shader={shaders.XproII}
         uniforms={{
           intensity,
           inputImageTexture,
-          inputImageTexture2: resolveAssetSource(require('@assets/resources/xproMap.png')),
-          inputImageTexture3: resolveAssetSource(require('@assets/resources/vignetteMap.png')),
+          inputImageTexture2: { uri: resourceUrls.FxproMap },
+          inputImageTexture3: { uri: resourceUrls.FvignetteMap },
         }}
       />
     )
